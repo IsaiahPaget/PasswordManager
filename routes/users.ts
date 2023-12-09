@@ -7,7 +7,7 @@ router.get('/', async function(req, res, next) {
   try {
     res.json(await getUsers());
   } catch (err) {
-    console.error(`Error while getting users `, err.message);
+    console.error(`Error while getting users `, err);
     next(err);
   }
 });

@@ -1,5 +1,4 @@
 import getConnection from './db';
-// import { emptyOrRows } from '../helper';
 
 export default async function getUsers(){
   const pool = getConnection(); 

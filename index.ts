@@ -1,5 +1,4 @@
 import express, { Express, Request, Response } from 'express';
-import getUsers from './services/getUsers'
 import dotenv from 'dotenv';
 import users from './routes/users'
 
