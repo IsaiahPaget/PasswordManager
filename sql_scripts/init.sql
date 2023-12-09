@@ -1,4 +1,4 @@
-CREATE TABLE customers (
+CREATE TABLE IF NOT EXISTS customers (
     id INT AUTO_INCREMENT,
     username VARCHAR(255),
     master_password VARCHAR(255),
@@ -8,7 +8,7 @@ CREATE TABLE customers (
 
 INSERT INTO customers (username, master_password, email) VALUES ('john doe', '123456', 'johndoe@mail.com');
 
-CREATE TABLE logins (
+CREATE TABLE IF NOT EXISTS logins (
     id INT AUTO_INCREMENT,
     user_id VARCHAR(255),
     password VARCHAR(255),
