@@ -7,7 +7,11 @@ const user = express.Router();
 /* GET users. */
 user.get('/:id', async function (req, res, next) {
   try {
-    res.json(await getUser(req));
+    const user = await getUser(req)
+    if (user == undefined) {
+      res.send("Invalid Request")
+    }
+      res.json(user);
   } catch (err) {
     console.error("Error: ", err);
     next(err);

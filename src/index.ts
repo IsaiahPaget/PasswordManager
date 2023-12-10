@@ -8,7 +8,7 @@ dotenv.config();
 const port = process.env.NODE_PORT;
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('Whats good B');
+    res.send('Whats good B?');
 });
 
 app.use('/users', user)
