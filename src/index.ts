@@ -1,10 +1,10 @@
-import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import users from './routes/users'
+import app from './app'
+import { Request, Response} from 'express-serve-static-core';
 
 dotenv.config();
 
-const app: Express = express();
 const port = process.env.NODE_PORT;
 
 app.get('/', (req: Request, res: Response) => {
