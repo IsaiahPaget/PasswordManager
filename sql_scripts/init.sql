@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS customers (
     PRIMARY KEY(id)
 );
 
-INSERT INTO customers (username, master_password, email) VALUES ('john doe', '123456', 'johndoe@mail.com');
+INSERT INTO customers (username, master_password, email) VALUES ('SAMPLE', 'USER', 'TEST');
 
 CREATE TABLE IF NOT EXISTS logins (
     id INT AUTO_INCREMENT,

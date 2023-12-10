@@ -1,15 +1,29 @@
 import express from 'express'
-import getUsers from '../services/getUsers';
+import getUser from '../services/getUser';
+import createUser from '../services/createUser'
 
-const router = express.Router();
+const user = express.Router();
+
 /* GET users. */
-router.get('/', async function(req, res, next) {
+user.get('/:id', async function (req, res, next) {
   try {
-    res.json(await getUsers());
+    res.json(await getUser(req));
   } catch (err) {
-    console.error(`Error while getting users `, err);
+    console.error("Error: ", err);
     next(err);
   }
 });
 
-export default router
+/* POST users. */
+user.post('/', async function (req, res, next) {
+    try {
+      await createUser(req)
+      res.status(201).send(res.statusCode);
+    } catch (err) {
+      console.error("Error: ", err);
+      next(err);
+    }
+});
+
+export default user
+
