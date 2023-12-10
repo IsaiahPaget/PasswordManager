@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:16 as base
 
 WORKDIR /usr/src/app
 
@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 5432
+FROM base as production
 
-CMD ["npm", "run", "dev"]
+ENV NODE_PATH=./dist
+
+RUN npm run build

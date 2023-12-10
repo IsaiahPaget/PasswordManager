@@ -16,13 +16,19 @@ services:
   app:
     depends_on:
       - mysqldb
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: base
     container_name: password-manager-app
-    command: npm run dev
+    expose:
+      - ${NODE_PORT}
     ports:
       - ${NODE_PORT}:${NODE_PORT}
     volumes:
       - .:/usr/src/app
+      - ./nodemon.json:/usr/src/app/nodemon.json
+    command: npm run dev
   
 volumes:
   db:

@@ -34,6 +34,7 @@ In the terminal - Navigate to root directory of the project:
 npm install
 
 # start dev container
+docker-compose build
 docker-compose up
 ```
 
