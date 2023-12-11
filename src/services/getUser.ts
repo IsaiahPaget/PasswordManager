@@ -1,15 +1,15 @@
-import getConnection from './db';
+import Database from './db';
 
 export default async function getUser(id: string) {
     // TODO: Id is untrusted and should be sanitized
-    const pool = getConnection();
+    const db = Database.getConnection();
     
     if (id == null) {
         throw new Error("No such user");
     }
 
     try {
-        const [results]:any = await pool.query("SELECT * FROM customers WHERE id = ?", [id])
+        const [results]:any = await db.query("SELECT * FROM customers WHERE id = ?", [id])
         // results comes back as an array with one object in it
         const data = results[0]
 

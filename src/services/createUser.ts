@@ -1,9 +1,9 @@
-import getConnection from './db';
+import Database from './db';
 import { Tuser } from '../types/Tuser'
 
 export default async function createUser(newUser: Tuser) {
     // TODO: req.body is untrusted and should be sanitized
-    const pool = getConnection();
+    const db = Database.getConnection();
     const { name, master_password, email } = newUser
 
     if (name == null || master_password == null || email == null) {
@@ -11,7 +11,7 @@ export default async function createUser(newUser: Tuser) {
     }
 
     try {
-        const [results]: any = await pool.query("INSERT INTO customers (username, master_password, email) VALUES ( ? , ? , ? )", [name, master_password, email])
+        const [results]: any = await db.query("INSERT INTO customers (username, master_password, email) VALUES ( ? , ? , ? )", [name, master_password, email])
         const userId = results.insertId.toString()
         if (userId == null) {
             throw new Error("Unsuccessful");
