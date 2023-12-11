@@ -1,17 +1,25 @@
 import getConnection from './db';
-import { Request } from 'express-serve-static-core';
 
-export default async function getUser(req: Request) {
-  const pool = getConnection();
-  const { id } = req.params
-  try {
-    const [results] = await pool.query("SELECT * FROM customers WHERE id = ?", [id])
-    if (results != null && results != undefined) {
-      return results
+export default async function getUser(id: string) {
+    // TODO: Id is untrusted and should be sanitized
+    const pool = getConnection();
+    
+    if (id == null) {
+        throw new Error("No such user");
     }
-    console.log(results)
-  } catch (error) {
-    console.error(error)
-  }
+
+    try {
+        const [results]:any = await pool.query("SELECT * FROM customers WHERE id = ?", [id])
+        // results comes back as an array with one object in it
+        const data = results[0]
+
+        if (data == null) {
+            throw new Error("Unable to fetch user - Possibly invalid params");
+        }
+
+        return data
+    } catch (error) {
+        console.error(error)
+    }
 }
 
