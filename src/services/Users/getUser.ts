@@ -1,4 +1,4 @@
-import Database from './db';
+import Database from '../db';
 
 export default async function getUser(id: string) {
     // TODO: Id is untrusted and should be sanitized
@@ -9,7 +9,7 @@ export default async function getUser(id: string) {
     }
 
     try {
-        const [results]:any = await db.query("SELECT * FROM customers WHERE id = ?", [id])
+        const [results]:any = await db.query("SELECT * FROM Users WHERE id = ?", [id])
         // results comes back as an array with one object in it
         const data = results[0]
 

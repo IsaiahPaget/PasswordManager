@@ -10,7 +10,7 @@ const config = {
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
     waitForConnections: true,
-    connectiOnLimit: 10,
+    connectionLimit: 10,
     maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
     idleTimeout: idleTimeOut, // idle connections timeout, in milliseconds, the default value 60000
     queueLimit: 0,

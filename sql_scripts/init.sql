@@ -1,19 +1,31 @@
-CREATE TABLE IF NOT EXISTS customers (
+CREATE TABLE IF NOT EXISTS Users (
     id INT AUTO_INCREMENT,
-    username VARCHAR(255),
+    last_name VARCHAR(20),
+    first_name VARCHAR(20),
     master_password VARCHAR(255),
     email VARCHAR(255),
+    account_created_on DATETIME,
     PRIMARY KEY(id)
 );
 
-INSERT INTO customers (username, master_password, email) VALUES ('SAMPLE', 'USER', 'TEST');
-
-CREATE TABLE IF NOT EXISTS logins (
+CREATE TABLE IF NOT EXISTS Ext_Auth (
     id INT AUTO_INCREMENT,
-    user_id VARCHAR(255),
-    password VARCHAR(255),
-    url VARCHAR(255),
-    comments VARCHAR(255),
-    created_on VARCHAR(255),
-    PRIMARY KEY(id)
-);
+    Ext_Auth_user_id INT,
+    Ext_Auth_mac_address VARCHAR(255),
+    Ext_Auth_ip VARCHAR(255),
+    PRIMARY KEY(id),
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+)
+
+CREATE TABLE IF NOT EXISTS Vault (
+    id INT AUTO_INCREMENT,
+    user_id INT,
+    Vault_name VARCHAR(255),
+    Vault_url VARCHAR(255),
+    Vault_password VARCHAR(255),
+    Vault_notes VARCHAR(255),
+    PRIMARY KEY(id),
+    FOREIGN KEY(user_id) REFERENCES Users(id)
+)
+
+INSERT INTO Users (last_name, first_name, master_password, email, account_created_on) VALUES ('Karen', 'Kunts', 'Pa$$w0rd123', 'test@email.com', "1975-1-1");

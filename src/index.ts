@@ -1,7 +1,10 @@
 import dotenv from 'dotenv';
-import user from './routes/users'
 import app from './app'
 import { Response, Request} from 'express-serve-static-core';
+
+// Routes
+import user from './routes/users'
+import vault from './routes/vault';
 
 dotenv.config();
 
@@ -11,6 +14,7 @@ app.get('/', (req: Request, res: Response) => {
     res.send("What up")
 });
 
+app.use("/vault", vault)
 app.use('/user', user)
 
 app.listen(port, () => {

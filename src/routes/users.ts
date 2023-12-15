@@ -1,7 +1,7 @@
 import express from 'express'
-import getUser from '../services/getUser';
-import createUser from '../services/createUser'
-import { Iuser } from 'interfaces/Iuser';
+import getUser from '../services/Users/getUser';
+import createUser from '../services/Users/createUser'
+import { TUser } from 'types/TUser';
 
 const user = express.Router();
 
@@ -25,7 +25,7 @@ user.get('/:id', async function (req, res) {
 /* POST users. */
 user.post('/', async function (req, res) {
     try {
-        const user: Iuser = req.body
+        const user: TUser = req.body
         const userId = await createUser(user)
         if (userId == null) {
             res.statusCode = 400
