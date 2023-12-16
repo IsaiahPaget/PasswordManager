@@ -1,7 +1,6 @@
 import dotenv from 'dotenv'
 import axios, { AxiosResponse } from 'axios'
 import { emptyObject } from '@jest/expect-utils'
-import { TLogin } from '../../src/types/TLogin'
 import { number } from 'yargs'
 
 dotenv.config()
@@ -42,7 +41,7 @@ describe("GET /login/:id", () => {
             url: "/login/1",
             baseURL: `http://${process.env.URL}:${process.env.NODE_PORT}/`,
         })
-        const login: TLogin = response.data            
+        const login = response.data            
         
         expect(login.userId).toBeGreaterThanOrEqual(0)
     })

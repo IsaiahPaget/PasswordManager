@@ -1,6 +1,6 @@
 import express from 'express'
 import { TVault } from '../types/TVault'
-import createOrUpdateVault from '../services/Vaults/createOrUpdateVault'
+import createOrUpdateVault from 'services/vaults/createOrUpdateVault'
 
 const vault = express.Router()
 
@@ -10,13 +10,13 @@ vault.post('/', async (req, res) => {
         const vault: TVault = req.body
         const vaultId = await createOrUpdateVault(vault) 
         if (vaultId == null) {
-            res.statusCode = 400
-            res.send("Invalid Request")
+            throw new Error("Could not Create Or Update Vault");
         }
         res.statusCode = 201
         res.send("Success")
     } catch (error) {
         res.statusCode = 400
+        console.error(error)
         res.send("Invalid Request")
     }
 })

@@ -1,6 +1,6 @@
 import express from 'express'
-import getUser from '../services/Users/getUser';
-import createUser from '../services/Users/createUser'
+import getUser from '../services/users/getUser';
+import createUser from '../services/users/createUser'
 import { TUser } from 'types/TUser';
 
 const user = express.Router();
@@ -10,13 +10,12 @@ user.get('/:id', async function (req, res) {
     try {
         const id = req.params.id
         const user = await getUser(id)
-        if (user == undefined) {
-            res.statusCode = 400
-            res.send("Invalid Request")
-        }
+        if (user == null) {
+            throw new Error("Could not get user");
+        } 
         res.json(user);
     } catch (err) {
-        console.error("Error: ", err);
+        console.error(err);
         res.statusCode = 400
         res.send("Invalid Request")
     }
@@ -28,8 +27,7 @@ user.post('/', async function (req, res) {
         const user: TUser = req.body
         const userId = await createUser(user)
         if (userId == null) {
-            res.statusCode = 400
-            res.send("Invalid Request")
+            throw new Error("Could not create user");
         }
         res.statusCode = 201
         res.send(userId);

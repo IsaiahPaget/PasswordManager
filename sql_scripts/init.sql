@@ -17,13 +17,13 @@ CREATE TABLE IF NOT EXISTS Ext_Auth (
     FOREIGN KEY (user_id) REFERENCES Users(id)
 )
 
-CREATE TABLE IF NOT EXISTS Vault (
+CREATE TABLE IF NOT EXISTS Logins (
     id INT AUTO_INCREMENT,
     user_id INT,
-    Vault_name VARCHAR(255),
-    Vault_url VARCHAR(255),
-    Vault_password VARCHAR(255),
-    Vault_notes VARCHAR(255),
+    Logins_name VARCHAR(255),
+    Logins_url VARCHAR(255),
+    Logins_password VARCHAR(255),
+    Logins_notes VARCHAR(255),
     PRIMARY KEY(id),
     FOREIGN KEY(user_id) REFERENCES Users(id)
 )
