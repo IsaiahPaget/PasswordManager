@@ -1,7 +1,6 @@
 import express from 'express'
 import { TVault } from '../types/TVault'
-import createOrUpdateVault from 'services/vaults/createOrUpdateVault'
-
+import createOrUpdateVault from '../services/vaults/createOrUpdateVault'
 const vault = express.Router()
 
 /* Create Or Update Vault */

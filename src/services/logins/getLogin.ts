@@ -1,15 +1,23 @@
+import { TLogin } from "../../types/TLogin";
 import getByIdQuery from "../helpers/getByIdQuery";
 
-export default async function getLogin(id: string) {
+export default async function getLogin(idReq: string): Promise<TLogin | undefined> {
     // TODO: id is untrusted and should be sanitized
-    if (id == null) {
+    if (idReq == null) {
         throw new Error("No such login");
     }
     
     try {
-        const data = await getByIdQuery("SELECT * FROM Logins WHERE id = ?", id)
-        return data
+        const login = await getByIdQuery("SELECT * FROM Logins WHERE id = ?", idReq) as TLogin
+        const data = [login.id, login.user_id, login.Logins_name, login.Logins_password, login.Logins_url, login.Logins_notes]
+        data.forEach(element => {
+           if (element == null) {
+                throw new Error("Could not fetch");
+           } 
+        });
+        return login
     } catch (error) {
         console.error(error) 
+        return undefined
     }
 }

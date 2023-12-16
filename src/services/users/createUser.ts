@@ -1,7 +1,7 @@
 import { TUser } from 'types/TUser';
 import createQuery from '../helpers/createQuery'
 
-export default async function createUser(newUser: TUser) {
+export default async function createUser(newUser: TUser): Promise<string | undefined> {
     // TODO: newUser is untrusted and should be sanitized
     const { first_name, last_name, master_password, email } = newUser
 
@@ -28,6 +28,7 @@ export default async function createUser(newUser: TUser) {
         return userId
     } catch (error) {
         console.error(error)
+        return undefined
     }
 }
 

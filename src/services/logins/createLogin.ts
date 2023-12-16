@@ -1,7 +1,7 @@
 import { TLogin } from '../../types/TLogin'
 import createQuery from '../helpers/createQuery'
 
-export default async function createLogin(newLogin: TLogin) {
+export default async function createLogin(newLogin: TLogin): Promise<string | undefined>{
     // TODO: newLogin is untrusted and needs to be sanitized
     const { user_id, Login_name, Login_notes, Login_password, Login_url} = newLogin
     
@@ -29,5 +29,6 @@ export default async function createLogin(newLogin: TLogin) {
         return loginId
     } catch (error) {
         console.error(error) 
+        return undefined
     }
 }

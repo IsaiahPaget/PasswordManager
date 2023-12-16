@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS Ext_Auth (
     Ext_Auth_mac_address VARCHAR(255),
     Ext_Auth_ip VARCHAR(255),
     PRIMARY KEY(id),
-    FOREIGN KEY (user_id) REFERENCES Users(id)
-)
+    FOREIGN KEY (Ext_Auth_user_id) REFERENCES Users(id)
+);
 
 CREATE TABLE IF NOT EXISTS Logins (
     id INT AUTO_INCREMENT,
@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS Logins (
     Logins_notes VARCHAR(255),
     PRIMARY KEY(id),
     FOREIGN KEY(user_id) REFERENCES Users(id)
-)
+);
 
 INSERT INTO Users (last_name, first_name, master_password, email, account_created_on) VALUES ('Karen', 'Kunts', 'Pa$$w0rd123', 'test@email.com', "1975-1-1");
+INSERT INTO Logins (user_id, Logins_name, Logins_url, Logins_password, Logins_notes) VALUES (1 , 'youtube', 'https://youtube.com', 'password1', '');

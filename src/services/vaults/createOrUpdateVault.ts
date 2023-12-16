@@ -1,10 +1,8 @@
 import { TVault } from "../../types/TVault";
-import Database from "../db"
+import storeVault from "./storeVault";
 
 export default async function createOrUpdateVault(vaultObj: TVault) {
-    const db = Database.getConnection()
-    
     const { vault } = vaultObj
-    
+    const foo = storeVault(vault)    
     console.log(vault)
 }
