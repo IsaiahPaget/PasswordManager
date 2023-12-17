@@ -1,18 +1,41 @@
 import dotenv from 'dotenv'
 import axios from 'axios'
-import { emptyObject } from '@jest/expect-utils'
+import errorHTML from '../constants/errorHTML'
 
 dotenv.config()
 
-describe("GET /user", () => {
-
-    it("Should respond 'Not Found'", async () => {
+async function get(): Promise<any> {
+    try {
         const response = await axios({
             method: "get",
             url: "/user",
             baseURL: `http://${process.env.URL}:${process.env.NODE_PORT}/`,
         })
-        expect(response.status).toBe(404)
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
+describe("GET /user", () => {
+
+    it("Should respond 'Not Found'", async () => {
+        const axios = await get()
+        expect(axios.response.status).toBe(404)
+    })
+    it("Should be empty object", async () => {
+        const axios = await get()
+        expect(axios.response.data).toBe(errorHTML)
+    })
+
+
+})
+
+describe("GET /user/:id", () => {
+
+    it("Should be OK", async () => {
+        const axios = await get()
+
     })
 })
 
