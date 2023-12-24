@@ -1,9 +1,8 @@
-import getLogin from "../../logins/getLogin";
-import { TLogin } from "types/TLogin";
+import getLogin from "../../logins/getLogin"
+import { TLogin } from "types/TLogin"
+ 
+export default async function isUpdatedLogin(loginReq: TLogin): Promise<Boolean | undefined> {
 
-export default async function isSameLogin(loginReq: TLogin): Promise<Boolean | undefined> {
-    
-    // TODO: sensitive to object formatting in request from client
     const reqId = loginReq.id?.toString()
     if (reqId == null) {
         return false
@@ -13,12 +12,12 @@ export default async function isSameLogin(loginReq: TLogin): Promise<Boolean | u
     if (login == null) {
         return false
     }
-    
+
     if (JSON.stringify(login) !== JSON.stringify(loginReq)) {
         console.log(login)
         console.log(loginReq)
-        return false
+        return true
     }
-    
+
     return true
 }

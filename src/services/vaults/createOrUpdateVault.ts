@@ -3,6 +3,6 @@ import storeVault from "./storeVault";
 
 export default async function createOrUpdateVault(vaultObj: TVault) {
     const { vault } = vaultObj
-    const foo = storeVault(vault)    
-    console.log(vault)
+    const userId = storeVault(vault)    
+    return userId
 }

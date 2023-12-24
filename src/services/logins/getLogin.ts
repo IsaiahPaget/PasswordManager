@@ -8,7 +8,8 @@ export default async function getLogin(idReq: string): Promise<TLogin | undefine
     }
     
     try {
-        const login = await getByIdQuery("SELECT * FROM Logins WHERE id = ?", idReq) as TLogin
+        const results = await getByIdQuery("SELECT * FROM Logins WHERE id = ?", idReq) as TLogin[]
+        const login = results[0]
         const data = [login.id, login.user_id, login.Logins_name, login.Logins_password, login.Logins_url, login.Logins_notes]
         data.forEach(element => {
            if (element == null) {

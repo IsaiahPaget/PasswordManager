@@ -7,8 +7,8 @@ export default async function getUser(id: string): Promise<TUser | undefined> {
         throw new Error("No such user");
     }
     try {
-        const data = await getByIdQuery("SELECT * FROM Users WHERE id = ?", id) as TUser
-        return data
+        const data = await getByIdQuery("SELECT * FROM Users WHERE id = ?", id) as TUser[]
+        return data[0]
     } catch (error) {
         console.error(error)
         return undefined

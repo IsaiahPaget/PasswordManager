@@ -20,11 +20,13 @@ Create a .env file at the root directory of the project and populate it with:
 NODE_PORT=5432 # can be any port
 
 # database
-HOST=sqldb # the name of the services running the MySQL - check the docker-compose.yaml
+HOST=mysqldb # the name of the services running the MySQL - check the docker-compose.yaml
 DATABASE=database-name # chosen name of database - the database on the MySQL server
 PASSWORD=database-password # chosen password
 USER=database-user #chosen username
 CONNECTION_TIMEOUT=10000 # in miliseconds
+SQL_LOCAL_PORT=3307 # can be any port that is not the NODE_PORT
+SQL_DOCKER_PORT=3306 # has to be this because the image is choosing to operate on this port
 
 ```
 In the terminal - Navigate to root directory of the project:

@@ -3,13 +3,14 @@ import createQuery from '../helpers/createQuery'
 
 export default async function createLogin(newLogin: TLogin): Promise<string | undefined>{
     // TODO: newLogin is untrusted and needs to be sanitized
-    const { user_id, Login_name, Login_notes, Login_password, Login_url} = newLogin
+    const { user_id, Logins_name, Logins_notes, Logins_password, Logins_url} = newLogin
     
     const newLoginValues = [
-        user_id, Login_name, 
-        Login_notes, 
-        Login_password, 
-        Login_url
+        user_id,
+        Logins_name, 
+        Logins_notes, 
+        Logins_password, 
+        Logins_url
     ]
 
     newLoginValues.forEach(element => {
@@ -19,12 +20,12 @@ export default async function createLogin(newLogin: TLogin): Promise<string | un
     });
     
     try {
-        const loginId = await createQuery("INSERT INTO Logins (user_id, Logins_name, Logins_url, Logins_password, Logins_notes", [
+        const loginId = await createQuery("INSERT INTO Logins (user_id, Logins_name, Logins_url, Logins_password, Logins_notes) VALUES ( ?, ?, ?, ?, ?)", [
             user_id,
-            Login_name,
-            Login_notes,
-            Login_password,
-            Login_url
+            Logins_name,
+            Logins_notes,
+            Logins_password,
+            Logins_url
         ])
         return loginId
     } catch (error) {
