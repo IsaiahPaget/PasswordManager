@@ -1,15 +1,14 @@
-import getByIdQuery from "../helpers/getByIdQuery";
+import getQuery from "../helpers/getQuery";
 import { TLogin } from "../../types/TLogin"
-export default async function getLoginsByUserId(userId: string): Promise<TLogin[] | undefined> {
+export default async function getLoginsByUserId(userId: number): Promise<TLogin[] | undefined> {
     // TODO: userId is untrusted and needs to be sanitizied
     if (userId == null) {
         throw new Error("No such userId");
     }
 
     console.log(userId)
-
     try {
-        const logins = await getByIdQuery("SELECT * FROM Logins WHERE user_id = ?", userId) as TLogin[]
+        const logins = await getQuery("SELECT * FROM Logins WHERE user_id = ?", [userId]) as TLogin[]
         console.log(logins)
         logins.forEach(login => {
             if (login == null) {

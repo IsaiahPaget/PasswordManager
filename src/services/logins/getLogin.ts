@@ -1,5 +1,5 @@
 import { TLogin } from "../../types/TLogin";
-import getByIdQuery from "../helpers/getByIdQuery";
+import getQuery from "../helpers/getQuery";
 
 export default async function getLogin(idReq: string): Promise<TLogin | undefined> {
     // TODO: id is untrusted and should be sanitized
@@ -8,7 +8,7 @@ export default async function getLogin(idReq: string): Promise<TLogin | undefine
     }
     
     try {
-        const results = await getByIdQuery("SELECT * FROM Logins WHERE id = ?", idReq) as TLogin[]
+        const results = await getQuery("SELECT * FROM Logins WHERE id = ?", [idReq]) as TLogin[]
         const login = results[0]
         const data = [login.id, login.user_id, login.Logins_name, login.Logins_password, login.Logins_url, login.Logins_notes]
         data.forEach(element => {

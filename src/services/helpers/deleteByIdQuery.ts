@@ -7,6 +7,5 @@ export default async function deleteByIdQuery(query: string, id: string): Promis
     if (data == null) {
         throw new Error("Unable to delete - Possible invalid params");
     }
-    
     return data
 }

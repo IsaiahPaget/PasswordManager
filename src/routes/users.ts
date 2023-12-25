@@ -1,19 +1,26 @@
 import express from 'express'
-import getUser from '../services/users/getUser';
 import createUser from '../services/users/createUser'
 import { TUser } from 'types/TUser';
+import isValidUser from '../services/auth/isValidUser';
+import getVault from '../services/vaults/getVault';
+import getUser from '../services/users/getUser';
 
 const user = express.Router();
 
-/* GET users. */
-user.get('/:id', async function (req, res) {
+/* post users/login */
+user.post('/login', async function (req, res) {
     try {
-        const id = req.params.id
-        const user = await getUser(id)
-        if (user == null) {
-            throw new Error("Could not get user");
+        const reqBody = req.body as TUser
+        const isValid = await isValidUser(reqBody)
+        if (isValid == null || isValid === false) {
+            throw new Error("error checking validity")
+        }
+        const user = await getUser(reqBody.email)
+        const vault = await getVault(user?.id)
+        if (vault == null) {
+            throw new Error("Could not get vault");
         } 
-        res.json(user);
+        res.json(vault);
     } catch (err) {
         console.error(err);
         res.statusCode = 400
@@ -22,7 +29,7 @@ user.get('/:id', async function (req, res) {
 });
 
 /* POST users. */
-user.post('/', async function (req, res) {
+user.post('/signup', async function (req, res) {
     try {
         const user: TUser = req.body
         const userId = await createUser(user)

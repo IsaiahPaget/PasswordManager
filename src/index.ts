@@ -5,6 +5,7 @@ import { Response, Request} from 'express-serve-static-core';
 // Routes
 import user from './routes/users'
 import vault from './routes/vault';
+import crypto from './routes/crypto';
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use("/vault", vault)
 app.use('/user', user)
+app.use('/crypto', crypto)
+
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

@@ -17,6 +17,7 @@ Create a .env file at the root directory of the project and populate it with:
 ```bash
 # in the .env file
 # application
+URL=127.0.0.1 # or the ip of the server you are hosting it on
 NODE_PORT=5432 # can be any port
 
 # database

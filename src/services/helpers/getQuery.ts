@@ -1,8 +1,8 @@
 import Database from "../db";
 
-export default async function getByIdQuery(query: string, id: string): Promise<any | undefined>{
+export default async function getQuery(query: string, param: any[]): Promise<any | undefined>{
     const db = Database.getConnection();
-    const [results]: any = await db.query(query, [id])
+    const [results]: any = await db.query(query, param)
     const data = results
     console.log("getbyidquery: " + JSON.stringify(data))
     if (data == null) {

@@ -2,6 +2,7 @@ import express from 'express'
 import { TVault } from '../types/TVault'
 import createOrUpdateVault from '../services/vaults/createOrUpdateVault'
 import getVault from '../services/vaults/getVault'
+import { parse } from 'path'
 const vault = express.Router()
 
 /* Create Or Update Vault */
@@ -21,10 +22,10 @@ vault.post('/', async (req, res) => {
     }
 })
 
-vault.get('/:id', async (req, res) => {
+vault.post('/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const vault = await getVault(id) 
+        const vault = await getVault(parseInt(id)) 
         if (vault == null) {
             throw new Error("Could not get vault");
         }

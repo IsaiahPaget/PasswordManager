@@ -1,13 +1,13 @@
 import { TUser } from '../../types/TUser';
-import getByIdQuery from '../helpers/getByIdQuery';
+import getQuery from '../helpers/getQuery';
 
-export default async function getUser(id: string): Promise<TUser | undefined> {
+export default async function getUser(email: string): Promise<TUser | undefined> {
     // TODO: Id is untrusted and should be sanitized
-    if (id == null) {
+    if (email == null) {
         throw new Error("No such user");
     }
     try {
-        const data = await getByIdQuery("SELECT * FROM Users WHERE id = ?", id) as TUser[]
+        const data = await getQuery("SELECT * FROM Users WHERE email = ?", [email]) as TUser[]
         return data[0]
     } catch (error) {
         console.error(error)
