@@ -19,7 +19,7 @@ user.post('/login', async function (req, res) {
         const vault = await getVault(user?.id)
         if (vault == null) {
             throw new Error("Could not get vault");
-        } 
+        }
         res.json(vault);
     } catch (err) {
         console.error(err);

@@ -6,7 +6,7 @@ export default async function getVault(userId: number | undefined) {
     }
     try {
         const logins = await getLoginsByUserId(userId)
-        return logins        
+        return { vault: logins }        
     } catch (error) {
         console.error(error) 
         return undefined

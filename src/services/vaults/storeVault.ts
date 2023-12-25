@@ -3,6 +3,7 @@ import isSameLogin from './login/isSameLogin';
 import isUpdatedLogin from './login/isUpdatedLogin';
 import isNewLogin from './login/isNewLogin';
 import createLogin from '../logins/createLogin';
+import updateLogin from '../logins/updateLogin';
 
 export default function storeVault(vaultObj: Array<TLogin>) {
     try {
@@ -14,7 +15,7 @@ export default function storeVault(vaultObj: Array<TLogin>) {
                     break;
                 case await isUpdatedLogin(login):
                     console.log("updated login")  
-                    // TODO: update when different
+                    await updateLogin(login)
                     break;
                 case isNewLogin(login):
                     console.log("new login") 

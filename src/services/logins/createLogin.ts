@@ -1,5 +1,5 @@
 import { TLogin } from '../../types/TLogin'
-import createQuery from '../helpers/createQuery'
+import createOrUpdateQuery from '../helpers/createOrUpdateQuery'
 
 export default async function createLogin(newLogin: TLogin): Promise<string | undefined>{
     // TODO: newLogin is untrusted and needs to be sanitized
@@ -20,7 +20,7 @@ export default async function createLogin(newLogin: TLogin): Promise<string | un
     });
     
     try {
-        const loginId = await createQuery("INSERT INTO Logins (user_id, Logins_name, Logins_url, Logins_password, Logins_notes) VALUES ( ?, ?, ?, ?, ?)", [
+        const loginId = await createOrUpdateQuery("INSERT INTO Logins (user_id, Logins_name, Logins_url, Logins_password, Logins_notes) VALUES ( ?, ?, ?, ?, ?)", [
             user_id,
             Logins_name,
             Logins_notes,
