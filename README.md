@@ -1,10 +1,10 @@
 # PasswordManager
 
 Modular open source password manager. The api for the server should be decoupled and accessible from
-any client as I have plans to make a mobile, desktop and chrome extension to act as the client.
+any client as I have plans to make a mobile, desktop and chrome extension.
 
-The goal of this project is to advance my knowledge of security and end to end development
-and as a byproduct have a password manager that can be easily deployed by anyone with a server.
+The goal of this project is to advance my knowledge of security and full stack development
+and as a by-product have a password manager that can be easily deployed by anyone with a server.
 
 ## The API
 Examples in Javascript: How a client could interact with this API.
