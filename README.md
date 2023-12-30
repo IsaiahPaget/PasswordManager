@@ -2,6 +2,31 @@
 
 Modular open source password manager
 
+## The API
+
+#### /users/signup
+```javascript
+const newUser = {
+    first_name = "A name",
+    last_name = "A last name",
+    master_password = "A master_password",
+    email = "An email"
+}
+
+try {
+    const response = await axios({
+        method: "post",
+        url: "/user",
+        baseURL: `http://${process.env.URL}:${process.env.NODE_PORT}/`,
+        data: newUser,
+    })
+    console.log(response)
+} catch (error) {
+    console.log(error)
+}
+
+```
+
 ## Contributing
 
 Clone the repo
