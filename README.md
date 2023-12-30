@@ -7,10 +7,12 @@ The goal of this project is to advance my knowledge of security and end to end d
 and as a byproduct have a password manager that can be easily deployed by anyone with a server.
 
 ## The API
-An examples in Javascript how a client may call this api
+Examples in Javascript: How a client could interact with this API.
 
 These examples use Axios which is a library that needs to be imported, but
-you can use any http api or library - [Axios Documentation](https://axios-http.com/docs/api_intro)
+you can use any http api or library.
+
+[Axios Documentation](https://axios-http.com/docs/api_intro)
 #### POST /user/signup
 ```javascript
 const newUser = {
@@ -37,7 +39,7 @@ try {
 
 #### POST /user/login
 ```javascript
-const newUser = {
+const User = {
     first_name = "A name",
     last_name = "A last name",
     master_password = "A master_password", // ideally you would want to send this having been hashed on the client side for max security
@@ -60,6 +62,7 @@ try {
 // which will look like this
 
 {
+    // array of the all the logins in your vault
     vault: [
         {
             id: number,
@@ -73,6 +76,56 @@ try {
     ]
 }
 ```
+
+#### POST /vault
+```javascript
+const User = {
+    first_name = "A name",
+    last_name = "A last name",
+    master_password = "A master_password", // ideally you would want to send this having been hashed on the client side for max security
+    email = "An email" // used as the "username" to the master_password
+}
+
+const Vault = [
+        // existing unchanged login
+        {
+            id: 1,
+            user_id: 1,
+            Logins_name: "youtube",
+            Logins_password: "DoNotUseThisAsAPassword",
+            Logins_url: "https://youtube.com",
+            Logins_notes: "This is a video sharing website",
+        },
+        // new login
+        {
+            // missing id because it's a new login
+            user_id: 1,
+            Logins_name: "github",
+            Logins_password: "DoNotUseTheSamePasswordEveryWhere",
+            Logins_url: "https://github.com/",
+            Logins_notes: "A site stealing my code to train AI to introduce bugs into critical systems",
+        },
+        //... it will also update the record of the login if it detects changes in an existing login
+]
+
+try {
+    const response = await axios({
+        method: "post",
+        url: "/vault",
+        baseURL: `http://${process.env.URL}:${process.env.NODE_PORT}/`,
+        data: {
+            credentials: User, 
+            vault: Vault
+        },
+    })
+    console.log(response)
+} catch (error) {
+    console.log(error)
+}
+
+// Response will be 201 if successful
+```
+
 
 ## Contributing
 
