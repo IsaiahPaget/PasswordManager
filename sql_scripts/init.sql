@@ -1,19 +1,32 @@
-CREATE TABLE IF NOT EXISTS customers (
+CREATE TABLE IF NOT EXISTS Users (
     id INT AUTO_INCREMENT,
-    username VARCHAR(255),
+    last_name VARCHAR(20),
+    first_name VARCHAR(20),
     master_password VARCHAR(255),
     email VARCHAR(255),
+    account_created_on DATETIME,
     PRIMARY KEY(id)
 );
 
-INSERT INTO customers (username, master_password, email) VALUES ('SAMPLE', 'USER', 'TEST');
-
-CREATE TABLE IF NOT EXISTS logins (
+CREATE TABLE IF NOT EXISTS Ext_Auth (
     id INT AUTO_INCREMENT,
-    user_id VARCHAR(255),
-    password VARCHAR(255),
-    url VARCHAR(255),
-    comments VARCHAR(255),
-    created_on VARCHAR(255),
-    PRIMARY KEY(id)
+    Ext_Auth_user_id INT,
+    Ext_Auth_mac_address VARCHAR(255),
+    Ext_Auth_ip VARCHAR(255),
+    PRIMARY KEY(id),
+    FOREIGN KEY (Ext_Auth_user_id) REFERENCES Users(id)
 );
+
+CREATE TABLE IF NOT EXISTS Logins (
+    id INT AUTO_INCREMENT,
+    user_id INT,
+    Logins_name VARCHAR(255),
+    Logins_url VARCHAR(255),
+    Logins_password VARCHAR(255),
+    Logins_notes VARCHAR(255),
+    PRIMARY KEY(id),
+    FOREIGN KEY(user_id) REFERENCES Users(id)
+);
+
+INSERT INTO Users (last_name, first_name, master_password, email, account_created_on) VALUES ('Karen', 'Kunts', 'Pa$$w0rd123', 'test@email.com', "1975-1-1");
+INSERT INTO Logins (user_id, Logins_name, Logins_url, Logins_password, Logins_notes) VALUES (1 , 'youtube', 'https://youtube.com', 'password1', '');

@@ -1,2 +1,7 @@
 node_modules
 tests
+.git
+.gitignore
+jest.config.js
+__tests__
+sql_scripts

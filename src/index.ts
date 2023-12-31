@@ -1,17 +1,24 @@
 import dotenv from 'dotenv';
-import user from './routes/users'
 import app from './app'
-import { Request, Response} from 'express-serve-static-core';
+import { Response, Request} from 'express-serve-static-core';
+
+// Routes
+import user from './routes/users'
+import vault from './routes/vault';
+import crypto from './routes/crypto';
 
 dotenv.config();
 
 const port = process.env.NODE_PORT;
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('Whats good B');
+    res.send("What up")
 });
 
-app.use('/users', user)
+app.use("/vault", vault)
+app.use('/user', user)
+app.use('/crypto', crypto)
+
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
