@@ -1,7 +1,8 @@
 import mysql from 'mysql2'
 import config from './config';
+import IDb from 'IDb';
 
-export default class Database {
+export default class Database implements IDb {
     private static instance: Database;
     private static pool = mysql.createPool(config.db).promise()
 

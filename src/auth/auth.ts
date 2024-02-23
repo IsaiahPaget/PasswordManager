@@ -1,9 +1,20 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
+import register from './register'
+import TUser from 'types/TUser'
+import Database from '../db'
 
 const auth = express.Router()
 
-auth.post('/register', (req, res) => {
-    res.send("register")
+auth.post('/register', async (req: Request, res: Response) => {
+    const user = req.body as TUser
+    const userId = await register(user, Database.getConnection())
+
+    if (userId == -1) {
+        res.statusCode = 400
+        res.send("invalid fields")
+    }
+    res.statusCode = 200
+    res.send({userId})
 })
 
 auth.post('/login', (req, res) => {
