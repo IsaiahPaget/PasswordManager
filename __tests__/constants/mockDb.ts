@@ -1,5 +1,4 @@
 import mysql from 'mysql2'
-import Database from '../../src/db';
 import IDb from '../../src/IDb'
 
 export default class MockDB implements IDb {

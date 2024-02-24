@@ -1,8 +1,9 @@
+import IDb from "IDb";
 import Database from "../db";
 import { Request } from "express";
 import TUser from "types/TUser";
 
-async function register(user: TUser, db: Database): Promise<number> {
+async function register(user: TUser, db: IDb): Promise<number> {
     if (user.firstName == "" || user.firstName == null) {
         return -1
     }

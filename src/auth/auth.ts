@@ -17,7 +17,8 @@ auth.post('/register', async (req: Request, res: Response) => {
     res.send({userId})
 })
 
-auth.post('/login', (req, res) => {
+auth.post('/login', (req: Request, res: Response) => {
+    const user = req.body as TUser 
     res.statusCode = 201 
     res.send("login") 
 })

@@ -8,7 +8,7 @@ export default class Database implements IDb {
 
     private constructor() { }
 
-    public static getConnection(): Database {
+    public static getConnection(): IDb {
         if (!Database.instance) {
             Database.instance = new Database();
         }
