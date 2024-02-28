@@ -1,10 +1,8 @@
-type TUser = {
-    id: number,
+type TNewUser = {
     lastName: string,
     firstName: string,
     masterPassword: string,
     email: string,
-    accountCreatedOn?: string
 } 
 
-export default TUser
+export default TNewUser

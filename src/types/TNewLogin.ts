@@ -1,10 +1,9 @@
-type TLogin = {
-    id: number,
+type TNewLogin = {
     userId: number,
     loginName: string,
     loginUrl: string,
     loginPassword: string,
-    loginNotes?: string
+    loginNotes: string
 }
 
-export default TLogin
+export default TNewLogin

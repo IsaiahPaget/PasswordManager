@@ -1,19 +1,13 @@
 import IDb from "IDb";
 import Database from "../db";
 import { Request } from "express";
-import TUser from "types/TUser";
+import TNewUser from "types/TNewUser";
+import newUserValidate from "../auth/newUserValidate"
 
-async function register(user: TUser, db: IDb): Promise<number> {
-    if (user.firstName == "" || user.firstName == null) {
-        return -1
-    }
-    if (user.lastName == "" || user.lastName == null) {
-        return -1
-    }
-    if (user.masterPassword == "" || user.masterPassword == null) {
-        return -1
-    }
-    if (user.email == "" || user.email == null) {
+async function register(user: TNewUser, db: IDb): Promise<number> {
+    const userIsValid = newUserValidate(user)
+
+    if (!userIsValid) {
         return -1
     }
 
