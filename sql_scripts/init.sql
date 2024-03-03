@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS Users (
     last_name VARCHAR(20),
     first_name VARCHAR(20),
     master_password VARCHAR(255),
-    email VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
     account_created_on DATETIME,
     PRIMARY KEY(id)
 );

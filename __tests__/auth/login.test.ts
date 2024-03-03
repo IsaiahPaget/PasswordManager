@@ -2,22 +2,19 @@ import MockDB from "../constants/mockDb"
 import login from "../../src/auth/login"
 import TUser from "../../src/types/TUser"
 import TNewUser from "../../src/types/TNewUser"
+import { EMPTY_USER } from "../../src/types/errors"
+import { newUserIsValid } from "../constants/testLogin"
 describe("Login", () => {
     const mock = new MockDB()
     const returnedUser = {} as TUser
 
     it("should return an entire user object without the masterpassword", async () => {
         const user = await login(
-            {
-                lastName: "lastname",
-                firstName: "lastname",
-                masterPassword: "78978wefsdrfsd",
-                email: "mail@mail.com",
-            },
+            newUserIsValid,
             mock
         )
         expect(user).toMatchObject(returnedUser)
-        expect(user.masterPassword).toBe("")
+        expect(user.masterPassword).toBe(undefined)
     })
 
     it("should return -1 if it fails", async () => {
@@ -25,6 +22,6 @@ describe("Login", () => {
             { } as TNewUser,
             mock
         )
-        expect(user).toEqual({})
+        expect(user).toEqual(EMPTY_USER)
     })
 })

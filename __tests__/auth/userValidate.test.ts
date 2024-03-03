@@ -1,83 +1,43 @@
 import userValidate from '../../src/auth/userValidate'
 import TUser from '../../src/types/TUser'
+import {
+    userIsInvalidId,
+    userIsValid, 
+    userMissingEmail, 
+    userMissingFirstName, 
+    userMissingLastName, 
+    userMissingMasterPassword 
+} from '../constants/testLogin'
 
 describe("userValidate", () => {
 
     test("Returns false if first name is missing", async () => {
-        const isValid = await userValidate(
-            {
-                id: 1,
-                firstName: "",
-                lastName: "hello",
-                masterPassword: "789sdfsdf789",
-                email: "mail@mail.com",
-            }, 
-        )
+        const isValid = await userValidate(userMissingFirstName)
         expect(isValid).toBe(false)
     })
 
     test("Returns false if last name is missing", async () => {
-        const isValid = await userValidate(
-            {
-                id: 1,
-                firstName: "test",
-                lastName: "",
-                masterPassword: "789sdfsdf789",
-                email: "mail@mail.com",
-            }, 
-        )
+        const isValid = await userValidate(userMissingLastName)
         expect(isValid).toBe(false)
     })
 
     test("Returns false if email is missing", async () => {
-        const isValid = await userValidate(
-            {
-                id: 1,
-                firstName: "test",
-                lastName: "hello",
-                masterPassword: "789sdfsdf789",
-                email: "",
-            }, 
-        )
+        const isValid = await userValidate(userMissingEmail)
         expect(isValid).toBe(false)
     })
     
     test("Returns false if master password is missing", async () => {
-        const isValid = await userValidate(
-            {
-                id: 1,
-                firstName: "test",
-                lastName: "hello",
-                masterPassword: "",
-                email: "mail@mail.com",
-            }, 
-        )
+        const isValid = await userValidate(userMissingMasterPassword)
         expect(isValid).toBe(false)
     })
 
     test("Returns true when all fields are present", async () => {
-        const isValid = await userValidate(
-            {
-                id: 1,
-                firstName: "test",
-                lastName: "hello",
-                masterPassword: "789sdfsdf789",
-                email: "mail@mail.com",
-            }, 
-        )
+        const isValid = await userValidate(userIsValid)
         expect(isValid).toBe(true)
     })
 
     test("Returns false when id is missing", async () => {
-        const isValid = await userValidate(
-            {
-                id: -1,
-                firstName: "test",
-                lastName: "hello",
-                masterPassword: "789sdfsdf789",
-                email: "mail@mail.com",
-            }, 
-        )
+        const isValid = await userValidate(userIsInvalidId)
         expect(isValid).toBe(false)
     })
     test("Does not expect empty objects", async () => {

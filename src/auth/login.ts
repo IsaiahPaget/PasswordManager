@@ -2,30 +2,29 @@ import TNewUser from "types/TNewUser";
 import newUserValidate from "./newUserValidate";
 import IDb from "IDb";
 import TUser from "types/TUser";
+import { EMPTY_USER } from "../types/errors";
 
 async function login(user: TNewUser, db: IDb): Promise<TUser> {
-    const userObj = {} as TUser
 
     const isValidUser = newUserValidate(user)
 
     if (!isValidUser) {
-        return {} as TUser
+        return EMPTY_USER
     }
 
     try {
-        const result = await db.query(
-            "SELECT id, last_name, first_name, email, account_create_on FROM Users WHERE email = ?, last_name = ?, first_name = ?, master_password = ?",
-            [user.email, user.lastName, user.firstName, user.masterPassword]
+        // TODO: make the query need the first and last name of the user
+        const [result] = await db.query(
+            "SELECT id, last_name, first_name, email, account_created_on FROM Users WHERE email = ? AND master_password = ?",
+            [user.email, user.masterPassword]
         )
+        
+        return result as TUser
 
-        console.log(result)
-        return userObj
     } catch (error) {
         console.error(error)
-        return {} as TUser
+        return EMPTY_USER
     }
-
-    return userObj
 }
 
 export default login

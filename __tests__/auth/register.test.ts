@@ -1,8 +1,11 @@
 import TUser from '../../src/types/TUser'
 import register from '../../src/auth/register'
 import MockDB from '../constants/mockDb'
+import { INVALID_USER_ID } from '../../src/types/errors'
 describe("register", () => {
     const mockdb = new MockDB()
+
+    it.todo("should notify user if they try to register with an email that already exists")
 
     test("Returns id when successful", async () => {
         const userid = await register(
@@ -21,6 +24,6 @@ describe("register", () => {
             {} as TUser, 
             mockdb
         )
-        expect(userid).toEqual(-1)
+        expect(userid).toEqual(INVALID_USER_ID)
     })
 })
