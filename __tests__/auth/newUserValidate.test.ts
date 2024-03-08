@@ -1,6 +1,6 @@
 import newUserValidate from '../../src/auth/newUserValidate'
 import TNewUser from '../../src/types/TNewUser'
-import { newUserIsValid, newUserMissingEmail, newUserMissingFirstName, newUserMissingLastName, newUserMissingMasterPassword } from '../constants/testLogin'
+import { newUserIsValid, newUserMissingEmail, newUserMissingFirstName, newUserMissingLastName, newUserMissingMasterPassword } from '../constants/testUser'
 
 describe("newUserValidate", () => {
 

@@ -7,7 +7,7 @@ import {
     userMissingFirstName, 
     userMissingLastName, 
     userMissingMasterPassword 
-} from '../constants/testLogin'
+} from '../constants/testUser'
 
 describe("userValidate", () => {
 

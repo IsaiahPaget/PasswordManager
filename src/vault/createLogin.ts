@@ -1,15 +1,14 @@
 import TNewLogin from "types/TNewLogin";
-import TUser from "../types/TUser";
+import TNewUser from "../types/TNewUser";
 import IDb from "IDb";
-import userValidate from "auth/userValidate";
-import { EMPTY_USER, INVALID_LOGIN_ID } from "types/errors";
-import newLoginValidate from "auth/newLoginValidate";
+import newUserValidate from "../auth/newUserValidate";
+import { EMPTY_USER, INVALID_LOGIN_ID } from "../types/errors";
+import newLoginValidate from "../auth/newLoginValidate";
 import login from "../auth/login";
-import TNewUser from "types/TNewUser";
 import _ from 'lodash'
 
-async function createLogin(user: TUser, newLogin: TNewLogin, db: IDb): Promise<number> {
-    const isValidUser = userValidate(user)    
+async function createLogin(user: TNewUser, newLogin: TNewLogin, db: IDb): Promise<number> {
+    const isValidUser = newUserValidate(user)    
     if (!isValidUser) {
         return INVALID_LOGIN_ID
     }
@@ -20,14 +19,14 @@ async function createLogin(user: TUser, newLogin: TNewLogin, db: IDb): Promise<n
     }
 
     try {
-        const loggedInUser = await login(user as TNewUser, db)
-        if (_.isEqual(loggedInUser, EMPTY_USER)) {
+        const loggedInUser = await login(user, db)
+        if (_.isEqual(loggedInUser, EMPTY_USER) || loggedInUser == null) {
              return INVALID_LOGIN_ID
         }
 
         const [result] = await db.query(
             "INSERT INTO Logins (user_id, Logins_name, Logins_url, Logins_password, Logins_notes) VALUES (?, ?, ?, ?, ?)",
-            [newLogin.userId, newLogin.loginName, newLogin.loginUrl, newLogin.loginPassword, newLogin.loginNotes]
+            [loggedInUser.id, newLogin.loginName, newLogin.loginUrl, newLogin.loginPassword, newLogin.loginNotes]
         )
         return result.insertId
 
@@ -35,9 +34,6 @@ async function createLogin(user: TUser, newLogin: TNewLogin, db: IDb): Promise<n
         console.error(error)
         return INVALID_LOGIN_ID
     }
-
-
-
 }
 
 export default createLogin

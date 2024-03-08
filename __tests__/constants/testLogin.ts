@@ -1,73 +1,85 @@
-export const userMissingFirstName = {
-    id: 1,
-    firstName: "",
-    lastName: "hello",
-    masterPassword: "789sdfsdf789",
-    email: "mail@mail.com",
-} 
-export const userMissingLastName = {
-    id: 1,
-    firstName: "test",
-    lastName: "",
-    masterPassword: "789sdfsdf789",
-    email: "mail@mail.com",
-} 
-export const userMissingEmail = {
-    id: 1,
-    firstName: "test",
-    lastName: "hello",
-    masterPassword: "789sdfsdf789",
-    email: "",
-} 
-export const userMissingMasterPassword = {
-    id: 1,
-    firstName: "test",
-    lastName: "hello",
-    masterPassword: "",
-    email: "mail@mail.com",
-} 
-export const userIsInvalidId = {
+export const loginInvalidId = {
     id: -1,
-    firstName: "test",
-    lastName: "hello",
-    masterPassword: "789sdfsdf789",
-    email: "mail@mail.com",
-} 
-export const userIsValid = {
+    userId: 3,
+    loginPassword: "2342sdfsdf",
+    loginUrl: "https://whatever.com",
+    loginName: "whatever",
+    loginNotes: "a note"
+}
+export const loginValid = {
+    id: 2,
+    userId: 3,
+    loginPassword: "2342sdfsdf",
+    loginUrl: "https://whatever.com",
+    loginName: "whatever",
+    loginNotes: "a note"
+}
+export const loginInvalidUserId = {
     id: 1,
-    firstName: "test",
-    lastName: "hello",
-    masterPassword: "789sdfsdf789",
-    email: "mail@mail.com",
-} 
+    userId: -1,
+    loginPassword: "2342sdfsdf",
+    loginUrl: "https://whatever.com",
+    loginName: "whatever",
+    loginNotes: "a note"
+}
+export const loginMissingPassword = {
+    id: 1,
+    userId: 3,
+    loginPassword: "",
+    loginUrl: "https://whatever.com",
+    loginName: "whatever",
+    loginNotes: "a note"
+}
+export const loginMissingUrl = {
+    id: 1,
+    userId: 3,
+    loginPassword: "2342sdfsdf",
+    loginUrl: "",
+    loginName: "whatever",
+    loginNotes: "a note"
+}
+export const loginMissingName = {
+    id: 1,
+    userId: 3,
+    loginPassword: "2342sdfsdf",
+    loginUrl: "https://whatever.com",
+    loginName: "",
+    loginNotes: "a note"
+}
 
-export const newUserMissingFirstName = {
-    firstName: "",
-    lastName: "hello",
-    masterPassword: "789sdfsdf789",
-    email: "mail@mail.com",
-} 
-export const newUserMissingLastName = {
-    firstName: "test",
-    lastName: "",
-    masterPassword: "789sdfsdf789",
-    email: "mail@mail.com",
-} 
-export const newUserMissingEmail = {
-    firstName: "test",
-    lastName: "hello",
-    masterPassword: "789sdfsdf789",
-    email: "",
-} 
-export const newUserMissingMasterPassword = {
-    firstName: "test",
-    lastName: "hello",
-    masterPassword: "",
-    email: "mail@mail.com",
-} 
-export const newUserIsValid = {
-    firstName: "test",
-    lastName: "hello",
-    masterPassword: "789sdfsdf789",
-    email: "mail@mail.com",
-} 
+export const newLoginInvalidUserId = {
+    userId: -1,
+    loginPassword: "2342sdfsdf",
+    loginUrl: "https://whatever.com",
+    loginName: "whatever",
+    loginNotes: "a note"
+}
+export const newLoginMissingPassword = {
+    userId: 3,
+    loginPassword: "",
+    loginUrl: "https://whatever.com",
+    loginName: "whatever",
+    loginNotes: "a note"
+}
+export const newLoginMissingUrl = {
+    userId: 3,
+    loginPassword: "2342sdfsdf",
+    loginUrl: "",
+    loginName: "whatever",
+    loginNotes: "a note"
+}
+export const newLoginMissingName = {
+    userId: 3,
+    loginPassword: "2342sdfsdf",
+    loginUrl: "https://whatever.com",
+    loginName: "",
+    loginNotes: "a note"
+}
+
+export const newLoginValid = {
+    userId: 3,
+    loginPassword: "2342sdfsdf",
+    loginUrl: "https://whatever.com",
+    loginName: "whatever",
+    loginNotes: "a note"
+}

@@ -8,6 +8,73 @@ and as a by-product have a password manager that can be easily deployed by anyon
 
 ## The API
 
+Every example is JSON sent in the body of the HTTP request
+
+### Register
+POST: https://www.host/auth/register
+```
+{
+    "lastName": "john",
+    "firstName": "smith",
+    "masterPassword": "Sup3rSeCUr3P@$$Word",
+    "email": "john.s@mail.com"
+}
+```
+
+Returns a the user if successfull
+
+### Login
+POST: https://www.host/auth/login
+```
+{
+    "lastName": "john",
+    "firstName": "smith",
+    "masterPassword": "Sup3rSeCUr3P@$$Word",
+    "email": "john.s@mail.com"
+}
+```
+
+Returns the whole user including the id without the master password
+
+### Get Vault
+POST: https://www.host/vault/
+```
+{
+    "auth": {
+        "lastName": "isaiah",
+            "firstName": "blah",
+            "masterPassword": "Password123",
+            "email": "isaiah@mail.com"
+    },
+        "login": {
+            "loginName": "blah",
+            "loginUrl": "https://youtube.com",
+            "loginPassword": "password123"
+        }
+}
+```
+
+Returns the login id which is needed for updating and deleting a login
+
+### Create Login
+POST: https://www.host/vault/new
+```
+{
+    "auth": {
+        "lastName": "isaiah",
+        "firstName": "blah",
+        "masterPassword": "Password123",
+        "email": "isaiah@mail.com"
+    },
+    "login": {
+        "loginName": "blah",
+        "loginUrl": "https://youtube.com",
+        "loginPassword": "password123"
+    }
+}
+```
+
+Returns the login id which is needed for updating and deleting a login
 
 ## Contributing
 

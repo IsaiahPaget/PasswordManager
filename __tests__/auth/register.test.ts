@@ -24,6 +24,6 @@ describe("register", () => {
             {} as TUser, 
             mockdb
         )
-        expect(userid).toEqual(INVALID_USER_ID)
+        expect(userid).toBe(INVALID_USER_ID)
     })
 })
