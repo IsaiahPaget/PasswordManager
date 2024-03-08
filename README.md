@@ -40,31 +40,23 @@ Returns the whole user including the id without the master password
 POST: https://www.host/vault/
 ```
 {
-    "auth": {
-        "lastName": "isaiah",
-            "firstName": "blah",
-            "masterPassword": "Password123",
-            "email": "isaiah@mail.com"
-    },
-        "login": {
-            "loginName": "blah",
-            "loginUrl": "https://youtube.com",
-            "loginPassword": "password123"
-        }
+    "lastName": "john",
+    "firstName": "smith",
+    "masterPassword": "Sup3rSeCUr3P@$$Word",
+    "email": "john.s@mail.com"
 }
 ```
-
-Returns the login id which is needed for updating and deleting a login
+Returns the all the details from every login
 
 ### Create Login
 POST: https://www.host/vault/new
 ```
 {
     "auth": {
-        "lastName": "isaiah",
-        "firstName": "blah",
-        "masterPassword": "Password123",
-        "email": "isaiah@mail.com"
+        "lastName": "john",
+        "firstName": "smith",
+        "masterPassword": "Sup3rSeCUr3P@$$Word",
+        "email": "john.s@mail.com"
     },
     "login": {
         "loginName": "blah",
