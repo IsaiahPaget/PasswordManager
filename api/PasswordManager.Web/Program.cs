@@ -1,12 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using PasswordManager.Data;
+using PasswordManager.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddCors();
 builder.Services.AddControllers();
+builder.Services.AddTransient<ILoginService, LoginService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddDbContext<ApplicationDbContext>(opts => {
+    opts.EnableDetailedErrors();
+    opts.UseSqlServer(builder.Configuration.GetConnectionString("passwordmanager.dev"));
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -17,6 +25,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(builder =>
+{
+    builder.AllowAnyOrigin();
+    builder.AllowAnyMethod();
+    builder.AllowAnyHeader();
+});
 
 app.UseAuthorization();
 
