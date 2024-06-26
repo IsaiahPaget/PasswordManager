@@ -1,6 +1,6 @@
-﻿namespace PasswordManager.Data
+﻿namespace PasswordManager.Web.Dto.LoginDto
 {
-    public class Login
+    public class LoginDto
     {
         public long id { get; set; }
         public long userId { get; set; }

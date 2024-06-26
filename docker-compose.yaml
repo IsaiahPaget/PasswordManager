@@ -1,0 +1,41 @@
+# version: "3.4"
+
+# services:
+#   mssql:
+#     image: mcr.microsoft.com/mssql/server:2022-latest
+#     restart: unless-stopped
+#     container_name: mssql-server
+#     environment:
+#       - SA_PASSWORD=${PASSWORD}
+#       - ACCEPT_EULA=Y
+#     ports:
+#       - ${SQL_LOCAL_PORT}:${SQL_DOCKER_PORT}
+#     volumes:
+#       - db:/var/lib/mssql
+#       - ./database/init.sql:/docker-entrypoint-initdb.d/1.sql
+
+  # client:
+  #   build: 
+  #     context: ./client
+  #     dockerfile: Dockerfile
+  #     target: dev # this dev is for dev vs build
+  #     args:
+  #       - BACKEND_URL=${BACKEND_URL}
+  #   container_name: password-manager-client
+  #   expose:
+  #     - ${VUE_PORT}
+  #   ports:
+  #     - ${VUE_PORT}:${VUE_PORT}
+
+  # backend:
+  #   build:
+  #     context: ./api/PasswordManager.Web
+  #     dockerfile: Dockerfile
+  #     target: base
+  #   container_name: password-manager-api
+  #   expose:
+  #     - ${BACKEND_PORT}
+  #   ports:
+  #     - ${BACKEND_PORT}:${BACKEND_PORT}
+# volumes:
+#   db:

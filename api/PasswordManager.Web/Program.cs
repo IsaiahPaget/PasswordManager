@@ -7,14 +7,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddCors();
 builder.Services.AddControllers();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.EnableDetailedErrors();
+    options.UseSqlServer(builder.Configuration.GetConnectionString("passwordmanager.dev"));
+});
 builder.Services.AddTransient<ILoginService, LoginService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ApplicationDbContext>(opts => {
-    opts.EnableDetailedErrors();
-    opts.UseSqlServer(builder.Configuration.GetConnectionString("passwordmanager.dev"));
-});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
