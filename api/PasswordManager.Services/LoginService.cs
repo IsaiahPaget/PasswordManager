@@ -54,7 +54,7 @@ namespace PasswordManager.Services
             loginToBeUpdated.updatedOn = DateTime.UtcNow;
 
             await _db.SaveChangesAsync();
-            return login;
+            return loginToBeUpdated;
         }
         public async Task<long> DeleteLogin(long id)
         {

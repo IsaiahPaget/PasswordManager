@@ -55,13 +55,13 @@ namespace PasswordManager.Web.Controllers
         }
 
         [HttpPut("/api/logins/{id}")]
-        public async Task<IActionResult> UpdateLogin([FromRoute] long loginId, [FromBody] LoginDto loginDto)
+        public async Task<IActionResult> UpdateLogin([FromRoute] long id, [FromBody] LoginDto loginDto)
         {
-            if (loginId <= 0)
+            if (id <= 0)
             {
                 return BadRequest();
             }
-            var login = await _loginService.UpdateLogin(loginId, loginDto.ToLogin());
+            var login = await _loginService.UpdateLogin(id, loginDto.ToLogin());
             if (login.id == 0)
             {
                 return NotFound(login);
