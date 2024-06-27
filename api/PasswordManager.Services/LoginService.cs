@@ -34,6 +34,7 @@ namespace PasswordManager.Services
 
         public async Task CreateLogin(Login login)
         {
+            login.createdOn = DateTime.UtcNow;
             await _db.Logins.AddAsync(login);
             await _db.SaveChangesAsync();
         }
@@ -50,7 +51,7 @@ namespace PasswordManager.Services
             loginToBeUpdated.username = login.username;
             loginToBeUpdated.password = login.password;
             loginToBeUpdated.notes = login.notes;
-            loginToBeUpdated.updatedOn = login.updatedOn;
+            loginToBeUpdated.updatedOn = DateTime.UtcNow;
 
             await _db.SaveChangesAsync();
             return login;

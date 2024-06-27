@@ -1,18 +1,18 @@
-# version: "3.4"
+version: "3.4"
 
-# services:
-#   mssql:
-#     image: mcr.microsoft.com/mssql/server:2022-latest
-#     restart: unless-stopped
-#     container_name: mssql-server
-#     environment:
-#       - SA_PASSWORD=${PASSWORD}
-#       - ACCEPT_EULA=Y
-#     ports:
-#       - ${SQL_LOCAL_PORT}:${SQL_DOCKER_PORT}
-#     volumes:
-#       - db:/var/lib/mssql
-#       - ./database/init.sql:/docker-entrypoint-initdb.d/1.sql
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: unless-stopped
+    container_name: mssql-server
+    environment:
+      - SA_PASSWORD=${PASSWORD}
+      - ACCEPT_EULA=Y
+    ports:
+      - ${SQL_LOCAL_PORT}:${SQL_DOCKER_PORT}
+    volumes:
+      - db:/var/lib/mssql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/1.sql
 
   # client:
   #   build: 
@@ -37,5 +37,5 @@
   #     - ${BACKEND_PORT}
   #   ports:
   #     - ${BACKEND_PORT}:${BACKEND_PORT}
-# volumes:
-#   db:
+volumes:
+  db:
