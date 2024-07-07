@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PasswordManager.Data;
+using PasswordManager.Data.Models;
 
 namespace PasswordManager.Services
 {

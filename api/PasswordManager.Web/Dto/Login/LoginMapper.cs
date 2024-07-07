@@ -1,4 +1,4 @@
-﻿using PasswordManager.Data;
+﻿using PasswordManager.Data.Models;
 
 namespace PasswordManager.Web.Dto.LoginDto
 {

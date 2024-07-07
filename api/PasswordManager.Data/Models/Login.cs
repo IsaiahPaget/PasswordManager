@@ -1,4 +1,4 @@
-﻿namespace PasswordManager.Data
+﻿namespace PasswordManager.Data.Models
 {
     public class Login
     {
@@ -9,5 +9,6 @@
         public string notes { get; set; } = string.Empty;
         public DateTime createdOn { get; set; }
         public DateTime updatedOn { get; set; }
+        public AppUser appUser { get; set; }
     }
 }

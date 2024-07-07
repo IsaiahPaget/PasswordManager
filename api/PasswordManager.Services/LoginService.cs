@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PasswordManager.Data;
+using PasswordManager.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

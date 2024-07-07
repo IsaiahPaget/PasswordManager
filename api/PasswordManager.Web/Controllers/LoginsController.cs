@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PasswordManager.Data;
@@ -20,6 +21,7 @@ namespace PasswordManager.Web.Controllers
         }
 
         [HttpGet("/api/logins")]
+        [Authorize]
         public async Task<IActionResult> GetLogins([FromQuery] Pagination pagination, [FromQuery] string searchTerm)
         {
             var logins = await _loginService.GetAllLogins(pagination.startIndex, pagination.maxRecords, searchTerm);
@@ -31,7 +33,8 @@ namespace PasswordManager.Web.Controllers
             return Ok(loginDtos);
         }
 
-        [HttpGet("/api/logins/{id}")]
+        [HttpGet("/api/logins/{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetLoginById([FromRoute] int id)
         {
             var login = await _loginService.GetLogin(id);
@@ -43,7 +46,8 @@ namespace PasswordManager.Web.Controllers
             return Ok(loginDto);
         }
 
-        [HttpDelete("/api/logins/{id}")]
+        [HttpDelete("/api/logins/{id:int}")]
+        [Authorize]
         public async Task<IActionResult> DeleteLogin([FromRoute] int id)
         {
             long deletedItemId = await _loginService.DeleteLogin(id);
@@ -54,7 +58,8 @@ namespace PasswordManager.Web.Controllers
             return Ok(deletedItemId);
         }
 
-        [HttpPut("/api/logins/{id}")]
+        [HttpPut("/api/logins/{id:int}")]
+        [Authorize]
         public async Task<IActionResult> UpdateLogin([FromRoute] long id, [FromBody] LoginDto loginDto)
         {
             if (id <= 0)
@@ -69,6 +74,7 @@ namespace PasswordManager.Web.Controllers
             return Ok(login);
         }
         [HttpPut("/api/logins/")]
+        [Authorize]
         public async Task<IActionResult> CreateLogin([FromBody] NewLoginRequest newLogin)
         {
             var login = newLogin.ToLogin();
