@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PasswordManager.Data;
 
@@ -11,9 +12,11 @@ using PasswordManager.Data;
 namespace PasswordManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240707083806_changeLogins")]
+    partial class changeLogins
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace PasswordManager.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b7b08e15-aa47-4541-bc2a-a5e217e62ab9",
+                            Id = "ad4ee945-be74-40ef-83a4-ecb505c52aa9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "7bb7b9bb-a623-4a38-8c99-862b1243765a",
+                            Id = "f7c71dbb-3b37-4127-93b6-3868c2c50cc2",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -259,9 +262,8 @@ namespace PasswordManager.Data.Migrations
                     b.Property<DateTime>("updatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("userId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("userId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("username")
                         .IsRequired()

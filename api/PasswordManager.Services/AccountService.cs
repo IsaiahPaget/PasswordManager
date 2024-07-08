@@ -28,7 +28,8 @@ namespace PasswordManager.Services
         public async Task<string> AuthenticateUser(AppUser appUser, string password)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.NormalizedUserName == appUser.UserName.ToUpper() && x.NormalizedEmail == appUser.Email.ToUpper());
-            if (user == null) {
+            if (user == null)
+            {
                 throw new Exception("Invalid credentials");
             }
 
@@ -53,7 +54,7 @@ namespace PasswordManager.Services
 
             var roleResult = await _userManager.AddToRoleAsync(appUser, _roleName);
 
-            if (!roleResult.Succeeded) 
+            if (!roleResult.Succeeded)
             {
                 throw new Exception(roleResult.Errors.ToString());
             }

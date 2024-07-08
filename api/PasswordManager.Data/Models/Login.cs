@@ -3,7 +3,7 @@
     public class Login
     {
         public long id { get; set; }
-        public long userId { get; set; }
+        public string userId { get; set; } = string.Empty;
         public string username { get; set; } = string.Empty;
         public string password { get; set; } = string.Empty;
         public string notes { get; set; } = string.Empty;

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PasswordManager.Data;
 using PasswordManager.Data.Models;
 using System;
@@ -43,11 +44,11 @@ namespace PasswordManager.Services
         public async Task<Login> UpdateLogin(long loginId, Login login)
         {
             Login loginToBeUpdated = await GetLogin(loginId);
-            if (loginToBeUpdated == null) 
+            if (loginToBeUpdated == null)
             {
-                return new Login();
+                return null;
             }
-            
+
             loginToBeUpdated.userId = login.userId;
             loginToBeUpdated.username = login.username;
             loginToBeUpdated.password = login.password;
@@ -57,16 +58,10 @@ namespace PasswordManager.Services
             await _db.SaveChangesAsync();
             return loginToBeUpdated;
         }
-        public async Task<long> DeleteLogin(long id)
+        public async Task DeleteLogin(Login login)
         {
-            Login login = await GetLogin(id);
-            if (login == null)
-            {
-                return 0;
-            }
             _db.Logins.Remove(login);
             await _db.SaveChangesAsync();
-            return id;
         }
     }
 }

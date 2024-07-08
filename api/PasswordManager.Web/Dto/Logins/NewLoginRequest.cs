@@ -5,8 +5,6 @@ namespace PasswordManager.Web.Dto.LoginDto
     public class NewLoginRequest
     {
         [Required]
-        public long userId { get; set; }
-        [Required]
         [MinLength(3, ErrorMessage = "Username cannot be less than 3 characters")]
         [MaxLength(255, ErrorMessage = "Username cannot be over 255 characters")]
         public string username { get; set; } = string.Empty;

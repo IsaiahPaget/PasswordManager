@@ -8,10 +8,20 @@ namespace PasswordManager.Web.Dto.LoginDto
         {
             return new Login
             {
-                userId = loginRequest.userId,
                 username = loginRequest.username,
                 password = loginRequest.password,
                 notes = loginRequest.notes,
+            };
+        }
+        public static Login ToLogin(this UpdateLoginDto login) 
+        {
+            return new Login
+            {
+
+                id = login.id,
+                username = login.username,
+                password = login.password,
+                notes = login.notes,
             };
         }
         public static LoginDto ToLoginDto(this Login login)
@@ -20,7 +30,6 @@ namespace PasswordManager.Web.Dto.LoginDto
             {
 
                 id = login.id,
-                userId = login.userId,
                 username = login.username,
                 password = login.password,
                 notes = login.notes,
@@ -34,7 +43,6 @@ namespace PasswordManager.Web.Dto.LoginDto
             {
 
                 id = loginDto.id,
-                userId = loginDto.userId,
                 username = loginDto.username,
                 password = loginDto.password,
                 notes = loginDto.notes,

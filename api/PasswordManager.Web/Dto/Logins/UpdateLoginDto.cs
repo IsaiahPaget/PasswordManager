@@ -1,14 +1,11 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+
 namespace PasswordManager.Web.Dto.LoginDto
 {
-    public class LoginDto
+    public class UpdateLoginDto
     {
         [Required]
         public long id { get; set; }
-
-        [Required]
-        public long userId { get; set; }
 
         [Required]
         [MinLength(3, ErrorMessage = "Username cannot be less than 3 characters")]
@@ -21,9 +18,5 @@ namespace PasswordManager.Web.Dto.LoginDto
         public string password { get; set; } = string.Empty;
 
         public string notes { get; set; } = string.Empty;
-
-        public DateTime createdOn { get; set; }
-
-        public DateTime updatedOn { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace PasswordManager.Services
     {
         public Task<List<Login>> GetAllLogins(int startIndex, int maxRecords, string searchTerm);
         public Task<Login> GetLogin(long id);
-        public Task<long> DeleteLogin(long id);
+        public Task DeleteLogin(Login login);
         public Task CreateLogin(Login login);
         public Task<Login> UpdateLogin(long loginId, Login login);
     }
