@@ -1,35 +1,106 @@
-@import './base.css';
+:root {
+    --space-base: 1rem;
+    --border-width: 1px;
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+    --dark0-hard :#1d2021;
+    --dark0      :#282828;
+    --dark0-soft :#32302f;
+    --dark1      :#3c3836;
+    --dark2      :#504945;
+    --dark3      :#665c54;
+    --dark4      :#7c6f64;
+    --dark4-256  :#7c6f64;
+
+    --gray-245   :#928374;
+
+    --light0-hard:#f9f5d7;
+    --light0     :#fbf1c7;
+    --light0-soft:#f2e5bc;
+    --light1     :#ebdbb2;
+    --light2     :#d5c4a1;
+    --light3     :#bdae93;
+    --light4     :#a89984;
+
+    --bright-red    :#fb4934;
+    --bright-green  :#b8bb26;
+    --bright-yellow :#fabd2f;
+    --bright-blue   :#83a598;
+    --bright-purple :#d3869b;
+    --bright-aqua   :#8ec07c;
+    --bright-orange :#fe8019;
+
+    --neutral-red   :#cc241d;
+    --neutral-green :#98971a;
+    --neutral-yellow:#d79921;
+    --neutral-blue  :#458588;
+    --neutral-purple:#b16286;
+    --neutral-aqua  :#689d6a;
+    --neutral-orange:#d65d0e;
+
+    --faded-red     :#9d0006;
+    --faded-green   :#79740e;
+    --faded-yellow  :#b57614;
+    --faded-blue    :#076678;
+    --faded-purple  :#8f3f71;
+    --faded-aqua    :#427b58;
+    --faded-orange  :#af3a03;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* neutrals */
+        --color-bg-dark: var(--dark0-hard);
+        --color-bg: var(--dark0);
+        --color-bg-light: var(--dark0-soft);
+        --color-bg-lighter: var(--dark1);
+        --color-bg-lightest: var(--dark2);
+
+        --color-text-darkest: var(--light4);
+        --color-text-darker: var(--light3);
+        --color-text-dark: var(--light2);
+        --color-text: var(--light1);
+        --color-text-light: var(--light0);
+
+        --color-gray: var(--gray-245);
+        --color-gray-light: var(--light4);
+
+        /* colors */
+        --color-red: var(--neutral-red);
+        --color-green: var(--neutral-green);
+        --color-yellow: var(--neutral-yellow);
+        --color-blue: var(--neutral-blue);
+        --color-purple: var(--neutral-purple);
+        --color-aqua: var(--neutral-aqua);
+        --color-orange: var(--neutral-orange);
+
+        --color-red-light: var(--bright-red);
+        --color-green-light: var(--bright-green);
+        --color-yellow-light: var(--bright-yellow);
+        --color-blue-light: var(--bright-blue);
+        --color-purple-light: var(--bright-purple);
+        --color-aqua-light: var(--bright-aqua);
+        --color-orange-light: var(--bright-orange);
+    }
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+@media (prefers-color-scheme: light) {
+
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+html, body, #app {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    height: 100%;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+* {
+    text-decoration: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    border-color: var(--color-bg-light);
+    border-width: var(--border-width);
+    border-style: solid;
 }
