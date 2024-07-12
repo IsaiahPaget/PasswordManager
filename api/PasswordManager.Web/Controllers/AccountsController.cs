@@ -24,7 +24,7 @@ namespace PasswordManager.Web.Controllers
         {
             if (!ModelState.IsValid) 
             {
-                BadRequest(ModelState);
+                return BadRequest(ModelState);
             }
 
             var appUser = new AppUser

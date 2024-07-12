@@ -33,7 +33,6 @@ namespace PasswordManager.Services
             Login login = await _db.Logins.FirstAsync(login => login.id == id);
             return login;
         }
-
         public async Task CreateLogin(Login login)
         {
             login.createdOn = DateTime.UtcNow;
@@ -50,6 +49,8 @@ namespace PasswordManager.Services
             }
 
             loginToBeUpdated.userId = login.userId;
+            loginToBeUpdated.name = login.name;
+            loginToBeUpdated.url = login.url;
             loginToBeUpdated.username = login.username;
             loginToBeUpdated.password = login.password;
             loginToBeUpdated.notes = login.notes;

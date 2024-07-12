@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PasswordManager.Data;
 
@@ -11,9 +12,11 @@ using PasswordManager.Data;
 namespace PasswordManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240712065853_added-name-url-to-login")]
+    partial class addednameurltologin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace PasswordManager.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3aafd449-1093-4fd4-aaf8-2b2e53d59c22",
+                            Id = "d8e0012f-3a69-4329-a3b3-cafc9a0cc4f9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "51e3473e-d889-4663-9a0e-ad2842cb60ab",
+                            Id = "339e1524-5373-4422-93ee-dc268e2eac2a",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -248,10 +251,6 @@ namespace PasswordManager.Data.Migrations
                     b.Property<DateTime>("createdOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("notes")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -262,10 +261,6 @@ namespace PasswordManager.Data.Migrations
 
                     b.Property<DateTime>("updatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userId")
                         .IsRequired()

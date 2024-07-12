@@ -8,6 +8,8 @@ namespace PasswordManager.Web.Dto.LoginDto
         {
             return new Login
             {
+                name = loginRequest.name,
+                url = loginRequest.url,
                 username = loginRequest.username,
                 password = loginRequest.password,
                 notes = loginRequest.notes,
@@ -19,6 +21,8 @@ namespace PasswordManager.Web.Dto.LoginDto
             {
 
                 id = login.id,
+                name = login.name,
+                url = login.url,
                 username = login.username,
                 password = login.password,
                 notes = login.notes,
@@ -30,6 +34,8 @@ namespace PasswordManager.Web.Dto.LoginDto
             {
 
                 id = login.id,
+                name = login.name,
+                url = login.url,
                 username = login.username,
                 password = login.password,
                 notes = login.notes,
@@ -43,6 +49,8 @@ namespace PasswordManager.Web.Dto.LoginDto
             {
 
                 id = loginDto.id,
+                name = loginDto.name,
+                url = loginDto.url,
                 username = loginDto.username,
                 password = loginDto.password,
                 notes = loginDto.notes,

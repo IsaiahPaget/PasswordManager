@@ -63,34 +63,45 @@ namespace PasswordManager.Web.Controllers
         [Authorize]
         public async Task<IActionResult> GetLoginById([FromRoute] int id)
         {
-            if (!ModelState.IsValid) 
+            if (id < 1) 
             {
                 return BadRequest();
             }
-            var login = await _loginService.GetLogin(id);
-            if (login == null) 
+            try
+            {
+                var login = await _loginService.GetLogin(id);
+                if (login == null) 
+                {
+                    return NotFound();
+                }
+                var user = await _userService.GetCurrentUser(User);
+                if (login.userId != user.Id)
+                {
+                    return Unauthorized();
+                }
+                var loginDto = login.ToLoginDto();
+                return Ok(loginDto);
+            }
+            catch (Exception ex)
             {
                 return NotFound();
             }
-            var user = await _userService.GetCurrentUser(User);
-            if (login.userId != user.Id)
-            {
-                return Unauthorized();
-            }
-            var loginDto = login.ToLoginDto();
-            return Ok(loginDto);
         }
 
         [HttpDelete("/api/logins/{id:int}")]
         [Authorize]
         public async Task<IActionResult> DeleteLogin([FromRoute] int id)
         {
-            if (!ModelState.IsValid) 
+            if (id < 1) 
             {
                 return BadRequest();
             }
-            var login = await _loginService.GetLogin(id);
-            if (login == null) 
+            Login login;
+            try
+            {
+                login = await _loginService.GetLogin(id);
+            }
+            catch (Exception ex)
             {
                 return NotFound();
             }

@@ -1,6 +1,7 @@
 :root {
     --space-base: 1rem;
     --border-width: 1px;
+    --border-radius: 5px;
 
     --dark0-hard :#1d2021;
     --dark0      :#282828;
@@ -103,4 +104,9 @@ html, body, #app {
     border-color: var(--color-bg-light);
     border-width: var(--border-width);
     border-style: solid;
+}
+
+.justify-content-space-between {
+  display: flex;
+  justify-content: space-between;
 }
