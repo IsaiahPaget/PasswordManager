@@ -99,6 +99,7 @@ html, body, #app {
     list-style: none;
     margin: 0;
     padding: 0;
+    transition: 200ms;
 }
 .container {
     border-color: var(--color-bg-light);
@@ -109,4 +110,17 @@ html, body, #app {
 .justify-content-space-between {
   display: flex;
   justify-content: space-between;
+}
+
+button {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color: var(--color-text);
+    background-color: var(--color-blue-light);
+    border-radius: var(--border-radius);
+    border: none;
+}
+
+button:hover {
+    background-color: var(--color-blue);
 }

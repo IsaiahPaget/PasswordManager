@@ -1,38 +1,47 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue';
-import type { loginDto } from '../../models/loginDto'
-import loginItem from '@/components/LoginItem.vue'
-import LoginItemDetail from '@/components/LoginItemDetail.vue';
-import MainLayout from '@/components/MainLayout.vue'
-import SideBar from '@/components/SideBar.vue';
+  import { ref, watchEffect } from 'vue';
+  import type { loginDto } from '@/models/logins/loginDto'
+  import loginItem from '@/components/LoginItem.vue'
+  import LoginItemDetail from '@/components/LoginItemDetail.vue';
+  import MainLayout from '@/components/MainLayout.vue'
+  import SideBar from '@/components/SideBar.vue';
+  import TopBar from '@/components/TopBar.vue'
+  import { GetAllLogins } from "@/controllers/LoginController"
+import router from '@/router';
+
+  if (localStorage.getItem("JWTSessionToken") == null) {
+    router.push("/account/login")
+  }
   const Logins = ref<loginDto[]>([])
-  const currentLogin = ref<loginDto>({} as loginDto);
+  const currentLogin = ref<loginDto>({} as loginDto)
+  const isEditing = ref(false)
   getLogins()
   
   function viewLogin(login: loginDto) {
     currentLogin.value = login
   }
   async function getLogins() {
-    const data = await fetch("https://localhost:7238/api/logins?startIndex=0&maxRecords=10&searchTerm=%22%22", {
-      headers: { Authorization: 'Bearer ${token}' }
-    })
-    if (data == null) {
-      return
+    const logins = await GetAllLogins({StartIndex: 0, MaxRecords: 10, SearchTerm: ""})
+    if (logins == null) {
+      return 
     }
-    const results: loginDto[] = await data.json()
-    Logins.value = results
+    Logins.value = logins
   }
 </script>
 
 <template>
   <MainLayout>
+    <template #navigation>
+      <TopBar />
+    </template>
 
     <template #sidebar>
       <SideBar />
     </template>
 
     <template #items>
-      <ul>
+      <p v-if="Logins.length === 0">No logins</p>
+      <ul v-else >
         <li v-for="login in Logins" :key="login.id"  @click="viewLogin(login)">
           <loginItem  :login="login"/>
         </li>

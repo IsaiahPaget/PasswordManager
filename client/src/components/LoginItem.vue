@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import type { loginDto } from 'models/loginDto'; 
+    import type { loginDto } from '@/models/logins/loginDto'; 
     defineProps<{login: loginDto}>()
 </script>
 

@@ -1,7 +1,9 @@
 <script setup lang="ts">
-  import type { loginDto } from 'models/loginDto';
-  import { ref, watch, watchEffect } from 'vue';
+  import type { loginDto } from '@/models/loginDto';
+  import LoginForm from '@/components/LoginForm.vue'
+  import { ref, watch } from 'vue';
   const showPassword = ref<boolean>(false)
+  const isEditing = ref(false)
 
   let props = defineProps<{ login: loginDto }>()
   watch(props.login, () => {
@@ -14,37 +16,47 @@
 </script>
 
 <template>
-  <div v-if="login.id > 0" class="login-item">
-    <div class="name">
-      <h1>
-        {{ login.name }}
-      </h1>
-      <p class="url">
-        {{ login.url }}
+  <div v-if="isEditing">
+    <LoginForm :login="props.login"/>
+    <button @click="isEditing = !isEditing">Close</button>
+  </div>
+  <div v-else>
+    <div v-if="login.id > 0" class="login-item">
+      <div class="name">
+        <div>
+          <h1>
+            {{ login.name }}
+          </h1>
+          <p class="url">
+            {{ login.url }}
+          </p>
+        </div>
+        <button @click="isEditing = !isEditing">Edit</button>
+      </div>
+      <p class="box">
+        <span>{{ login.username }}</span>
       </p>
-    </div>
-    <p class="box">
-      <span>{{ login.username }}</span>
-    </p>
-    <p class="box">
+      <p class="box">
       <div v-if="showPassword" class="justify-content-space-between">
         <span>{{ login.password }}</span>
         <a @click="ToggleShowPassword" class="password-toggle-button">hide</a>
       </div>
       <div v-else class="justify-content-space-between">
-        <span >******</span>
+        <span>******</span>
         <a @click="ToggleShowPassword" class="password-toggle-button">view</a>
       </div>
-    </p>
-    <p>
-      {{ login.notes }}
-    </p>
-    <p>
-      Created On: <span class="date-value">{{ login.createdOn }}</span>
-    </p>
-    <p>
-      Updated On: <span class="date-value">{{ login.updatedOn }}</span>
-    </p>
+      </p>
+      <p>
+        {{ login.notes }}
+      </p>
+      <p>
+        Created On: <span class="date-value">{{ login.createdOn }}</span>
+      </p>
+      <p>
+        Updated On: <span class="date-value">{{ login.updatedOn }}</span>
+      </p>
+    </div>
+
   </div>
 </template>
 
@@ -59,6 +71,8 @@
 .name {
     border-bottom: var(--border-width) solid var(--color-green);
     padding-bottom: var(--space-base);
+    display: flex;
+    justify-content: space-between;
 }
 
 .url {
