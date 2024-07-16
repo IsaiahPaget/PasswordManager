@@ -39,4 +39,8 @@ import { ref } from 'vue';
 </template>
 
 <style scoped>
+  form {
+    display: flex;
+    flex-direction: column;
+  }
 </style>

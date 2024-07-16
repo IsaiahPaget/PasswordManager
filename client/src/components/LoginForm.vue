@@ -1,53 +1,42 @@
 <script setup lang="ts">
-import { CreateLogin, UpdateLogin } from '@/controllers/LoginController';
-import type { loginDto } from '@/models/logins/loginDto';
-import { ToNewLoginRequest, ToUpdateLoginRequest } from '@/models/ModelMappers';
-const props = defineProps<{ login: loginDto }>();
-async function onSubmit() {
-    const loginToSubmit = props.login
-
-    if (loginToSubmit.id > 0) {
-        // update login
-        const updatedLogin = await UpdateLogin(ToUpdateLoginRequest(loginToSubmit))
-        if (updatedLogin == null) {
-            return null
-        }
-
-        window.alert("successfully updated login")
-    } else {
-        // new login
-        const id = await CreateLogin(ToNewLoginRequest(loginToSubmit))
-        console.log(id)
-    }
-}
+    import type { NewLoginRequestDto } from '@/models/logins/NewLoginRequestDto';
+    import { ref } from 'vue';
+    const props = defineProps<{ login: NewLoginRequestDto }>();
+    const loginInputs = ref<NewLoginRequestDto>({
+        name: props.login.name,
+        url: props.login.url,
+        username: props.login.username,
+        password: props.login.password,
+        notes: props.login.notes,
+    })
 </script>
 <template>
     <form action="">
         <div>
             <label>Name</label>
-            <input v-model="props.login.name" name="nameInput" id="nameInput" type="text" required />
+            <input v-model="loginInputs.name" name="nameInput" id="nameInput" type="text" required />
         </div>
 
         <div>
             <label>URL</label>
-            <input v-model="props.login.url" name="urlInput" id="urlInput" type="text" required />
+            <input v-model="loginInputs.url" name="urlInput" id="urlInput" type="text" required />
         </div>
 
         <div>
             <label>Username</label>
-            <input v-model="props.login.username" name="usernameInput" id="usernameInput" type="text" required />
+            <input v-model="loginInputs.username" name="usernameInput" id="usernameInput" type="text" required />
         </div>
 
         <div>
             <label>Password</label>
-            <input v-model="props.login.password" name="passwordInput" id="passwordInput" type="text" required />
+            <input v-model="loginInputs.password" name="passwordInput" id="passwordInput" type="text" required />
         </div>
 
         <div>
             <label>Notes</label>
-            <textarea v-model="props.login.notes" name="notesInput" id="notesInput" type="text" required></textarea>
+            <textarea v-model="loginInputs.notes" name="notesInput" id="notesInput" type="text" required></textarea>
         </div>
-        <button @click.prevent="onSubmit">Submit</button>
+        <button @click.prevent="$emit('onSubmit', loginInputs)">Save</button>
     </form>
 
 </template>

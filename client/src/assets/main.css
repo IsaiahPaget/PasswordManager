@@ -115,7 +115,9 @@ html, body, #app {
 button {
     padding-left: 1rem;
     padding-right: 1rem;
-    color: var(--color-text);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    color: var(--color-text-light);
     background-color: var(--color-blue-light);
     border-radius: var(--border-radius);
     border: none;

@@ -2,25 +2,42 @@
   import type { loginDto } from '@/models/loginDto';
   import LoginForm from '@/components/LoginForm.vue'
   import { ref, watch } from 'vue';
+  import { UpdateLogin } from '@/controllers/LoginController';
+  import type { UpdateLoginRequest } from '@/models/logins/UpdateLoginRequest';
+  const emitsUpdatedLogin = "updatedLogin"
   const showPassword = ref<boolean>(false)
   const isEditing = ref(false)
 
-  let props = defineProps<{ login: loginDto }>()
-  watch(props.login, () => {
+  const props = defineProps<{ login: loginDto }>()
+  const emit = defineEmits([emitsUpdatedLogin])
+
+  // props changed
+  watch(props, () => {
     showPassword.value = false
   })
 
   function ToggleShowPassword() {
     showPassword.value = !showPassword.value
   }
+  async function HandleSubmit(loginInputs: UpdateLoginRequest) {
+    loginInputs.id = props.login.id
+    const updatedLogin = await UpdateLogin(loginInputs)
+    if (updatedLogin == null) {
+      window.alert("failed to update login")
+      return null
+    }
+
+    emit(emitsUpdatedLogin)
+    window.alert("successfully updated login")
+  }
 </script>
 
 <template>
-  <div v-if="isEditing">
-    <LoginForm :login="props.login"/>
+  <section v-if="isEditing">
+    <LoginForm :login="props.login" @on-submit="HandleSubmit"/>
     <button @click="isEditing = !isEditing">Close</button>
-  </div>
-  <div v-else>
+  </section>
+  <section v-else>
     <div v-if="login.id > 0" class="login-item">
       <div class="name">
         <div>
@@ -57,15 +74,17 @@
       </p>
     </div>
 
-  </div>
+  </section>
 </template>
 
 <style scoped>
+section {
+  padding: var(--space-base);
+}
 .login-item {
   display: flex;
   flex-direction: column;
   gap: var(--space-base);
-  padding: var(--space-base)
 }
 
 .name {
