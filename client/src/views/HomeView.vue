@@ -7,8 +7,9 @@
   import SideBar from '@/components/SideBar.vue';
   import TopBar from '@/components/TopBar.vue'
   import { GetAllLogins } from "@/controllers/LoginController"
-import router from '@/router';
-import NewLoginItem from '@/components/NewLoginItem.vue';
+  import router from '@/router';
+  import NewLoginItem from '@/components/NewLoginItem.vue';
+  import { JWTSessionToken } from '@/LocalStorage';
 
   if (localStorage.getItem("JWTSessionToken") == null) {
     router.push("/account/login")
@@ -35,10 +36,11 @@ import NewLoginItem from '@/components/NewLoginItem.vue';
       Logins.value = logins
       isCreatingNewLogin.value = false
     } catch (error) {
-      localStorage.removeItem("JWTSessionToken")  
+      localStorage.removeItem(JWTSessionToken)  
       router.push("account/login")
     }
   }
+
 </script>
 
 <template>
@@ -62,7 +64,7 @@ import NewLoginItem from '@/components/NewLoginItem.vue';
 
     <template #detail>
       <NewLoginItem v-if="isCreatingNewLogin" @created-login="getLogins" @on-close="isCreatingNewLogin = false"/>
-      <LoginItemDetail v-else :login="currentLogin" @updated-login="getLogins"/>
+      <LoginItemDetail v-else :login="currentLogin" @updated-login="getLogins" @deleted-login="getLogins"/>
     </template>
 
   </MainLayout>

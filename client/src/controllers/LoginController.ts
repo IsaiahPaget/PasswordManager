@@ -3,10 +3,11 @@ import type { NewLoginRequestDto } from '@/models/logins/NewLoginRequestDto'
 import type { UpdateLoginRequest } from '@/models/logins/UpdateLoginRequest'
 import { ToNewLoginRequest } from '@/models/ModelMappers'
 import type { Pagination } from '@/models/Pagination'
+import { JWTSessionToken } from '@/LocalStorage'
 
 const ROUTE = "logins"
 export async function GetAllLogins(pagination: Pagination): Promise<loginDto[] | undefined> {
-    const sessionToken = localStorage.getItem("JWTSessionToken")
+    const sessionToken = localStorage.getItem(JWTSessionToken)
     
     if (sessionToken == null) {
         return 
@@ -29,7 +30,7 @@ export async function GetLoginById(id: number) {
 }
 
 export async function UpdateLogin(login: UpdateLoginRequest) {
-    const sessionToken = localStorage.getItem("JWTSessionToken")
+    const sessionToken = localStorage.getItem(JWTSessionToken)
     
     if (sessionToken == null) {
         return 
@@ -57,7 +58,7 @@ export async function UpdateLogin(login: UpdateLoginRequest) {
 
 }
 export async function CreateLogin(login: NewLoginRequestDto) {
-    const sessionToken = localStorage.getItem("JWTSessionToken")
+    const sessionToken = localStorage.getItem(JWTSessionToken)
     
     if (sessionToken == null) {
         return 
@@ -85,5 +86,28 @@ export async function CreateLogin(login: NewLoginRequestDto) {
 }
 
 export async function DeleteLogin(id: number) {
-    throw new Error("not implemented")
+    const sessionToken = localStorage.getItem(JWTSessionToken)
+    
+    if (sessionToken == null) {
+        return 
+    }
+
+    const result = await fetch(
+        `${import.meta.env.VITE_API_URL}/${ROUTE}/${id}`,
+        {
+            headers: {
+                Authorization: `Bearer ${sessionToken}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: "DELETE",
+        }
+    )
+    
+    if (result == null) {
+        return
+    }
+
+    const data = await result.json()
+    return data
 }

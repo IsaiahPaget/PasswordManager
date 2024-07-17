@@ -126,3 +126,20 @@ button {
 button:hover {
     background-color: var(--color-blue);
 }
+
+button.btn-red {
+    background-color: var(--color-red-light);
+}
+
+button.btn-red:hover {
+    background-color: var(--color-red);
+}
+
+
+button.btn-green {
+    background-color: var(--color-green-light);
+}
+
+button.btn-green:hover {
+    background-color: var(--color-green);
+}

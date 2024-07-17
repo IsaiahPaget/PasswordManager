@@ -1,6 +1,7 @@
 import type { LoginResponeDto } from "@/models/Account/LoginResponseDto"
 import type { LoginUserDto } from "@/models/Account/LoginUserDto"
 import type { RegisterUserDto } from "@/models/Account/RegisterUserDto"
+import { JWTSessionToken } from "@/LocalStorage"
 
 export async function RegisterUser(user: RegisterUserDto) {
     // const result = await fetch(`${process.env.BASE_API_URL}/register`, {
@@ -34,7 +35,7 @@ export async function LoginUser(user: LoginUserDto): Promise<LoginResponeDto | u
         Token: loginResponse.token,
     }
 
-    localStorage.setItem("JWTSessionToken", login.Token)
+    localStorage.setItem(JWTSessionToken, login.Token)
 
     return login
 }

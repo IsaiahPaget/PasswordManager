@@ -1,0 +1,1 @@
+export const JWTSessionToken = "JWTSessionToken"

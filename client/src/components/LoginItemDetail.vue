@@ -1,15 +1,16 @@
 <script setup lang="ts">
-  import type { loginDto } from '@/models/loginDto';
   import LoginForm from '@/components/LoginForm.vue'
   import { ref, watch } from 'vue';
-  import { UpdateLogin } from '@/controllers/LoginController';
+  import { DeleteLogin, UpdateLogin } from '@/controllers/LoginController';
   import type { UpdateLoginRequest } from '@/models/logins/UpdateLoginRequest';
+  import type { loginDto } from '@/models/logins/loginDto';
   const emitsUpdatedLogin = "updatedLogin"
+  const emitsDeleteLogin = "deletedLogin"
   const showPassword = ref<boolean>(false)
   const isEditing = ref(false)
 
   const props = defineProps<{ login: loginDto }>()
-  const emit = defineEmits([emitsUpdatedLogin])
+  const emit = defineEmits([emitsUpdatedLogin, emitsDeleteLogin])
 
   // props changed
   watch(props, () => {
@@ -19,6 +20,17 @@
   function ToggleShowPassword() {
     showPassword.value = !showPassword.value
   }
+  async function HandleDeleteLogin() {
+    const result = await DeleteLogin(props.login.id)
+    if (result == null) {
+      window.alert("failed to delete login")
+      return null
+    }
+    props.login.id = 0 // this is for hiding the old data
+    emit(emitsDeleteLogin)
+    window.alert("successfully delete login")
+
+  }
   async function HandleSubmit(loginInputs: UpdateLoginRequest) {
     loginInputs.id = props.login.id
     const updatedLogin = await UpdateLogin(loginInputs)
@@ -26,7 +38,7 @@
       window.alert("failed to update login")
       return null
     }
-
+    isEditing.value = false
     emit(emitsUpdatedLogin)
     window.alert("successfully updated login")
   }
@@ -72,6 +84,9 @@
       <p>
         Updated On: <span class="date-value">{{ login.updatedOn }}</span>
       </p>
+      <div >
+        <button class="btn-red" @click="HandleDeleteLogin">Delete</button>
+      </div>
     </div>
 
   </section>

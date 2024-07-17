@@ -5,7 +5,7 @@
 
 <template>
     <nav>
-        <button @click="$emit(emitsCreateNewItem)">New</button>
+        <button class="btn-green" @click="$emit(emitsCreateNewItem)">New</button>
     </nav>
 </template>
 
@@ -15,8 +15,5 @@
         background-color: var(--color-bg-dark);
         display: flex;
         justify-content: flex-end;
-    }
-    button {
-        background-color: var(--color-yellow);
     }
 </style>
