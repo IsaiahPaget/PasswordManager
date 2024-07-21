@@ -4,6 +4,7 @@ import type { UpdateLoginRequest } from '@/models/logins/UpdateLoginRequest'
 import { ToNewLoginRequest } from '@/models/ModelMappers'
 import type { Pagination } from '@/models/Pagination'
 import { JWTSessionToken } from '@/LocalStorage'
+import type { UpdateLoginResponse } from '@/models/logins/UpdateLoginResponse'
 
 const ROUTE = "logins"
 export async function GetAllLogins(pagination: Pagination): Promise<loginDto[] | undefined> {
@@ -18,7 +19,7 @@ export async function GetAllLogins(pagination: Pagination): Promise<loginDto[] |
             headers: { Authorization: `Bearer ${sessionToken}` }
         }
     )
-    if (data == null) {
+    if (data.status != 200) {
       return
     }
     const results: loginDto[] = await data.json()
@@ -29,7 +30,7 @@ export async function GetLoginById(id: number) {
     throw new Error("not implemented")
 }
 
-export async function UpdateLogin(login: UpdateLoginRequest) {
+export async function UpdateLogin(login: UpdateLoginRequest): Promise<UpdateLoginResponse | undefined> {
     const sessionToken = localStorage.getItem(JWTSessionToken)
     
     if (sessionToken == null) {
@@ -48,16 +49,15 @@ export async function UpdateLogin(login: UpdateLoginRequest) {
             body: JSON.stringify(login)
         }
     )
-    
-    if (result == null) {
-        return
+    if (result.status != 200) {
+      return
     }
 
     const data = await result.json()
     return data
 
 }
-export async function CreateLogin(login: NewLoginRequestDto) {
+export async function CreateLogin(login: NewLoginRequestDto): Promise<loginDto | undefined> {
     const sessionToken = localStorage.getItem(JWTSessionToken)
     
     if (sessionToken == null) {
@@ -77,15 +77,15 @@ export async function CreateLogin(login: NewLoginRequestDto) {
         }
     )
     
-    if (result == null) {
-        return
+    if (result.status != 201) {
+      return
     }
 
     const data = await result.json()
     return data
 }
 
-export async function DeleteLogin(id: number) {
+export async function DeleteLogin(id: number): Promise<number | undefined> {
     const sessionToken = localStorage.getItem(JWTSessionToken)
     
     if (sessionToken == null) {
@@ -104,8 +104,8 @@ export async function DeleteLogin(id: number) {
         }
     )
     
-    if (result == null) {
-        return
+    if (result.status != 200) {
+      return
     }
 
     const data = await result.json()

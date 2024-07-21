@@ -1,9 +1,10 @@
 <script setup lang="ts">
   import LoginForm from '@/components/LoginForm.vue'
-  import { ref, watch } from 'vue';
+  import { computed, ref, watch } from 'vue';
   import { DeleteLogin, UpdateLogin } from '@/controllers/LoginController';
   import type { UpdateLoginRequest } from '@/models/logins/UpdateLoginRequest';
   import type { loginDto } from '@/models/logins/loginDto';
+  import { nullDateValue } from '@/DateValues';
   const emitsUpdatedLogin = "updatedLogin"
   const emitsDeleteLogin = "deletedLogin"
   const showPassword = ref<boolean>(false)
@@ -11,6 +12,18 @@
 
   const props = defineProps<{ login: loginDto }>()
   const emit = defineEmits([emitsUpdatedLogin, emitsDeleteLogin])
+
+  const createdOn = computed(() => {
+    const date = new Date(props.login.createdOn)
+    return date.toLocaleDateString()
+  })
+  const updatedOn = computed(() => {
+    if (Date.parse(props.login.updatedOn) === nullDateValue) {
+      return "N/A"
+    }
+    const date = new Date(props.login.updatedOn)
+    return date.toLocaleDateString()
+  })
 
   // props changed
   watch(props, () => {
@@ -79,10 +92,10 @@
         {{ login.notes }}
       </p>
       <p>
-        Created On: <span class="date-value">{{ login.createdOn }}</span>
+        Created On: <span class="date-value">{{ createdOn }}</span>
       </p>
       <p>
-        Updated On: <span class="date-value">{{ login.updatedOn }}</span>
+        Updated On: <span class="date-value">{{ updatedOn }}</span>
       </p>
       <div >
         <button class="btn-red" @click="HandleDeleteLogin">Delete</button>

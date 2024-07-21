@@ -31,11 +31,13 @@ main {
 
 .main {
   flex: calc(5/6);
+  display: flex;
+  flex-direction: column;
 }
 
 .content {
   display: flex;
-  height: 100%;
+  flex-grow: 1;
 }
 .item-list {
   flex: calc(3/12);

@@ -1,7 +1,10 @@
 <script setup lang="ts">
     import type { NewLoginRequestDto } from '@/models/logins/NewLoginRequestDto';
     import { ref } from 'vue';
-import TwoColumns from './patterns/TwoColumns.vue';
+    import TwoColumns from './patterns/TwoColumns.vue';
+    import type { NewLoginRequestValidation } from '@/models/ModelValidators';
+    const emitsOnSubmit = "onSubmit"
+    const emit = defineEmits([emitsOnSubmit])
     const props = defineProps<{ login: NewLoginRequestDto }>();
     const loginInputs = ref<NewLoginRequestDto>({
         name: props.login.name,
@@ -10,6 +13,34 @@ import TwoColumns from './patterns/TwoColumns.vue';
         password: props.login.password,
         notes: props.login.notes,
     })
+    const validation = ref<NewLoginRequestValidation>()
+    function OnSubmit() {
+        validation.value = {
+            name: {
+                isValid: (loginInputs.value.name != null && loginInputs.value.name.length >= 3),
+                message: "Name is mandatory",
+            },
+            url: {
+                isValid: (loginInputs.value.url != null && loginInputs.value.url.length >= 4),
+                message: "Url is mandatory",
+            },
+            username: {
+                isValid: (loginInputs.value.username != null && loginInputs.value.username.length >= 3),
+                message: "Username is mandatory",
+            },
+            password: {
+                isValid: (loginInputs.value.password != null && loginInputs.value.password.length >= 12),
+                message: "Password is mandatory",
+            }
+        }
+        // looping over all the entries in the validation object and not "submitting" the form is one is valid
+        for (const [key, value] of Object.entries(validation.value)) {
+            if (!value.isValid) {
+                return
+            }
+        }
+        emit(emitsOnSubmit, loginInputs.value)
+    }
 </script>
 <template>
     <form action="">
@@ -19,6 +50,7 @@ import TwoColumns from './patterns/TwoColumns.vue';
             </template>
             <template #two>
                 <input class="input" v-model="loginInputs.name" name="nameInput" id="nameInput" type="text" required />
+                <p v-if="!validation?.name.isValid">{{ validation?.name.message }}</p>
             </template>
         </TwoColumns>
         <TwoColumns>
@@ -27,6 +59,7 @@ import TwoColumns from './patterns/TwoColumns.vue';
             </template>
             <template #two>
                 <input class="input" v-model="loginInputs.url" name="urlInput" id="urlInput" type="text" required />
+                <p v-if="!validation?.url.isValid">{{ validation?.url.message }}</p>
             </template>
         </TwoColumns>
         <TwoColumns>
@@ -35,6 +68,7 @@ import TwoColumns from './patterns/TwoColumns.vue';
             </template>
             <template #two>
                 <input class="input" v-model="loginInputs.username" name="usernameInput" id="usernameInput" type="text" required />
+                <p v-if="!validation?.username.isValid">{{ validation?.username.message }}</p>
             </template>
         </TwoColumns>
         <TwoColumns>
@@ -43,6 +77,7 @@ import TwoColumns from './patterns/TwoColumns.vue';
             </template>
             <template #two>
                 <input class="input" v-model="loginInputs.password" name="passwordInput" id="passwordInput" type="text" required />
+                <p v-if="!validation?.password.isValid">{{ validation?.password.message }}</p>
             </template>
         </TwoColumns>
         <TwoColumns>
@@ -54,7 +89,7 @@ import TwoColumns from './patterns/TwoColumns.vue';
             </template>
         </TwoColumns>
         <div>
-            <button @click.prevent="$emit('onSubmit', loginInputs)">Save</button>
+            <button @click.prevent="OnSubmit">Save</button>
         </div>
     </form>
 
@@ -72,5 +107,7 @@ import TwoColumns from './patterns/TwoColumns.vue';
         padding: 0.5rem;
         color: var(--color-text-darker);
     }
-
+    p {
+        color: var(--color-red-light);
+    }
 </style>

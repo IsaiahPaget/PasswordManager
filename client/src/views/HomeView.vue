@@ -41,6 +41,11 @@
     }
   }
 
+  function HandleDeleteLogin() {
+    indexCurrentFocusedLogin.value = undefined
+    getLogins()
+  }
+
 </script>
 
 <template>
@@ -64,7 +69,7 @@
 
     <template #detail>
       <NewLoginItem v-if="isCreatingNewLogin" @created-login="getLogins" @on-close="isCreatingNewLogin = false"/>
-      <LoginItemDetail v-else :login="currentLogin" @updated-login="getLogins" @deleted-login="getLogins"/>
+      <LoginItemDetail v-else :login="currentLogin" @updated-login="getLogins" @deleted-login="HandleDeleteLogin"/>
     </template>
 
   </MainLayout>

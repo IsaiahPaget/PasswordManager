@@ -146,7 +146,7 @@ namespace PasswordManager.Web.Controllers
             }
             return Ok(loginDto);
         }
-        [HttpPost("/api/logins/")]
+        [HttpPost("/api/logins")]
         [Authorize]
         public async Task<IActionResult> CreateLogin([FromBody] NewLoginRequest newLogin)
         {

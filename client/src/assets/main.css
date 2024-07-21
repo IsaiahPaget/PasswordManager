@@ -143,3 +143,17 @@ button.btn-green {
 button.btn-green:hover {
     background-color: var(--color-green);
 }
+
+button.btn-bg {
+    background-color: var(--color-bg);
+    color: var(--color-text-darkest);
+}
+
+button.btn-bg:hover {
+    background-color: var(--color-bg-dark);
+}
+
+.warning {
+    border: solid var(--color-red-light) !important;
+    border-radius: var(--border-radius);
+}
