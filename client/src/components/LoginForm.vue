@@ -1,46 +1,63 @@
 <script setup lang="ts">
-    import type { NewLoginRequestDto } from '@/models/logins/NewLoginRequestDto';
-    import { ref } from 'vue';
-    import TwoColumns from './patterns/TwoColumns.vue';
-    import type { NewLoginRequestValidation } from '@/models/ModelValidators';
-    const emitsOnSubmit = "onSubmit"
-    const emit = defineEmits([emitsOnSubmit])
-    const props = defineProps<{ login: NewLoginRequestDto }>();
-    const loginInputs = ref<NewLoginRequestDto>({
-        name: props.login.name,
-        url: props.login.url,
-        username: props.login.username,
-        password: props.login.password,
-        notes: props.login.notes,
-    })
-    const validation = ref<NewLoginRequestValidation>()
-    function OnSubmit() {
-        validation.value = {
-            name: {
-                isValid: (loginInputs.value.name != null && loginInputs.value.name.length >= 3),
-                message: "Name is mandatory",
-            },
-            url: {
-                isValid: (loginInputs.value.url != null && loginInputs.value.url.length >= 4),
-                message: "Url is mandatory",
-            },
-            username: {
-                isValid: (loginInputs.value.username != null && loginInputs.value.username.length >= 3),
-                message: "Username is mandatory",
-            },
-            password: {
-                isValid: (loginInputs.value.password != null && loginInputs.value.password.length >= 12),
-                message: "Password is mandatory",
-            }
-        }
-        // looping over all the entries in the validation object and not "submitting" the form is one is valid
-        for (const [key, value] of Object.entries(validation.value)) {
-            if (!value.isValid) {
-                return
-            }
-        }
-        emit(emitsOnSubmit, loginInputs.value)
+import type { NewLoginRequestDto } from '@/models/logins/NewLoginRequestDto';
+import { ref } from 'vue';
+import TwoColumns from './patterns/TwoColumns.vue';
+import { RequiredInputValid, type NewLoginRequestValidation } from '@/models/ModelValidators';
+const emitsOnSubmit = "onSubmit"
+const emit = defineEmits([emitsOnSubmit])
+const props = defineProps<{ login: NewLoginRequestDto }>();
+const loginInputs = ref<NewLoginRequestDto>({
+    name: props.login.name,
+    url: props.login.url,
+    username: props.login.username,
+    password: props.login.password,
+    notes: props.login.notes,
+})
+const validation = ref<NewLoginRequestValidation>({
+    username: {
+        isValid: true,
+        message: ""
+    },
+    name: {
+        isValid: true,
+        message: ""
+    },
+    password: {
+        isValid: true,
+        message: ""
+    },
+    url: {
+        isValid: true,
+        message: ""
+    },
+})
+function OnSubmit() {
+    validation.value = {
+        name: new RequiredInputValid(loginInputs.value.name, "Name")
+            .Because(name => name.length >= 3, "must be atleast 3 characters")
+            .Check(),
+        url: new RequiredInputValid(loginInputs.value.url, "URL")
+            .Because(url => url.length >= 4, "must be atleast 4 characters")
+            .Check(),
+        username: new RequiredInputValid(loginInputs.value.username, "Username")
+            .Because(username => username.length >= 3, "must be atleast 3 characters")
+            .Check(),
+        password: new RequiredInputValid(loginInputs.value.password, "Password")
+            .Because(password => password.length >= 12, "must be atleast 12 characters")
+            .Because(password => /\d/.test(password), "must contain a number")
+            .Because(password => /[a-z]/.test(password), "must contain lower case letters")
+            .Because(password => /[A-Z]/.test(password), "must contain upper case letters")
+            .Because(password => /[!@#$%^&*()_+\-=\[\]{}':"\\|,.<>\/?~]/.test(password), "must contain special characters")
+            .Check()
     }
+    // looping over all the key value pairs in the validation object and not "submitting" the form is one is valid
+    for (const [key, value] of Object.entries(validation.value)) {
+        if (!value.isValid) {
+            return
+        }
+    }
+    emit(emitsOnSubmit, loginInputs.value)
+}
 </script>
 <template>
     <form action="">
@@ -49,8 +66,9 @@
                 <label>Name</label>
             </template>
             <template #two>
-                <input class="input" v-model="loginInputs.name" name="nameInput" id="nameInput" type="text" required />
-                <p v-if="!validation?.name.isValid">{{ validation?.name.message }}</p>
+                <input class="input" :class="{ warning: !validation?.name.isValid }" v-model="loginInputs.name"
+                    name="nameInput" id="nameInput" type="text" required />
+                <p class="warning" v-if="!validation?.name.isValid">{{ validation?.name.message }}</p>
             </template>
         </TwoColumns>
         <TwoColumns>
@@ -58,8 +76,9 @@
                 <label>URL</label>
             </template>
             <template #two>
-                <input class="input" v-model="loginInputs.url" name="urlInput" id="urlInput" type="text" required />
-                <p v-if="!validation?.url.isValid">{{ validation?.url.message }}</p>
+                <input class="input" :class="{ warning: !validation?.url.isValid }" v-model="loginInputs.url"
+                    name="urlInput" id="urlInput" type="text" required />
+                <p class="warning" v-if="!validation?.url.isValid">{{ validation?.url.message }}</p>
             </template>
         </TwoColumns>
         <TwoColumns>
@@ -67,8 +86,9 @@
                 <label>Username</label>
             </template>
             <template #two>
-                <input class="input" v-model="loginInputs.username" name="usernameInput" id="usernameInput" type="text" required />
-                <p v-if="!validation?.username.isValid">{{ validation?.username.message }}</p>
+                <input class="input" :class="{ warning: !validation?.username.isValid }" v-model="loginInputs.username"
+                    name="usernameInput" id="usernameInput" type="text" required />
+                <p class="warning" v-if="!validation?.username.isValid">{{ validation?.username.message }}</p>
             </template>
         </TwoColumns>
         <TwoColumns>
@@ -76,8 +96,9 @@
                 <label>Password</label>
             </template>
             <template #two>
-                <input class="input" v-model="loginInputs.password" name="passwordInput" id="passwordInput" type="text" required />
-                <p v-if="!validation?.password.isValid">{{ validation?.password.message }}</p>
+                <input class="input" :class="{ warning: !validation?.password.isValid }" v-model="loginInputs.password"
+                    name="passwordInput" id="passwordInput" type="text" required />
+                <p class="warning" v-if="!validation?.password.isValid">{{ validation?.password.message }}</p>
             </template>
         </TwoColumns>
         <TwoColumns>
@@ -85,7 +106,8 @@
                 <label>Notes</label>
             </template>
             <template #two>
-                <textarea class="input" v-model="loginInputs.notes" name="notesInput" id="notesInput" type="text" required></textarea>
+                <textarea class="input" v-model="loginInputs.notes" name="notesInput" id="notesInput" type="text"
+                    required></textarea>
             </template>
         </TwoColumns>
         <div>
@@ -95,19 +117,16 @@
 
 </template>
 <style scoped>
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
 
-    .input {
-        background-color: var(--color-bg-light);
-        border: none;
-        padding: 0.5rem;
-        color: var(--color-text-darker);
-    }
-    p {
-        color: var(--color-red-light);
-    }
+.input {
+    background-color: var(--color-bg-light);
+    border: none;
+    padding: 0.5rem;
+    color: var(--color-text-darker);
+}
 </style>

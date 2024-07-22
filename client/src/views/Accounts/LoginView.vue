@@ -2,26 +2,69 @@
 import TwoColumns from '@/components/patterns/TwoColumns.vue';
 import { LoginUser } from '@/controllers/AccountController';
 import type { LoginUserDto } from '@/models/Account/LoginUserDto';
+import type { AccountLoginValidation } from '@/models/ModelValidators';
+import { RequiredInputValid } from '@/models/ModelValidators';
 import router from '@/router';
 import { ref } from 'vue';
 
-  let Username = ref()
-  let Email = ref()
-  let Password = ref()
-  async function onLogin() {
-    const user: LoginUserDto = {
-      Username: Username.value,
-      Email: Email.value,
-      Password: Password.value,
-    }
-    const login = await LoginUser(user)
-    if (login == null) {
-      // temporary
-      window.alert("failed to login")
-      return
-    }
-    router.push("/")
+const Username = ref()
+const Email = ref()
+const Password = ref()
+const validation = ref<AccountLoginValidation>({
+  username: {
+    isValid: true,
+    message: ""
+  },
+  email: {
+    isValid: true,
+    message: ""
+  },
+  password: {
+    isValid: true,
+    message: ""
+  },
+})
+function IsFormValid() {
+  validation.value = {
+    username: new RequiredInputValid(Username.value, "Username")
+      .Because(username => username.length >= 3, "must be atleast 3 characters")
+      .Check(),
+    email: new RequiredInputValid(Email.value, "Email")
+      .Because(email => /^\S+@\S+\.\S+$/.test(email), "must be a valid email")
+      .Check(),
+    password: new RequiredInputValid(Password.value, "Password")
+      .Because(password => password.length >= 12, "must be atleast 12 characters")
+      .Because(password => /\d/.test(password), "must contain a number")
+      .Because(password => /[a-z]/.test(password), "must contain lower case letters")
+      .Because(password => /[A-Z]/.test(password), "must contain upper case letters")
+      .Because(password => /[!@#$%^&*()_+\-=\[\]{}':"\\|,.<>\/?~]/.test(password), "must contain special characters")
+      .Check(),
   }
+  // looping over all the key value pairs in the validation object and not "submitting" the form is one is valid
+  for (const [key, value] of Object.entries(validation.value)) {
+    if (!value.isValid) {
+      return false
+    }
+  }
+  return true
+}
+async function OnLogin() {
+  if (!IsFormValid()) {
+    return
+  }
+  const user: LoginUserDto = {
+    Username: Username.value,
+    Email: Email.value,
+    Password: Password.value,
+  }
+  const login = await LoginUser(user)
+  if (login == null) {
+    // temporary
+    window.alert("failed to login")
+    return
+  }
+  router.push("/")
+}
 </script>
 <template>
   <section>
@@ -32,7 +75,9 @@ import { ref } from 'vue';
           <label for="Username_Input">Username</label>
         </template>
         <template #two>
-          <input class="input" v-model="Username" name="Username_Input" id="Username_Input" type="text" required>
+          <input class="input" :class="{ warning: !validation?.username.isValid }" v-model="Username"
+            name="Username_Input" id="Username_Input" type="text" required>
+          <p class="warning" v-if="!validation?.username.isValid">{{ validation?.username.message }}</p>
         </template>
       </TwoColumns>
 
@@ -41,7 +86,9 @@ import { ref } from 'vue';
           <label for="Email_Input">Email</label>
         </template>
         <template #two>
-          <input class="input" v-model="Email" name="Email_Input" id="Email_Input" type="email" required/>
+          <input class="input" :class="{ warning: !validation?.email.isValid }" v-model="Email" name="Email_Input"
+            id="Email_Input" type="email" required />
+          <p class="warning" v-if="!validation?.email.isValid">{{ validation?.email.message }}</p>
         </template>
       </TwoColumns>
 
@@ -50,36 +97,38 @@ import { ref } from 'vue';
           <label for="Password_Input">Password</label>
         </template>
         <template #two>
-          <input class="input" v-model="Password" name="Password_Input" id="Password_Input" type="password" required/>
+          <input class="input" :class="{ warning: !validation?.password.isValid }" v-model="Password"
+            name="Password_Input" id="Password_Input" type="password" required />
+          <p class="warning" v-if="!validation?.password.isValid">{{ validation?.password.message }}</p>
         </template>
       </TwoColumns>
 
-      <button @click.prevent="onLogin">Login</button>
+      <button @click.prevent="OnLogin">Login</button>
     </form>
   </section>
 </template>
 
 <style scoped>
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        padding: var(--space-base);
-        width: clamp(400px, 50%, 800px);
-    }
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: var(--space-base);
+  width: clamp(400px, 50%, 800px);
+}
 
-    section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-    }
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
 
-    .input {
-        background-color: var(--color-bg-light);
-        border: none;
-        padding: 0.5rem;
-        color: var(--color-text-darker);
-        width: 75%;
-    }
+.input {
+  background-color: var(--color-bg-light);
+  border: none;
+  padding: 0.5rem;
+  color: var(--color-text-darker);
+  width: 75%;
+}
 </style>

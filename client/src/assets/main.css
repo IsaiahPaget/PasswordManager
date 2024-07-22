@@ -153,7 +153,10 @@ button.btn-bg:hover {
     background-color: var(--color-bg-dark);
 }
 
-.warning {
-    border: solid var(--color-red-light) !important;
+input.warning {
+    border: 1px solid var(--color-red-light) !important;
     border-radius: var(--border-radius);
+}
+p.warning {
+    color: var(--color-red-light);
 }
