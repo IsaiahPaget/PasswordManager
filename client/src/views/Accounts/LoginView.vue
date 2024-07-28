@@ -106,7 +106,7 @@ async function OnLogin() {
         </template>
       </TwoColumns>
 
-      <button @click.prevent="OnLogin">Login</button>
+      <button class="btn-blue" @click.prevent="OnLogin">Login</button>
     </form>
   </section>
 </template>
@@ -128,10 +128,10 @@ section {
 }
 
 .input {
-  background-color: var(--color-bg-light);
+  background-color: var(--color-bg-1);
   border: none;
   padding: 0.5rem;
-  color: var(--color-text-darker);
+  color: var(--color-fg-2);
   width: 75%;
 }
 </style>

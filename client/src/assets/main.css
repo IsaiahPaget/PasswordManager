@@ -50,6 +50,23 @@
 @media (prefers-color-scheme: dark) {
 	:root {
 		/* neutrals */
+		--color-bg-0: var(--dark0-hard);
+		--color-bg: var(--dark0);
+		--color-bg-1: var(--dark1);
+		--color-bg-2: var(--dark2);
+		--color-bg-3: var(--dark3);
+		--color-bg-4: var(--dark4);
+
+		--color-fg-0: var(--light0);
+		--color-fg: var(--light1);
+		--color-fg-1: var(--light2);
+		--color-fg-2: var(--light3);
+		--color-fg-3: var(--light4);
+
+		--color-gray: var(--light4);
+		--color-gray-1: var(--gray-245);
+
+		/* neutrals
 		--color-bg-dark: var(--dark0-hard);
 		--color-bg: var(--dark0);
 		--color-bg-light: var(--dark0-soft);
@@ -63,7 +80,7 @@
 		--color-text-light: var(--light0);
 
 		--color-gray: var(--gray-245);
-		--color-gray-light: var(--light4);
+		--color-gray-light: var(--light4); */
 
 		/* colors */
 		--color-red: var(--neutral-red);
@@ -74,17 +91,53 @@
 		--color-aqua: var(--neutral-aqua);
 		--color-orange: var(--neutral-orange);
 
-		--color-red-light: var(--bright-red);
-		--color-green-light: var(--bright-green);
-		--color-yellow-light: var(--bright-yellow);
-		--color-blue-light: var(--bright-blue);
-		--color-purple-light: var(--bright-purple);
-		--color-aqua-light: var(--bright-aqua);
-		--color-orange-light: var(--bright-orange);
+		--color-red-1: var(--bright-red);
+		--color-green-1: var(--bright-green);
+		--color-yellow-1: var(--bright-yellow);
+		--color-blue-1: var(--bright-blue);
+		--color-purple-1: var(--bright-purple);
+		--color-aqua-1: var(--bright-aqua);
+		--color-orange-1: var(--bright-orange);
 	}
 }
 
 @media (prefers-color-scheme: light) {
+
+    :root {
+		/* neutrals */
+		--color-bg-0: var(--light0-hard);
+		--color-bg: var(--light0);
+		--color-bg-1: var(--light1);
+		--color-bg-2: var(--light2);
+		--color-bg-3: var(--light3);
+		--color-bg-4: var(--light4);
+
+		--color-fg-0: var(--dark0);
+		--color-fg: var(--dark1);
+		--color-fg-1: var(--dark2);
+		--color-fg-2: var(--dark3);
+		--color-fg-3: var(--dark4);
+
+		--color-gray: var(--dark4);
+		--color-gray-1: var(--gray-245);
+
+		/* colors */
+		--color-red: var(--faded-red);
+		--color-green: var(--faded-green);
+		--color-yellow: var(--faded-yellow);
+		--color-blue: var(--faded-blue);
+		--color-purple: var(--faded-purple);
+		--color-aqua: var(--faded-aqua);
+		--color-orange: var(--faded-orange);
+
+		--color-red-1: var(--neutral-red);
+		--color-green-1: var(--neutral-green);
+		--color-yellow-1: var(--neutral-yellow);
+		--color-blue-1: var(--neutral-blue);
+		--color-purple-1: var(--neutral-purple);
+		--color-aqua-1: var(--neutral-aqua);
+		--color-orange-1: var(--neutral-orange);
+    }
 }
 
 * {
@@ -94,7 +147,7 @@ html,
 body,
 #app {
 	background-color: var(--color-bg);
-	color: var(--color-text);
+	color: var(--color-fg);
 	height: 100%;
 }
 
@@ -106,7 +159,7 @@ body,
 	transition: 200ms;
 }
 .container {
-	border-color: var(--color-bg-light);
+	border-color: var(--color-bg-1);
 	border-width: var(--border-width);
 	border-style: solid;
 }
@@ -121,8 +174,7 @@ button {
 	padding-right: 1rem;
 	padding-top: 0.5rem;
 	padding-bottom: 0.5rem;
-	color: var(--color-text-light);
-	background-color: var(--color-blue-light);
+	color: var(--color-fg-0);
 	border-radius: var(--border-radius);
 	border: none;
 }
@@ -131,8 +183,16 @@ button:hover {
 	background-color: var(--color-blue);
 }
 
+button.btn-blue {
+	background-color: var(--color-blue-1);
+}
+
+button.btn-blue:hover {
+	background-color: var(--color-blue);
+}
+
 button.btn-red {
-	background-color: var(--color-red-light);
+	background-color: var(--color-red-1);
 }
 
 button.btn-red:hover {
@@ -141,8 +201,8 @@ button.btn-red:hover {
 
 button.btn-delete {
 	background-color: transparent;
-	border: solid var(--color-red-light);
-	color: var(--color-red-light);
+	border: solid var(--color-red-1);
+	color: var(--color-red-1);
 }
 
 button.btn-delete:hover {
@@ -151,7 +211,7 @@ button.btn-delete:hover {
 }
 
 button.btn-green {
-	background-color: var(--color-green-light);
+	background-color: var(--color-green-1);
 }
 
 button.btn-green:hover {
@@ -160,28 +220,26 @@ button.btn-green:hover {
 
 button.btn-bg {
 	background-color: var(--color-bg);
-	color: var(--color-text-darkest);
 }
 
 button.btn-bg:hover {
-	background-color: var(--color-bg-dark);
+	background-color: var(--color-bg-0);
 }
 
 button.btn-transparent {
 	background-color: transparent;
-	color: var(--color-text-darkest);
 }
 
 button.btn-transparent:hover {
-	color: var(--color-text-darker);
+	color: var(--color-fg-2);
 }
 
 input.warning {
-	border: 1px solid var(--color-red-light) !important;
+	border: 1px solid var(--color-red-1) !important;
 	border-radius: var(--border-radius);
 }
 p.warning {
-	color: var(--color-red-light);
+	color: var(--color-red-1);
 }
 
 .clickable {
@@ -201,18 +259,18 @@ p.warning {
 }
 .banner-success {
 	background-color: var(--color-green);
-	border-color: var(--color-green-light);
+	border-color: var(--color-green-1);
 }
 .banner-warning {
 	background-color: var(--color-yellow);
-	border-color: var(--color-yellow-light);
+	border-color: var(--color-yellow-1);
 }
 .banner-error {
 	background-color: var(--color-red);
-	border-color: var(--color-red-light);
+	border-color: var(--color-red-1);
 }
 
 .banner-info {
 	background-color: var(--color-blue);
-	border-color: var(--color-blue-light);
+	border-color: var(--color-blue-1);
 }

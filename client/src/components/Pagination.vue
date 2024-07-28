@@ -20,10 +20,11 @@ const emit = defineEmits([emitsOnPrevious, emitsOnNext])
 </template>
 <style scoped>
 button:disabled {
-    color: var(--color-bg-lightest) !important;
+    color: var(--color-bg-1) !important;
 }
+
 span {
-    color: var(--color-text-darkest);
+    color: var(--color-fg-2);
     font: bold;
 }
 </style>

@@ -28,7 +28,7 @@ function OnCloseDrawer() {
           <FontAwesomeIcon :icon="faX" />
         </button>
       </div>
-      <button @click="Logout" class="btn-bg">
+      <button @click="Logout" class="btn-transparent">
         Log out
       </button>
     </div>
@@ -45,7 +45,7 @@ function OnCloseDrawer() {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: linear-gradient(25deg, var(--color-bg-light) 20%, var(--color-bg-lighter) 100%);
+  background-color: var(--color-bg-1);
   flex: 25%;
 }
 
@@ -67,6 +67,10 @@ function OnCloseDrawer() {
 
 .main {
   flex: 75%;
+  overflow: scroll;
+}
+.main::-webkit-scrollbar {
+  display: none;
 }
 
 @media only screen and (max-width: 426px) {
@@ -75,6 +79,7 @@ function OnCloseDrawer() {
     transform: translateX(-1000px);
     height: calc(100% - var(--space-base) - var(--space-base));
     width: 66%;
+    z-index: 90;
   }
 
   .close-sidebar {

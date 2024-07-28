@@ -78,7 +78,7 @@ function CopyPasswordToClipboard() {
                                 {{ login.url }}
                             </p>
                         </div>
-                        <button @click="$router.push(`/edit/${login.id}`)">Edit</button>
+                        <button class="btn-blue" @click="$router.push(`/edit/${login.id}`)">Edit</button>
                     </div>
                     <p class="box">
                         <span>{{ login.username }}</span>
@@ -119,7 +119,7 @@ section {
 
 .password-box:hover {
 
-    background-color: var(--color-bg-dark);
+    background-color: var(--color-bg-0);
 }
 
 .login-item {
@@ -136,11 +136,11 @@ section {
 }
 
 .url {
-    color: var(--color-text-darkest);
+    color: var(--color-fg-3);
 }
 
 .password-toggle-button {
-    color: var(--color-text-darkest);
+    color: var(--color-fg-3);
     display: flex;
     gap: var(--space-base);
 }
@@ -152,6 +152,6 @@ section {
 }
 
 .date-value {
-    color: var(--color-text-darkest);
+    color: var(--color-fg-3);
 }
 </style>

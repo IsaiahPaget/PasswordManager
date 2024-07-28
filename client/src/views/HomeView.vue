@@ -58,14 +58,17 @@ function OnNext() {
     <template #main>
       <section class="main-list" ref="main-list">
         <LoginFilters @on-change="OnSearchTermChange" />
-        <p v-if="Logins.length === 0">No logins</p>
-        <ul v-else>
-          <li v-for="login in Logins" :key="login.id" @click="$router.push(`/${login.id}`)">
+        <ul>
+          <div class="no-logins" v-if="Logins.length === 0">
+            <span>No passwords</span>
+          </div>
+          <li v-else v-for="login in Logins" :key="login.id" @click="$router.push(`/${login.id}`)">
             <loginItem :login="login" />
           </li>
         </ul>
         <div class="pagination-container">
-          <PaginationComponent @on-previous="OnPrevious" @on-next="OnNext" :start-index="pagination.StartIndex" :max-records="pagination.MaxRecords" :row-count="RowCount" :page-number="pageNumber"/>
+          <PaginationComponent @on-previous="OnPrevious" @on-next="OnNext" :start-index="pagination.StartIndex"
+            :max-records="pagination.MaxRecords" :row-count="RowCount" :page-number="pageNumber" />
         </div>
       </section>
     </template>
@@ -83,6 +86,9 @@ function OnNext() {
   background: linear-gradient(to top, var(--color-bg) 75%, transparent);
 }
 
+.no-logins {
+  padding: var(--space-base);
+}
 main {
   display: flex;
   height: 100%;
@@ -93,9 +99,11 @@ main {
   display: flex;
   flex-direction: column;
 }
+
 ul {
   flex-grow: 1;
 }
+
 
 .content {
   /* display: flex; */

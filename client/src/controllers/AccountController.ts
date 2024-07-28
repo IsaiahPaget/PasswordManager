@@ -13,7 +13,8 @@ export async function RegisterUser(user: RegisterUserDto) {
         body: JSON.stringify(user)
     })
 
-    if (result.status != 201) {
+    console.log(result)
+    if (result.status != 200) {
         return
     }
     const registerResponse = await result.json()

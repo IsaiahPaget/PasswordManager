@@ -34,7 +34,7 @@ watch(() => route.path, () => {
         </div>
         <div class="utility">
             <button v-if="showNewButton" class="btn-green" @click="router.push('/new')">New</button>
-            <button v-if="showBackButton" class="btn-bg" @click="router.back()">
+            <button v-if="showBackButton" class="btn-transparent" @click="router.back()">
                 <FontAwesomeIcon :icon="faChevronLeft" />
             </button>
         </div>
@@ -57,7 +57,7 @@ nav {
     display: flex;
     justify-content: space-between;
     padding: var(--space-base);
-    background-color: var(--color-bg-dark);
+    background-color: var(--color-bg-0);
 }
 @media only screen and (max-width: 426px) { 
 .hamburger {

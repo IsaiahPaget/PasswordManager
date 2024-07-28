@@ -5,7 +5,7 @@ import type { RegisterUserDto } from '@/models/Account/RegisterUserDto';
 import { RequiredInputValid, type AccountRegisterValidation } from '@/models/ModelValidators';
 import router from '@/router';
 import { useBannerStore } from '@/stores/Banner';
-import { bannerError } from '@/Styles';
+import { bannerError, bannerSuccess } from '@/Styles';
 import { ref } from 'vue';
 
 let Username = ref()
@@ -75,6 +75,7 @@ async function OnRegister() {
     ShowBanner("failed to register", bannerError)
     return
   }
+  ShowBanner("Account created!", bannerSuccess)
   router.push("/")
 }
 </script>
@@ -128,7 +129,7 @@ async function OnRegister() {
         </template>
       </TwoColumns>
 
-      <button @click.prevent="OnRegister">Register</button>
+      <button class="btn-green" @click.prevent="OnRegister">Register</button>
     </form>
   </section>
 </template>
@@ -150,10 +151,10 @@ section {
 }
 
 .input {
-  background-color: var(--color-bg-light);
+  background-color: var(--color-bg-1);
   border: none;
   padding: 0.5rem;
-  color: var(--color-text-darker);
+  color: var(--color-fg-2);
   width: 75%;
 }
 </style>

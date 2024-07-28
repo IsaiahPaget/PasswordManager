@@ -117,7 +117,7 @@ function OnSubmit() {
             </template>
         </TwoColumns>
         <div class="button-row">
-            <button @click.prevent="OnSubmit">Save</button>
+            <button class="btn-blue" @click.prevent="OnSubmit">Save</button>
         </div>
     </form>
 
@@ -128,14 +128,16 @@ form {
     flex-direction: column;
     gap: 1rem;
 }
+
 .button-row {
     display: flex;
     justify-content: flex-end;
 }
+
 .input {
-    background-color: var(--color-bg-light);
+    background-color: var(--color-bg-1);
     border: none;
     padding: 0.5rem;
-    color: var(--color-text-darker);
+    color: var(--color-fg-2);
 }
 </style>

@@ -15,22 +15,26 @@ function OnKeyUp() {
 }
 </script>
 <template>
-    <div class="container">
-        <input @keyup="OnKeyUp" placeholder="Search" class="input" v-model="searchTerm" name="searchInput" id="searchInput" type="text" required />
+    <div class="filter-container">
+        <input @keyup="OnKeyUp" placeholder="Search" class="input" v-model="searchTerm" name="searchInput"
+            id="searchInput" type="text" required />
     </div>
 </template>
 <style scoped>
-.container {
+.filter-container {
     padding: var(--space-base);
     display: flex;
 }
 
 .input {
     border-radius: var(--border-radius);
-    background-color: var(--color-bg-light);
-    border: solid var(--color-purple-light);
+    background-color: var(--color-bg-1);
+    border: solid var(--color-purple-1);
     padding: 0.5rem;
-    color: var(--color-text-darker);
+    color: var(--color-fg-2);
     flex-grow: 1;
+}
+input:focus {
+    border: solid var(--color-purple);
 }
 </style>
