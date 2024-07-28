@@ -36,27 +36,25 @@ namespace PasswordManager.Web.Controllers
             {
                 return BadRequest();
             }
-            var logins = await _loginService.GetAllLogins(pagination.startIndex, pagination.maxRecords, searchTerm);
-            if (logins.IsNullOrEmpty())
-            {
-                return NotFound();
-            }
             var user = await _userService.GetCurrentUser(User);
             if (user == null)
             {
                 return Unauthorized();
             }
-
-            var loginDtos = logins
-                .Where(login => login.userId == user.Id)
-                .Select(login => login.ToLoginDto());
-
-            if (loginDtos.IsNullOrEmpty())
+            var loginsRequest = await _loginService.GetAllLogins(pagination.startIndex, pagination.maxRecords, searchTerm, user.Id);
+            if (loginsRequest.logins.IsNullOrEmpty())
             {
                 return NoContent();
             }
+            var logins = loginsRequest.logins.Select(login => login.ToLoginDto()).ToList();
 
-            return Ok(loginDtos);
+            var loginsRequestDto = new LoginsRequestDto
+            {
+                logins = logins,
+                rowCount = loginsRequest.rowCount
+            };
+
+            return Ok(loginsRequestDto);
         }
 
         [HttpGet("/api/logins/{id:int}")]
@@ -69,12 +67,12 @@ namespace PasswordManager.Web.Controllers
             }
             try
             {
-                var login = await _loginService.GetLogin(id);
+                var user = await _userService.GetCurrentUser(User);
+                var login = await _loginService.GetLogin(id, user.Id);
                 if (login == null) 
                 {
                     return NotFound();
                 }
-                var user = await _userService.GetCurrentUser(User);
                 if (login.userId != user.Id)
                 {
                     return Unauthorized();
@@ -82,7 +80,7 @@ namespace PasswordManager.Web.Controllers
                 var loginDto = login.ToLoginDto();
                 return Ok(loginDto);
             }
-            catch (Exception ex)
+            catch 
             {
                 return NotFound();
             }
@@ -97,16 +95,16 @@ namespace PasswordManager.Web.Controllers
                 return BadRequest();
             }
             Login login;
+            var user = await _userService.GetCurrentUser(User);
             try
             {
-                login = await _loginService.GetLogin(id);
+                login = await _loginService.GetLogin(id, user.Id);
             }
             catch (Exception ex)
             {
                 return NotFound();
             }
 
-            var user = await _userService.GetCurrentUser(User);
             if (login.userId != user.Id)
             {
                 return Unauthorized();
@@ -139,7 +137,7 @@ namespace PasswordManager.Web.Controllers
             }
             var login = loginDto.ToLogin();
             login.userId = user.Id;
-            var updatedLogin = await _loginService.UpdateLogin(id, login);
+            var updatedLogin = await _loginService.UpdateLogin(id, login, user.Id);
             if (updatedLogin == null)
             {
                 return NotFound();

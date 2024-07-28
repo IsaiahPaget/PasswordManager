@@ -1,162 +1,218 @@
 :root {
-    --space-base: 1rem;
-    --border-width: 1px;
-    --border-radius: 5px;
+	--space-base: 1rem;
+	--border-width: 1px;
+	--border-radius: 5px;
 
-    --dark0-hard :#1d2021;
-    --dark0      :#282828;
-    --dark0-soft :#32302f;
-    --dark1      :#3c3836;
-    --dark2      :#504945;
-    --dark3      :#665c54;
-    --dark4      :#7c6f64;
-    --dark4-256  :#7c6f64;
+	--dark0-hard: #1d2021;
+	--dark0: #282828;
+	--dark0-soft: #32302f;
+	--dark1: #3c3836;
+	--dark2: #504945;
+	--dark3: #665c54;
+	--dark4: #7c6f64;
+	--dark4-256: #7c6f64;
 
-    --gray-245   :#928374;
+	--gray-245: #928374;
 
-    --light0-hard:#f9f5d7;
-    --light0     :#fbf1c7;
-    --light0-soft:#f2e5bc;
-    --light1     :#ebdbb2;
-    --light2     :#d5c4a1;
-    --light3     :#bdae93;
-    --light4     :#a89984;
+	--light0-hard: #f9f5d7;
+	--light0: #fbf1c7;
+	--light0-soft: #f2e5bc;
+	--light1: #ebdbb2;
+	--light2: #d5c4a1;
+	--light3: #bdae93;
+	--light4: #a89984;
 
-    --bright-red    :#fb4934;
-    --bright-green  :#b8bb26;
-    --bright-yellow :#fabd2f;
-    --bright-blue   :#83a598;
-    --bright-purple :#d3869b;
-    --bright-aqua   :#8ec07c;
-    --bright-orange :#fe8019;
+	--bright-red: #fb4934;
+	--bright-green: #b8bb26;
+	--bright-yellow: #fabd2f;
+	--bright-blue: #83a598;
+	--bright-purple: #d3869b;
+	--bright-aqua: #8ec07c;
+	--bright-orange: #fe8019;
 
-    --neutral-red   :#cc241d;
-    --neutral-green :#98971a;
-    --neutral-yellow:#d79921;
-    --neutral-blue  :#458588;
-    --neutral-purple:#b16286;
-    --neutral-aqua  :#689d6a;
-    --neutral-orange:#d65d0e;
+	--neutral-red: #cc241d;
+	--neutral-green: #98971a;
+	--neutral-yellow: #d79921;
+	--neutral-blue: #458588;
+	--neutral-purple: #b16286;
+	--neutral-aqua: #689d6a;
+	--neutral-orange: #d65d0e;
 
-    --faded-red     :#9d0006;
-    --faded-green   :#79740e;
-    --faded-yellow  :#b57614;
-    --faded-blue    :#076678;
-    --faded-purple  :#8f3f71;
-    --faded-aqua    :#427b58;
-    --faded-orange  :#af3a03;
+	--faded-red: #9d0006;
+	--faded-green: #79740e;
+	--faded-yellow: #b57614;
+	--faded-blue: #076678;
+	--faded-purple: #8f3f71;
+	--faded-aqua: #427b58;
+	--faded-orange: #af3a03;
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
-        /* neutrals */
-        --color-bg-dark: var(--dark0-hard);
-        --color-bg: var(--dark0);
-        --color-bg-light: var(--dark0-soft);
-        --color-bg-lighter: var(--dark1);
-        --color-bg-lightest: var(--dark2);
+	:root {
+		/* neutrals */
+		--color-bg-dark: var(--dark0-hard);
+		--color-bg: var(--dark0);
+		--color-bg-light: var(--dark0-soft);
+		--color-bg-lighter: var(--dark1);
+		--color-bg-lightest: var(--dark2);
 
-        --color-text-darkest: var(--light4);
-        --color-text-darker: var(--light3);
-        --color-text-dark: var(--light2);
-        --color-text: var(--light1);
-        --color-text-light: var(--light0);
+		--color-text-darkest: var(--light4);
+		--color-text-darker: var(--light3);
+		--color-text-dark: var(--light2);
+		--color-text: var(--light1);
+		--color-text-light: var(--light0);
 
-        --color-gray: var(--gray-245);
-        --color-gray-light: var(--light4);
+		--color-gray: var(--gray-245);
+		--color-gray-light: var(--light4);
 
-        /* colors */
-        --color-red: var(--neutral-red);
-        --color-green: var(--neutral-green);
-        --color-yellow: var(--neutral-yellow);
-        --color-blue: var(--neutral-blue);
-        --color-purple: var(--neutral-purple);
-        --color-aqua: var(--neutral-aqua);
-        --color-orange: var(--neutral-orange);
+		/* colors */
+		--color-red: var(--neutral-red);
+		--color-green: var(--neutral-green);
+		--color-yellow: var(--neutral-yellow);
+		--color-blue: var(--neutral-blue);
+		--color-purple: var(--neutral-purple);
+		--color-aqua: var(--neutral-aqua);
+		--color-orange: var(--neutral-orange);
 
-        --color-red-light: var(--bright-red);
-        --color-green-light: var(--bright-green);
-        --color-yellow-light: var(--bright-yellow);
-        --color-blue-light: var(--bright-blue);
-        --color-purple-light: var(--bright-purple);
-        --color-aqua-light: var(--bright-aqua);
-        --color-orange-light: var(--bright-orange);
-    }
+		--color-red-light: var(--bright-red);
+		--color-green-light: var(--bright-green);
+		--color-yellow-light: var(--bright-yellow);
+		--color-blue-light: var(--bright-blue);
+		--color-purple-light: var(--bright-purple);
+		--color-aqua-light: var(--bright-aqua);
+		--color-orange-light: var(--bright-orange);
+	}
 }
 
 @media (prefers-color-scheme: light) {
-
-}
-
-html, body, #app {
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    height: 100%;
 }
 
 * {
-    text-decoration: none;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    transition: 200ms;
+	font-family: "Roboto Mono", monospace;
+}
+html,
+body,
+#app {
+	background-color: var(--color-bg);
+	color: var(--color-text);
+	height: 100%;
+}
+
+* {
+	text-decoration: none;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	transition: 200ms;
 }
 .container {
-    border-color: var(--color-bg-light);
-    border-width: var(--border-width);
-    border-style: solid;
+	border-color: var(--color-bg-light);
+	border-width: var(--border-width);
+	border-style: solid;
 }
 
 .justify-content-space-between {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 button {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    color: var(--color-text-light);
-    background-color: var(--color-blue-light);
-    border-radius: var(--border-radius);
-    border: none;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	color: var(--color-text-light);
+	background-color: var(--color-blue-light);
+	border-radius: var(--border-radius);
+	border: none;
 }
 
 button:hover {
-    background-color: var(--color-blue);
+	background-color: var(--color-blue);
 }
 
 button.btn-red {
-    background-color: var(--color-red-light);
+	background-color: var(--color-red-light);
 }
 
 button.btn-red:hover {
-    background-color: var(--color-red);
+	background-color: var(--color-red);
 }
 
+button.btn-delete {
+	background-color: transparent;
+	border: solid var(--color-red-light);
+	color: var(--color-red-light);
+}
+
+button.btn-delete:hover {
+	border: solid var(--color-red);
+	color: var(--color-red);
+}
 
 button.btn-green {
-    background-color: var(--color-green-light);
+	background-color: var(--color-green-light);
 }
 
 button.btn-green:hover {
-    background-color: var(--color-green);
+	background-color: var(--color-green);
 }
 
 button.btn-bg {
-    background-color: var(--color-bg);
-    color: var(--color-text-darkest);
+	background-color: var(--color-bg);
+	color: var(--color-text-darkest);
 }
 
 button.btn-bg:hover {
-    background-color: var(--color-bg-dark);
+	background-color: var(--color-bg-dark);
+}
+
+button.btn-transparent {
+	background-color: transparent;
+	color: var(--color-text-darkest);
+}
+
+button.btn-transparent:hover {
+	color: var(--color-text-darker);
 }
 
 input.warning {
-    border: 1px solid var(--color-red-light) !important;
-    border-radius: var(--border-radius);
+	border: 1px solid var(--color-red-light) !important;
+	border-radius: var(--border-radius);
 }
 p.warning {
-    color: var(--color-red-light);
+	color: var(--color-red-light);
+}
+
+.clickable {
+	cursor: pointer;
+}
+.banner {
+	padding: var(--space-base);
+	margin-top: var(--space-base);
+	border-radius: var(--border-radius);
+	border: var(--border-width) solid;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: absolute;
+	width: clamp(260px, 50%, 800px);
+	z-index: 999;
+}
+.banner-success {
+	background-color: var(--color-green);
+	border-color: var(--color-green-light);
+}
+.banner-warning {
+	background-color: var(--color-yellow);
+	border-color: var(--color-yellow-light);
+}
+.banner-error {
+	background-color: var(--color-red);
+	border-color: var(--color-red-light);
+}
+
+.banner-info {
+	background-color: var(--color-blue);
+	border-color: var(--color-blue-light);
 }

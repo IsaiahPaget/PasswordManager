@@ -4,6 +4,8 @@ import { RegisterUser } from '@/controllers/AccountController';
 import type { RegisterUserDto } from '@/models/Account/RegisterUserDto';
 import { RequiredInputValid, type AccountRegisterValidation } from '@/models/ModelValidators';
 import router from '@/router';
+import { useBannerStore } from '@/stores/Banner';
+import { bannerError } from '@/Styles';
 import { ref } from 'vue';
 
 let Username = ref()
@@ -28,6 +30,7 @@ const validation = ref<AccountRegisterValidation>({
     message: ""
   },
 })
+const { ShowBanner } = useBannerStore()
 function IsFormValid(): boolean {
   validation.value = {
     username: new RequiredInputValid(Username.value, "Username")
@@ -37,7 +40,7 @@ function IsFormValid(): boolean {
       .Because(email => /^\S+@\S+\.\S+$/.test(email), "must be a valid email")
       .Check(),
     password: new RequiredInputValid(Password.value, "Password")
-      .Because(password => password.length >= 12, "must be atleast 12 characters")
+      .Because(password => password.length >= 18, "must be atleast 12 characters")
       .Because(password => /\d/.test(password), "must contain a number")
       .Because(password => /[a-z]/.test(password), "must contain lower case letters")
       .Because(password => /[A-Z]/.test(password), "must contain upper case letters")
@@ -69,7 +72,7 @@ async function OnRegister() {
   const register = await RegisterUser(user)
   if (register == null) {
     // temporary
-    window.alert("failed to register")
+    ShowBanner("failed to register", bannerError)
     return
   }
   router.push("/")

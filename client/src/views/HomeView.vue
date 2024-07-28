@@ -2,38 +2,34 @@
 import { computed, ref, watchEffect } from 'vue';
 import type { loginDto } from '@/models/logins/loginDto'
 import loginItem from '@/components/LoginItem.vue'
-import LoginItemDetail from '@/components/LoginItemDetail.vue';
 import MainLayout from '@/components/MainLayout.vue'
-import SideBar from '@/components/SideBar.vue';
-import TopBar from '@/components/TopBar.vue'
 import { GetAllLogins } from "@/controllers/LoginController"
 import router from '@/router';
-import NewLoginItem from '@/components/NewLoginItem.vue';
 import { JWTSessionToken } from '@/LocalStorage';
+import LoginFilters from '@/components/LoginFilters.vue';
+import type { Pagination } from '@/models/Pagination';
+import PaginationComponent from '@/components/Pagination.vue';
 
 if (localStorage.getItem("JWTSessionToken") == null) {
   router.push("/account/login")
 }
 const Logins = ref<loginDto[]>([])
-const indexCurrentFocusedLogin = ref<number>()
-const currentLogin = computed(() => {
-  if (indexCurrentFocusedLogin.value == null) {
-    return {} as loginDto
-  }
-  return Logins.value[indexCurrentFocusedLogin.value]
-})
-
+const RowCount = ref(0)
+const pagination = ref<Pagination>({ StartIndex: 0, MaxRecords: 10, SearchTerm: "" });
 const isCreatingNewLogin = ref<boolean>(false);
+const pageNumber = ref(0)
 
 getLogins()
 
 async function getLogins() {
   try {
-    const logins = await GetAllLogins({ StartIndex: 0, MaxRecords: 10, SearchTerm: "" })
+    const logins = await GetAllLogins(pagination.value)
     if (logins == null) {
+      Logins.value = []
       return
     }
-    Logins.value = logins
+    Logins.value = logins.logins
+    RowCount.value = logins.rowCount
     isCreatingNewLogin.value = false
   } catch (error) {
     localStorage.removeItem(JWTSessionToken)
@@ -41,38 +37,90 @@ async function getLogins() {
   }
 }
 
-function HandleDeleteLogin() {
-  indexCurrentFocusedLogin.value = undefined
+function OnSearchTermChange(searchTerm: string) {
+  pagination.value.SearchTerm = searchTerm
   getLogins()
 }
-
+function OnPrevious() {
+  pagination.value.StartIndex -= pagination.value.MaxRecords
+  pageNumber.value -= 1
+  getLogins()
+}
+function OnNext() {
+  pagination.value.StartIndex += pagination.value.MaxRecords
+  pageNumber.value += 1
+  getLogins()
+}
 </script>
 
 <template>
   <MainLayout>
-    <template #navigation>
-      <TopBar @create-new-item="isCreatingNewLogin = true" />
+    <template #main>
+      <section class="main-list" ref="main-list">
+        <LoginFilters @on-change="OnSearchTermChange" />
+        <p v-if="Logins.length === 0">No logins</p>
+        <ul v-else>
+          <li v-for="login in Logins" :key="login.id" @click="$router.push(`/${login.id}`)">
+            <loginItem :login="login" />
+          </li>
+        </ul>
+        <div class="pagination-container">
+          <PaginationComponent @on-previous="OnPrevious" @on-next="OnNext" :start-index="pagination.StartIndex" :max-records="pagination.MaxRecords" :row-count="RowCount" :page-number="pageNumber"/>
+        </div>
+      </section>
     </template>
-
-    <template #sidebar>
-      <SideBar />
-    </template>
-
-    <template #items>
-      <p v-if="Logins.length === 0">No logins</p>
-      <ul v-else>
-        <li v-for="login, index in Logins" :key="login.id" @click="indexCurrentFocusedLogin = index">
-          <loginItem :login="login" />
-        </li>
-      </ul>
-    </template>
-
-    <template #detail>
-      <NewLoginItem v-if="isCreatingNewLogin" @created-login="getLogins" @on-close="isCreatingNewLogin = false" />
-      <LoginItemDetail v-else :login="currentLogin" @updated-login="getLogins" @deleted-login="HandleDeleteLogin" />
-    </template>
-
   </MainLayout>
 </template>
 
-<style scoped></style>
+<style scoped>
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-base);
+  align-items: center;
+  position: sticky;
+  bottom: 0px;
+  background: linear-gradient(to top, var(--color-bg) 75%, transparent);
+}
+
+main {
+  display: flex;
+  height: 100%;
+}
+
+.main-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+ul {
+  flex-grow: 1;
+}
+
+.content {
+  /* display: flex; */
+  /* flex-grow: 1; */
+}
+
+.item-list {
+  flex: calc(3/12);
+}
+
+.item-detail {
+  flex: calc(9/12);
+}
+
+@media only screen and (max-width: 320px) {}
+
+@media only screen and (max-width: 375px) {}
+
+@media only screen and (max-width: 425px) {}
+
+@media only screen and (max-width: 768px) {}
+
+@media only screen and (max-width: 1024px) {}
+
+@media only screen and (max-width: 1440px) {}
+
+@media only screen and (max-width: 2560px) {}
+</style>

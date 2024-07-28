@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PasswordManager.Data;
 using PasswordManager.Data.Models;
+using PasswordManager.Services.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,31 +19,44 @@ namespace PasswordManager.Services
             _db = db;
         }
 
-        public async Task<List<Login>> GetAllLogins(int startIndex, int maxRecords, string searchTerm)
+        public async Task<LoginsRequest> GetAllLogins(int startIndex, int maxRecords, string searchTerm, string userId)
         {
-            List<Login> logins = await _db.Logins
+            var results = _db.Logins
+                .Where(login => login.userId == userId)
+                .Where(login => searchTerm == "\u0002\u0003" ||
+                    login.username.Contains(searchTerm) ||
+                    login.url.Contains(searchTerm) ||
+                    login.notes.Contains(searchTerm) ||
+                    login.name.Contains(searchTerm)
+                 );
+
+            var logins = await results
                 .Skip(startIndex)
                 .Take(maxRecords)
                 .ToListAsync();
 
-            return logins;
+            return new LoginsRequest
+            {
+                logins = logins,
+                rowCount = results.Count()
+            };
         }
 
-        public async Task<Login> GetLogin(long id)
+        public async Task<Login> GetLogin(long id, string userId)
         {
-            Login login = await _db.Logins.FirstAsync(login => login.id == id);
+            Login login = await _db.Logins.FirstAsync(login => login.id == id && login.userId == userId);
             return login;
         }
         public async Task CreateLogin(Login login)
         {
             login.createdOn = DateTime.UtcNow;
-            await _db.Logins.AddAsync(login);
-            await _db.SaveChangesAsync();
+            var addResult = await _db.Logins.AddAsync(login);
+            var saveResult = await _db.SaveChangesAsync();
         }
 
-        public async Task<Login> UpdateLogin(long loginId, Login login)
+        public async Task<Login> UpdateLogin(long loginId, Login login, string userId)
         {
-            Login loginToBeUpdated = await GetLogin(loginId);
+            Login loginToBeUpdated = await GetLogin(loginId, userId);
             if (loginToBeUpdated == null)
             {
                 return null;

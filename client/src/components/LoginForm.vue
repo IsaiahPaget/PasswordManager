@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { NewLoginRequestDto } from '@/models/logins/NewLoginRequestDto';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import TwoColumns from './patterns/TwoColumns.vue';
 import { RequiredInputValid, type NewLoginRequestValidation } from '@/models/ModelValidators';
 const emitsOnSubmit = "onSubmit"
 const emit = defineEmits([emitsOnSubmit])
 const props = defineProps<{ login: NewLoginRequestDto }>();
+
 const loginInputs = ref<NewLoginRequestDto>({
     name: props.login.name,
     url: props.login.url,
@@ -13,6 +14,11 @@ const loginInputs = ref<NewLoginRequestDto>({
     password: props.login.password,
     notes: props.login.notes,
 })
+
+watch(() => props.login, () => {
+    loginInputs.value = props.login
+})
+
 const validation = ref<NewLoginRequestValidation>({
     username: {
         isValid: true,
@@ -110,7 +116,7 @@ function OnSubmit() {
                     required></textarea>
             </template>
         </TwoColumns>
-        <div>
+        <div class="button-row">
             <button @click.prevent="OnSubmit">Save</button>
         </div>
     </form>
@@ -122,7 +128,10 @@ form {
     flex-direction: column;
     gap: 1rem;
 }
-
+.button-row {
+    display: flex;
+    justify-content: flex-end;
+}
 .input {
     background-color: var(--color-bg-light);
     border: none;

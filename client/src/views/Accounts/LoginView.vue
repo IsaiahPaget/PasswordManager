@@ -5,6 +5,8 @@ import type { LoginUserDto } from '@/models/Account/LoginUserDto';
 import type { AccountLoginValidation } from '@/models/ModelValidators';
 import { RequiredInputValid } from '@/models/ModelValidators';
 import router from '@/router';
+import { useBannerStore } from '@/stores/Banner';
+import { bannerError } from '@/Styles';
 import { ref } from 'vue';
 
 const Username = ref()
@@ -24,6 +26,7 @@ const validation = ref<AccountLoginValidation>({
     message: ""
   },
 })
+const { ShowBanner } = useBannerStore()
 function IsFormValid() {
   validation.value = {
     username: new RequiredInputValid(Username.value, "Username")
@@ -33,7 +36,7 @@ function IsFormValid() {
       .Because(email => /^\S+@\S+\.\S+$/.test(email), "must be a valid email")
       .Check(),
     password: new RequiredInputValid(Password.value, "Password")
-      .Because(password => password.length >= 12, "must be atleast 12 characters")
+      .Because(password => password.length >= 18, "must be atleast 12 characters")
       .Because(password => /\d/.test(password), "must contain a number")
       .Because(password => /[a-z]/.test(password), "must contain lower case letters")
       .Because(password => /[A-Z]/.test(password), "must contain upper case letters")
@@ -60,7 +63,7 @@ async function OnLogin() {
   const login = await LoginUser(user)
   if (login == null) {
     // temporary
-    window.alert("failed to login")
+    ShowBanner("failed to login", bannerError)
     return
   }
   router.push("/")

@@ -12,6 +12,7 @@
 <style scoped>
    .row {
     display: flex;
+    gap: var(--space-base);
    } 
    .col-1 {
     flex: 25%;
