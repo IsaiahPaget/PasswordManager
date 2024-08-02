@@ -2,7 +2,7 @@
 A self hostable password manager made using .NET Core and Vue3
 ### Features
 - Multiple accounts for friends and family
-- Client side encryption *in progress
+- Client side encryption
 - Light and dark mode
 - Mobile first design
 - Auto generate secure passwords *in progress
