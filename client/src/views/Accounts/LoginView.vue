@@ -8,7 +8,9 @@ import router from '@/router';
 import { useBannerStore } from '@/stores/Banner';
 import { bannerError } from '@/Styles';
 import { ref } from 'vue';
+import Loading from '@/components/Loading.vue';
 
+const IsLoading = ref(false)
 const Username = ref()
 const Email = ref()
 const Password = ref()
@@ -60,7 +62,9 @@ async function OnLogin() {
     Email: Email.value,
     Password: Password.value,
   }
+  IsLoading.value = true
   const login = await LoginUser(user)
+  IsLoading.value = false
   if (login == null) {
     // temporary
     ShowBanner("failed to login", bannerError)
@@ -71,7 +75,7 @@ async function OnLogin() {
 </script>
 <template>
   <section>
-    <form action="">
+    <form v-if="!IsLoading" action="">
 
       <TwoColumns>
         <template #one>
@@ -108,6 +112,7 @@ async function OnLogin() {
 
       <button class="btn-blue" @click.prevent="OnLogin">Login</button>
     </form>
+    <Loading v-else />
   </section>
 </template>
 

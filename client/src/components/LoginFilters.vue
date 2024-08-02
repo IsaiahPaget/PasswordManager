@@ -10,7 +10,7 @@ function OnKeyUp() {
         setTimeout(() => {
             isTyping.value = false
             emit(emitsOnChange, searchTerm)
-        }, 200);
+        }, 400);
     }
 }
 </script>

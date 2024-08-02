@@ -8,10 +8,11 @@ import { bannerError, bannerInfo, bannerSuccess } from '@/Styles';
 import { useRoute } from 'vue-router';
 import MainLayout from '@/components/MainLayout.vue';
 import router from '@/router';
+import Loading from '@/components/Loading.vue';
 
 const route = useRoute()
 const showPassword = ref<boolean>(false)
-const isEditing = ref(false)
+const IsLoading = ref(true)
 const { ShowBanner } = useBannerStore()
 const login = ref<loginDto>({} as loginDto)
 
@@ -34,6 +35,7 @@ function ToggleShowPassword() {
 
 async function GetLogin() {
     const newId = route.params.id as string
+    IsLoading.value = true
     try {
         const id = parseInt(newId)
         const result = await GetLoginById(id)
@@ -41,6 +43,7 @@ async function GetLogin() {
             return
         }
         login.value = result
+        IsLoading.value = false
     } catch (error) {
         ShowBanner("Failed to get login", bannerError)
         return
@@ -68,7 +71,8 @@ function CopyPasswordToClipboard() {
 
         <template #main>
             <section>
-                <div v-if="login.id > 0" class="login-item">
+                <Loading v-if="IsLoading" />
+                <div v-else class="login-item fade-in">
                     <div class="name">
                         <div>
                             <h1>

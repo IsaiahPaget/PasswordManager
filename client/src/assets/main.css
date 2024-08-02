@@ -274,3 +274,22 @@ p.warning {
 	background-color: var(--color-blue);
 	border-color: var(--color-blue-1);
 }
+
+@keyframes fade-in {
+   0% {opacity: 0;}
+   100% {opacity: 1;}
+} 
+.fade-in {
+	animation-duration: 400ms;
+	animation-name: fade-in;
+}
+@keyframes spinner-fade-in {
+   0% {opacity: 0;}
+   50% {opacity: 0;}
+   100% {opacity: 1;}
+} 
+
+.spinner-fade-in { 
+	animation-duration: 400ms;
+	animation-name: spinner-fade-in;
+}

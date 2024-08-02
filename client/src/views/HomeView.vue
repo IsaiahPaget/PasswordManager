@@ -9,10 +9,13 @@ import { JWTSessionToken } from '@/LocalStorage';
 import LoginFilters from '@/components/LoginFilters.vue';
 import type { Pagination } from '@/models/Pagination';
 import PaginationComponent from '@/components/Pagination.vue';
+import Loading from '@/components/Loading.vue';
+import { DecryptLogin } from '@/services/Crypto';
 
 if (localStorage.getItem("JWTSessionToken") == null) {
   router.push("/account/login")
 }
+const LoginsLoading = ref(true)
 const Logins = ref<loginDto[]>([])
 const RowCount = ref(0)
 const pagination = ref<Pagination>({ StartIndex: 0, MaxRecords: 10, SearchTerm: "" });
@@ -23,7 +26,9 @@ getLogins()
 
 async function getLogins() {
   try {
+    LoginsLoading.value = true
     const logins = await GetAllLogins(pagination.value)
+    LoginsLoading.value = false
     if (logins == null) {
       Logins.value = []
       return
@@ -51,6 +56,7 @@ function OnNext() {
   pageNumber.value += 1
   getLogins()
 }
+
 </script>
 
 <template>
@@ -59,10 +65,11 @@ function OnNext() {
       <section class="main-list" ref="main-list">
         <LoginFilters @on-change="OnSearchTermChange" />
         <ul>
-          <div class="no-logins" v-if="Logins.length === 0">
+          <Loading v-if="LoginsLoading" />
+          <div class="no-logins" v-else-if="Logins.length === 0">
             <span>No passwords</span>
           </div>
-          <li v-else v-for="login in Logins" :key="login.id" @click="$router.push(`/${login.id}`)">
+          <li v-else v-for="login in Logins" :key="login.id" @click="$router.push(`/${login.id}`)" class="fade-in">
             <loginItem :login="login" />
           </li>
         </ul>
@@ -89,6 +96,7 @@ function OnNext() {
 .no-logins {
   padding: var(--space-base);
 }
+
 main {
   display: flex;
   height: 100%;

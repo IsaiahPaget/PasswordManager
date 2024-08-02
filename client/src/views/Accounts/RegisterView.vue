@@ -7,11 +7,13 @@ import router from '@/router';
 import { useBannerStore } from '@/stores/Banner';
 import { bannerError, bannerSuccess } from '@/Styles';
 import { ref } from 'vue';
+import Loading from '@/components/Loading.vue';
 
-let Username = ref()
-let Email = ref()
-let Password = ref()
-let ValidationPassword = ref()
+const IsLoading = ref(false)
+const Username = ref()
+const Email = ref()
+const Password = ref()
+const ValidationPassword = ref()
 const validation = ref<AccountRegisterValidation>({
   username: {
     isValid: true,
@@ -69,7 +71,9 @@ async function OnRegister() {
     Email: Email.value,
     Password: Password.value,
   }
+  IsLoading.value = true
   const register = await RegisterUser(user)
+  IsLoading.value = false
   if (register == null) {
     // temporary
     ShowBanner("failed to register", bannerError)
@@ -81,7 +85,7 @@ async function OnRegister() {
 </script>
 <template>
   <section>
-    <form action="">
+    <form v-if="!IsLoading" action="">
 
       <TwoColumns>
         <template #one>
@@ -131,6 +135,7 @@ async function OnRegister() {
 
       <button class="btn-green" @click.prevent="OnRegister">Register</button>
     </form>
+    <Loading v-else />
   </section>
 </template>
 
