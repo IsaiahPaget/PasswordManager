@@ -3,6 +3,10 @@ import type { NewLoginRequestDto } from '@/models/logins/NewLoginRequestDto';
 import { ref, watch } from 'vue';
 import TwoColumns from './patterns/TwoColumns.vue';
 import { RequiredInputValid, type NewLoginRequestValidation } from '@/models/ModelValidators';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faCircleChevronDown, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
+import GenerateSecurePassword from './GenerateSecurePassword.vue';
+import { MaxNameLength, MaxPasswordLength, MaxURLLength, MaxUsernameLength, MinimumNameLength, MinimumPasswordLength, MinimumURLLength, MinimumUsernameLength } from '@/Config';
 const emitsOnSubmit = "onSubmit"
 const emit = defineEmits([emitsOnSubmit])
 const props = defineProps<{ login: NewLoginRequestDto }>();
@@ -14,6 +18,7 @@ const loginInputs = ref<NewLoginRequestDto>({
     password: props.login.password,
     notes: props.login.notes,
 })
+const IsShowGeneratePassword = ref(false)
 
 watch(() => props.login, () => {
     loginInputs.value = props.login
@@ -37,19 +42,27 @@ const validation = ref<NewLoginRequestValidation>({
         message: ""
     },
 })
+function OnPasswordGenerated(password: string) {
+    loginInputs.value.password = password
+    ShowGeneratePassword()
+}
 function OnSubmit() {
     validation.value = {
         name: new RequiredInputValid(loginInputs.value.name, "Name")
-            .Because(name => name.length >= 3, "must be atleast 3 characters")
+            .Because(name => name.length >= MinimumNameLength, `must be atleast ${MinimumNameLength} characters`)
+            .Because(name => name.length < MaxNameLength, `must be less than ${MaxNameLength} characters`)
             .Check(),
         url: new RequiredInputValid(loginInputs.value.url, "URL")
-            .Because(url => url.length >= 4, "must be atleast 4 characters")
+            .Because(name => name.length >= MinimumURLLength, `must be atleast ${MinimumURLLength} characters`)
+            .Because(name => name.length < MaxURLLength, `must be less than ${MaxURLLength} characters`)
             .Check(),
         username: new RequiredInputValid(loginInputs.value.username, "Username")
-            .Because(username => username.length >= 3, "must be atleast 3 characters")
+            .Because(username => username.length >= MinimumUsernameLength, `must be atleast ${MinimumUsernameLength} characters`)
+            .Because(username => username.length < MaxUsernameLength, `must be less than ${MaxUsernameLength} characters`)
             .Check(),
         password: new RequiredInputValid(loginInputs.value.password, "Password")
-            .Because(password => password.length >= 12, "must be atleast 12 characters")
+            .Because(password => password.length >= MinimumPasswordLength, `must be atleast ${MinimumPasswordLength} characters`)
+            .Because(password => password.length < MaxPasswordLength, `must be less than ${MaxPasswordLength} characters`)
             .Because(password => /\d/.test(password), "must contain a number")
             .Because(password => /[a-z]/.test(password), "must contain lower case letters")
             .Because(password => /[A-Z]/.test(password), "must contain upper case letters")
@@ -63,6 +76,9 @@ function OnSubmit() {
         }
     }
     emit(emitsOnSubmit, loginInputs.value)
+}
+function ShowGeneratePassword() {
+    IsShowGeneratePassword.value = !IsShowGeneratePassword.value
 }
 </script>
 <template>
@@ -102,8 +118,15 @@ function OnSubmit() {
                 <label>Password</label>
             </template>
             <template #two>
-                <input class="input" :class="{ warning: !validation?.password.isValid }" v-model="loginInputs.password"
-                    name="passwordInput" id="passwordInput" type="text" required />
+                <div class="input pos-rel" :class="{ warning: !validation?.password.isValid }">
+                    <input v-model="loginInputs.password" name="passwordInput" id="passwordInput" type="text"
+                        required />
+                    <button @click.prevent="ShowGeneratePassword" class="btn-transparent clickable">
+                        <FontAwesomeIcon v-if="!IsShowGeneratePassword" :icon="faCircleChevronDown" />
+                        <FontAwesomeIcon v-else :icon="faCircleChevronUp" />
+                    </button>
+                    <GenerateSecurePassword v-if="IsShowGeneratePassword" @password="OnPasswordGenerated" />
+                </div>
                 <p class="warning" v-if="!validation?.password.isValid">{{ validation?.password.message }}</p>
             </template>
         </TwoColumns>
@@ -134,9 +157,30 @@ form {
     justify-content: flex-end;
 }
 
+.btn-transparent {
+    padding: 0;
+}
+
+div.input {
+    width: calc(185px - var(--space-base));
+    display: flex;
+}
+
+div.input>input {
+    width: calc(169px - var(--space-base));
+}
+
+input {
+    background-color: var(--color-bg-1);
+    border: none;
+    padding: 0;
+    color: var(--color-fg-2);
+}
+
 .input {
     background-color: var(--color-bg-1);
     border: none;
+    border-radius: var(--border-radius);
     padding: 0.5rem;
     color: var(--color-fg-2);
 }

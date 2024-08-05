@@ -47,6 +47,7 @@ function OnCloseDrawer() {
   justify-content: space-between;
   background-color: var(--color-bg-1);
   flex: 25%;
+  transition: 400ms;
 }
 
 .close-sidebar {

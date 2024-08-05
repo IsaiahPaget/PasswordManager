@@ -4,6 +4,7 @@ import MainLayout from '@/components/MainLayout.vue';
 import { CreateLogin } from '@/controllers/LoginController';
 import type { NewLoginRequestDto } from '@/models/logins/NewLoginRequestDto';
 import router from '@/router';
+import Loading from '@/components/Loading.vue';
 import { useBannerStore } from '@/stores/Banner';
 import { bannerError, bannerSuccess } from '@/Styles';
 import { ref } from 'vue';

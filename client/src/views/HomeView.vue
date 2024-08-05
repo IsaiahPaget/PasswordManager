@@ -10,7 +10,6 @@ import LoginFilters from '@/components/LoginFilters.vue';
 import type { Pagination } from '@/models/Pagination';
 import PaginationComponent from '@/components/Pagination.vue';
 import Loading from '@/components/Loading.vue';
-import { DecryptLogin } from '@/services/Crypto';
 
 if (localStorage.getItem("JWTSessionToken") == null) {
   router.push("/account/login")
@@ -44,6 +43,8 @@ async function getLogins() {
 
 function OnSearchTermChange(searchTerm: string) {
   pagination.value.SearchTerm = searchTerm
+  pagination.value.StartIndex = 0
+  pageNumber.value = 0
   getLogins()
 }
 function OnPrevious() {

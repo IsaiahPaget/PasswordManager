@@ -10,4 +10,10 @@ const emit = defineEmits([emitsOnClose])
     </div>
 </template>
 <style scoped>
+p, button {
+    color: var(--light0-hard);
+}
+button:hover {
+    color: var(--light1);
+}
 </style>

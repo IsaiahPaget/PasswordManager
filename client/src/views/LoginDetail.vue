@@ -2,26 +2,27 @@
 import { computed, ref, watch } from 'vue';
 import { DeleteLogin, GetLoginById, UpdateLogin } from '@/controllers/LoginController';
 import type { loginDto } from '@/models/logins/loginDto';
-import { nullDateValue } from '@/DateValues';
 import { useBannerStore } from '@/stores/Banner';
 import { bannerError, bannerInfo, bannerSuccess } from '@/Styles';
 import { useRoute } from 'vue-router';
 import MainLayout from '@/components/MainLayout.vue';
 import router from '@/router';
 import Loading from '@/components/Loading.vue';
+import ConfirmationPopup from '@/components/ConfirmationPopup.vue';
 
 const route = useRoute()
 const showPassword = ref<boolean>(false)
 const IsLoading = ref(true)
 const { ShowBanner } = useBannerStore()
 const login = ref<loginDto>({} as loginDto)
+const IsShowDeleteConfirmationPopup = ref(false)
 
 const createdOn = computed(() => {
     const date = new Date(login.value.createdOn)
     return date.toLocaleDateString()
 })
 const updatedOn = computed(() => {
-    if (Date.parse(login.value.updatedOn) === nullDateValue) {
+    if (login.value.updatedOn == "0001-01-01T00:00:00") {
         return "N/A"
     }
     const date = new Date(login.value.updatedOn)
@@ -36,18 +37,15 @@ function ToggleShowPassword() {
 async function GetLogin() {
     const newId = route.params.id as string
     IsLoading.value = true
-    try {
-        const id = parseInt(newId)
-        const result = await GetLoginById(id)
-        if (result == null) {
-            return
-        }
-        login.value = result
-        IsLoading.value = false
-    } catch (error) {
+    const id = parseInt(newId)
+    const result = await GetLoginById(id)
+    if (result == null) {
         ShowBanner("Failed to get login", bannerError)
+        router.push("/")
         return
     }
+    login.value = result
+    IsLoading.value = false
 }
 async function HandleDeleteLogin() {
     const result = await DeleteLogin(login.value.id)
@@ -88,14 +86,18 @@ function CopyPasswordToClipboard() {
                         <span>{{ login.username }}</span>
                     </p>
                     <p class="password-box box">
-                    <div @click="CopyPasswordToClipboard" class=" clickable justify-content-space-between">
-                        <span v-if="showPassword">{{ login.password }}</span>
+                    <div class=" justify-content-space-between">
+                        <span class="overflow-hidden" v-if="showPassword">{{ login.password }}</span>
                         <span v-else>******</span>
-                        <a @click="ToggleShowPassword" class="password-toggle-button">
-                            <span>Copy</span>
-                            <span v-if="showPassword">Hide</span>
-                            <span v-else>View</span>
-                        </a>
+                        <div class="utilities">
+                            <a @click="CopyPasswordToClipboard" class="clickable password-toggle-button">
+                                <span>Copy</span>
+                            </a>
+                            <a @click="ToggleShowPassword" class="clickable password-toggle-button">
+                                <span v-if="showPassword">Hide</span>
+                                <span v-else>View</span>
+                            </a>
+                        </div>
                     </div>
                     </p>
                     <p>
@@ -108,9 +110,10 @@ function CopyPasswordToClipboard() {
                         Updated On: <span class="date-value">{{ updatedOn }}</span>
                     </p>
                     <div>
-                        <button class="btn-delete" @click="HandleDeleteLogin">Delete</button>
+                        <button class="btn-delete" @click="IsShowDeleteConfirmationPopup = true">Delete</button>
                     </div>
                 </div>
+                <ConfirmationPopup v-if="IsShowDeleteConfirmationPopup" @on-close="IsShowDeleteConfirmationPopup = false" @on-confirm="HandleDeleteLogin" message="Are you sure you want to delete?"/>
             </section>
         </template>
     </MainLayout>
@@ -119,6 +122,11 @@ function CopyPasswordToClipboard() {
 <style scoped>
 section {
     padding: var(--space-base);
+}
+
+.utilities {
+    display: flex;
+    gap: var(--space-base);
 }
 
 .password-box:hover {

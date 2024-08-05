@@ -102,8 +102,7 @@
 }
 
 @media (prefers-color-scheme: light) {
-
-    :root {
+	:root {
 		/* neutrals */
 		--color-bg-0: var(--light0-hard);
 		--color-bg: var(--light0);
@@ -137,11 +136,10 @@
 		--color-purple-1: var(--neutral-purple);
 		--color-aqua-1: var(--neutral-aqua);
 		--color-orange-1: var(--neutral-orange);
-    }
+	}
 }
 
 * {
-	font-family: "Roboto Mono", monospace;
 }
 html,
 body,
@@ -156,7 +154,7 @@ body,
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	transition: 200ms;
+	font-family: "Roboto Mono", monospace;
 }
 .container {
 	border-color: var(--color-bg-1);
@@ -169,6 +167,9 @@ body,
 	justify-content: space-between;
 }
 
+.overflow-hidden {
+	overflow: hidden;
+}
 button {
 	padding-left: 1rem;
 	padding-right: 1rem;
@@ -177,26 +178,39 @@ button {
 	color: var(--color-fg-0);
 	border-radius: var(--border-radius);
 	border: none;
+	transition: 200ms;
 }
-
 button:hover {
-	background-color: var(--color-blue);
+	color: var(--color-fg-1);
 }
-
 button.btn-blue {
 	background-color: var(--color-blue-1);
+	color: var(--light0-hard);
 }
 
 button.btn-blue:hover {
 	background-color: var(--color-blue);
+	color: var(--light0);
 }
 
 button.btn-red {
 	background-color: var(--color-red-1);
+	color: var(--light0-hard);
 }
 
 button.btn-red:hover {
 	background-color: var(--color-red);
+	color: var(--light0);
+}
+
+button.btn-green {
+	background-color: var(--color-green-1);
+	color: var(--light0-hard);
+}
+
+button.btn-green:hover {
+	background-color: var(--color-green);
+	color: var(--light0);
 }
 
 button.btn-delete {
@@ -208,14 +222,6 @@ button.btn-delete {
 button.btn-delete:hover {
 	border: solid var(--color-red);
 	color: var(--color-red);
-}
-
-button.btn-green {
-	background-color: var(--color-green-1);
-}
-
-button.btn-green:hover {
-	background-color: var(--color-green);
 }
 
 button.btn-bg {
@@ -233,7 +239,13 @@ button.btn-transparent {
 button.btn-transparent:hover {
 	color: var(--color-fg-2);
 }
-
+input:focus {
+	outline: none;
+}
+textarea:focus {
+	outline: none;
+}
+div.warning,
 input.warning {
 	border: 1px solid var(--color-red-1) !important;
 	border-radius: var(--border-radius);
@@ -241,7 +253,16 @@ input.warning {
 p.warning {
 	color: var(--color-red-1);
 }
-
+.input {
+	background-color: var(--color-bg-1);
+	border: none;
+	border-radius: var(--border-radius);
+	padding: 0.5rem;
+	color: var(--color-fg-2);
+}
+.pos-rel {
+	position: relative;
+}
 .clickable {
 	cursor: pointer;
 }
@@ -276,20 +297,30 @@ p.warning {
 }
 
 @keyframes fade-in {
-   0% {opacity: 0;}
-   100% {opacity: 1;}
-} 
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
 .fade-in {
 	animation-duration: 400ms;
 	animation-name: fade-in;
 }
 @keyframes spinner-fade-in {
-   0% {opacity: 0;}
-   50% {opacity: 0;}
-   100% {opacity: 1;}
-} 
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
 
-.spinner-fade-in { 
+.spinner-fade-in {
 	animation-duration: 400ms;
 	animation-name: spinner-fade-in;
 }

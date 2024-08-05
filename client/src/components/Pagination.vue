@@ -8,13 +8,13 @@ defineProps<{ pageNumber: number, startIndex: number, rowCount: number, maxRecor
 const emit = defineEmits([emitsOnPrevious, emitsOnNext])
 </script>
 <template>
-    <button class="btn-transparent" :disabled="pageNumber < 1" @click="emit(emitsOnPrevious)">
+    <button ref="backward" class="btn-transparent" :disabled="pageNumber < 1" @click="emit(emitsOnPrevious)">
         <FontAwesomeIcon :icon="faChevronLeft" />
     </button>
     <span>
         {{ pageNumber + 1 }}
     </span>
-    <button class="btn-transparent" :disabled="rowCount < startIndex + maxRecords + 1" @click="emit(emitsOnNext)">
+    <button ref="forward" class="btn-transparent" :disabled="rowCount < startIndex + maxRecords + 1" @click="emit(emitsOnNext)">
         <FontAwesomeIcon :icon="faChevronRight" />
     </button>
 </template>

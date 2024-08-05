@@ -50,12 +50,36 @@ function GetEmailAndPassword() {
 	}
 	return `${email}${password}`;
 }
-function ToBase64(buffer: number[]) {
+export function ToBase64(buffer: number[]) {
 	return btoa(String.fromCharCode(...new Uint8Array(buffer)));
 }
 
 function FromBase64(buffer: string) {
 	return Uint8Array.from(atob(buffer), c => c.charCodeAt(0));
+}
+
+export function GetRandomPassword(length: number) {
+	const characters = "abcdefghijklmnopqrstuvwxyz";
+	const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	const numbers = "0123456789";
+	const specials = "!@#$%^&*-=_|[({})]+";
+	const opt = [characters, upper, numbers, specials];
+	let rotation = 0;
+	return Array(length)
+		.join()
+		.split(",")
+		.map(() => {
+			const char = opt[rotation].charAt(
+				Math.floor(Math.random() * opt[rotation].length)
+			);
+			if (rotation + 1 >= opt.length) {
+				rotation = 0;
+			} else {
+				rotation++;
+			}
+			return char;
+		})
+		.join("");
 }
 
 export async function Encrypt(text: string) {
@@ -80,14 +104,14 @@ export async function Encrypt(text: string) {
 }
 
 export async function Decrypt(encryptedData: string) {
-	let encrypted
+	let encrypted;
 	try {
 		encrypted = FromBase64(encryptedData);
 	} catch (error) {
-		return encryptedData
+		return encryptedData;
 	}
 	if (encrypted.byteLength <= saltLength + ivLength) {
-		return encryptedData
+		return encryptedData;
 	}
 	const salt = encrypted.slice(0, saltLength);
 	const iv = encrypted.slice(0 + saltLength, saltLength + ivLength);

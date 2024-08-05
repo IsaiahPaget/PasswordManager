@@ -14,80 +14,93 @@ export async function GetAllLogins(
 	const sessionToken = localStorage.getItem(JWTSessionToken);
 
 	if (sessionToken == null) {
-		return;
+		return
 	}
-	const data = await fetch(
-		`${import.meta.env.VITE_API_URL}/${ROUTE}?startIndex=${
-			pagination.StartIndex
-		}&maxRecords=${pagination.MaxRecords}&searchTerm=${
-			pagination.SearchTerm !== "" ? pagination.SearchTerm : "%02%03"
-		}`,
-		{
-			headers: { Authorization: `Bearer ${sessionToken}` },
+	try {
+		const data = await fetch(
+			`${import.meta.env.VITE_API_URL}/${ROUTE}?startIndex=${
+				pagination.StartIndex
+			}&maxRecords=${pagination.MaxRecords}&searchTerm=${
+				pagination.SearchTerm !== "" ? pagination.SearchTerm : "%02%03"
+			}`,
+			{
+				headers: { Authorization: `Bearer ${sessionToken}` },
+			}
+		);
+		if (!data.ok) {
+			return
 		}
-	);
-	if (data.status != 200) {
-		return;
-	}
-	const results: LoginsRequestDto = await data.json();
+		const results: LoginsRequestDto = await data.json();
 
-	const decryptedLogins: loginDto[] = [];
-	for (let i = 0; i < results.logins.length; i++) {
-		const login = results.logins[i];
-		const decrypted = await DecryptLogin({
-			name: login.name,
-			url: login.url,
-			username: login.username,
-			password: login.password,
-			notes: login.notes,
-		});
-		decryptedLogins.push({
-			id: login.id,
-			name: login.name,
-			url: login.url,
-			username: decrypted.username,
-			password: decrypted.password,
-			notes: decrypted.notes,
-			createdOn: login.createdOn,
-			updatedOn: login.updatedOn,
-		});
+		const decryptedLogins: loginDto[] = [];
+		for (let i = 0; i < results.logins.length; i++) {
+			const login = results.logins[i];
+			const decrypted = await DecryptLogin({
+				name: login.name,
+				url: login.url,
+				username: login.username,
+				password: login.password,
+				notes: login.notes,
+			});
+			decryptedLogins.push({
+				id: login.id,
+				name: login.name,
+				url: login.url,
+				username: decrypted.username,
+				password: decrypted.password,
+				notes: decrypted.notes,
+				createdOn: login.createdOn,
+				updatedOn: login.updatedOn,
+			});
+		}
+		results.logins = decryptedLogins;
+		return results;
+	} catch (error) {
+		// TODO: Log error
+		return
 	}
-	results.logins = decryptedLogins;
-	return results;
 }
 
-export async function GetLoginById(id: number) {
+export async function GetLoginById(id: number): Promise<loginDto | undefined> {
 	const sessionToken = localStorage.getItem(JWTSessionToken);
 
 	if (sessionToken == null) {
-		return;
+		return
 	}
-	const data = await fetch(`${import.meta.env.VITE_API_URL}/${ROUTE}/${id}`, {
-		headers: { Authorization: `Bearer ${sessionToken}` },
-	});
-	if (data.status != 200) {
-		return;
-	}
-	let results: loginDto = await data.json();
+	try {
+		const data = await fetch(
+			`${import.meta.env.VITE_API_URL}/${ROUTE}/${id}`,
+			{
+				headers: { Authorization: `Bearer ${sessionToken}` },
+			}
+		);
+		if (!data.ok) {
+			return
+		}
+		let results: loginDto = await data.json();
 
-	const decrypted = await DecryptLogin({
-		name: results.name,
-		url: results.url,
-		username: results.username,
-		password: results.password,
-		notes: results.notes,
-	});
-	results = {
-		id: results.id,
-		name: results.name,
-		url: results.url,
-		username: decrypted.username,
-		password: decrypted.password,
-		notes: decrypted.notes,
-		createdOn: results.createdOn,
-		updatedOn: results.updatedOn,
-	};
-	return results;
+		const decrypted = await DecryptLogin({
+			name: results.name,
+			url: results.url,
+			username: results.username,
+			password: results.password,
+			notes: results.notes,
+		});
+		results = {
+			id: results.id,
+			name: results.name,
+			url: results.url,
+			username: decrypted.username,
+			password: decrypted.password,
+			notes: decrypted.notes,
+			createdOn: results.createdOn,
+			updatedOn: results.updatedOn,
+		};
+		return results;
+	} catch (error) {
+		// TODO: Log error
+		return
+	}
 }
 
 export async function UpdateLogin(
@@ -99,33 +112,38 @@ export async function UpdateLogin(
 		return;
 	}
 
-	const encryptedLogin = await EncryptLogin(login);
-	const mappedLogin = {
-		id: login.id,
-		name: login.name,
-		url: login.url,
-		username: encryptedLogin.username,
-		password: encryptedLogin.password,
-		notes: encryptedLogin.notes,
-	};
-	const result = await fetch(
-		`${import.meta.env.VITE_API_URL}/${ROUTE}/${login.id}`,
-		{
-			headers: {
-				Authorization: `Bearer ${sessionToken}`,
-				Accept: "application/json",
-				"Content-Type": "application/json",
-			},
-			method: "PUT",
-			body: JSON.stringify(mappedLogin),
+	try {
+		const encryptedLogin = await EncryptLogin(login);
+		const mappedLogin = {
+			id: login.id,
+			name: login.name,
+			url: login.url,
+			username: encryptedLogin.username,
+			password: encryptedLogin.password,
+			notes: encryptedLogin.notes,
+		};
+		const result = await fetch(
+			`${import.meta.env.VITE_API_URL}/${ROUTE}/${login.id}`,
+			{
+				headers: {
+					Authorization: `Bearer ${sessionToken}`,
+					Accept: "application/json",
+					"Content-Type": "application/json",
+				},
+				method: "PUT",
+				body: JSON.stringify(mappedLogin),
+			}
+		);
+		if (!result.ok) {
+			return;
 		}
-	);
-	if (result.status != 200) {
+
+		const data = await result.json();
+		return data;
+	} catch (error) {
+		// TODO: Log error
 		return;
 	}
-
-	const data = await result.json();
-	return data;
 }
 export async function CreateLogin(
 	login: NewLoginRequestDto
@@ -143,22 +161,27 @@ export async function CreateLogin(
 		password: encryptedLogin.password,
 		notes: encryptedLogin.notes,
 	};
-	const result = await fetch(`${import.meta.env.VITE_API_URL}/${ROUTE}`, {
-		headers: {
-			Authorization: `Bearer ${sessionToken}`,
-			Accept: "application/json",
-			"Content-Type": "application/json",
-		},
-		method: "POST",
-		body: JSON.stringify(mappedLogin),
-	});
+	try {
+		const result = await fetch(`${import.meta.env.VITE_API_URL}/${ROUTE}`, {
+			headers: {
+				Authorization: `Bearer ${sessionToken}`,
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+			method: "POST",
+			body: JSON.stringify(mappedLogin),
+		});
 
-	if (result.status != 201) {
+		if (result.status != 201) {
+			return;
+		}
+
+		const data = await result.json();
+		return data;
+	} catch (error) {
+		// TODO: log error
 		return;
 	}
-
-	const data = await result.json();
-	return data;
 }
 
 export async function DeleteLogin(id: number): Promise<number | undefined> {
@@ -168,22 +191,27 @@ export async function DeleteLogin(id: number): Promise<number | undefined> {
 		return;
 	}
 
-	const result = await fetch(
-		`${import.meta.env.VITE_API_URL}/${ROUTE}/${id}`,
-		{
-			headers: {
-				Authorization: `Bearer ${sessionToken}`,
-				Accept: "application/json",
-				"Content-Type": "application/json",
-			},
-			method: "DELETE",
-		}
-	);
+	try {
+		const result = await fetch(
+			`${import.meta.env.VITE_API_URL}/${ROUTE}/${id}`,
+			{
+				headers: {
+					Authorization: `Bearer ${sessionToken}`,
+					Accept: "application/json",
+					"Content-Type": "application/json",
+				},
+				method: "DELETE",
+			}
+		);
 
-	if (result.status != 200) {
+		if (!result.ok) {
+			return;
+		}
+
+		const data = await result.json();
+		return data;
+	} catch (error) {
+		// TODO: log error
 		return;
 	}
-
-	const data = await result.json();
-	return data;
 }
