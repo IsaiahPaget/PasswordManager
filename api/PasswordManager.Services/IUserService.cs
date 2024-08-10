@@ -11,5 +11,7 @@ namespace PasswordManager.Services
     public interface IUserService
     {
         public Task<AppUser> GetCurrentUser(ClaimsPrincipal user);
+        public Task<AppUser> UpdateUser(AppUser user);
+        public Task DeleteUser(AppUser user);
     }
 }

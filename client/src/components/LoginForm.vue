@@ -57,8 +57,8 @@ function OnSubmit() {
             .Because(name => name.length <= MaxNameLength, `must be less than ${MaxNameLength} characters`)
             .Check(),
         url: new RequiredInputValid(loginInputs.value.url, "URL")
-            .Because(name => name.length >= MinimumURLLength, `must be atleast ${MinimumURLLength} characters`)
-            .Because(name => name.length <= MaxURLLength, `must be less than ${MaxURLLength} characters`)
+            .Because(url => url.length >= MinimumURLLength, `must be atleast ${MinimumURLLength} characters`)
+            .Because(url => url.length <= MaxURLLength, `must be less than ${MaxURLLength} characters`)
             .Check(),
         username: new RequiredInputValid(loginInputs.value.username, "Username")
             .Because(username => username.length >= MinimumUsernameLength, `must be atleast ${MinimumUsernameLength} characters`)

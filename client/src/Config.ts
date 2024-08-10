@@ -14,3 +14,5 @@ export const MaxNameLength = 256
 
 export const MinimumURLLength = 4
 export const MaxURLLength = 256
+
+export const GenericErrorMessage = "An error has occured, please check the logs"

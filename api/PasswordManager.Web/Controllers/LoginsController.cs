@@ -102,7 +102,7 @@ namespace PasswordManager.Web.Controllers
             }
             catch (Exception ex)
             {
-                return NotFound();
+                return NotFound(ex);
             }
 
             if (login.userId != user.Id)
@@ -152,15 +152,10 @@ namespace PasswordManager.Web.Controllers
             {
                 return BadRequest();
             }
-            var username = User.FindFirst(ClaimTypes.GivenName).Value;
-            if (username == null)
-            {
-                return BadRequest();
-            }
             var user = await _userService.GetCurrentUser(User);
             if (user == null)
             {
-                return BadRequest();
+                return Unauthorized();
             }
             var login = newLogin.ToLogin();
             login.userId = user.Id;

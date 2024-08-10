@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import MainLayout from '@/components/MainLayout.vue';
+import UserForm from '@/components/UserForm.vue';
 import { ExportCSV, ImportCSV } from '@/controllers/CSVController';
 import { HandleFileDownload } from '@/services/Download';
 import { useBannerStore } from '@/stores/Banner';
@@ -7,8 +8,25 @@ import { bannerError, bannerSuccess } from '@/Styles';
 import { faFileArrowDown, faFileArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { computed, ref, watch } from 'vue';
+import type { EditUser } from '@/models/User/EditUser';
+import { GetCurrentUser, UpdateUser } from '@/controllers/UserController';
+import ConfirmationPopup from '@/components/ConfirmationPopup.vue';
+import { GenericErrorMessage } from '@/Config';
+import router from '@/router';
 const uploadInput = ref<HTMLInputElement>()
 const { ShowBanner } = useBannerStore()
+const UserInfo = ref<EditUser>({} as EditUser)
+const IsShowEditUserConfirmationPopup = ref(false)
+GetUser()
+async function GetUser() {
+    try {
+        const res = await GetCurrentUser()
+        const user: EditUser = await res?.json()
+        UserInfo.value = user
+    } catch (error) {
+        ShowBanner(error as string, bannerError)
+    }
+}
 async function Import() {
     try {
         uploadInput.value?.click()
@@ -33,6 +51,28 @@ async function Export() {
     }
     HandleFileDownload(response)
 }
+
+async function ConfirmEditUser() {
+    const user: EditUser = {
+        username: UserInfo.value.username,
+        email: UserInfo.value.email
+    }
+    try {
+        const res = await UpdateUser(user)
+        GetUser()
+        if (!res.ok) {
+            ShowBanner(GenericErrorMessage, bannerError)
+        }
+    } catch (error) {
+        ShowBanner(error as string, bannerError)
+    }
+    router.push("/account/login")
+}
+async function HandleEditUser(userInfo: EditUser) {
+    IsShowEditUserConfirmationPopup.value = true
+    UserInfo.value.username = userInfo.username
+    UserInfo.value.email = userInfo.email
+}
 </script>
 <template>
     <MainLayout>
@@ -52,7 +92,13 @@ async function Export() {
                         </button>
                     </div>
                 </div>
+                <div>
+                    <UserForm :userInfo="UserInfo" @onSubmit="HandleEditUser" />
+                </div>
             </section>
+            <ConfirmationPopup v-if="IsShowEditUserConfirmationPopup"
+                @on-close="IsShowEditUserConfirmationPopup = false" @on-confirm="ConfirmEditUser"
+                message="Editing personal information will require you to re-login" />
         </template>
     </MainLayout>
 </template>

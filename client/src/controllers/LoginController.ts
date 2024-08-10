@@ -166,7 +166,6 @@ export async function CreateLogin(
 		password: encryptedLogin.password,
 		notes: encryptedLogin.notes,
 	};
-	console.log(mappedLogin);
 	try {
 		const result = await fetch(`${import.meta.env.VITE_API_URL}/${ROUTE}`, {
 			headers: {

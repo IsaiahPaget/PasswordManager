@@ -178,8 +178,8 @@ button {
 	color: var(--color-fg-0);
 	background-color: var(--color-bg-0);
 	border-radius: var(--border-radius);
-	border: none;
 	transition: 200ms;
+	border: solid var(--border-width);
 }
 button:hover {
 	color: var(--color-fg-1);
@@ -187,54 +187,75 @@ button:hover {
 button.btn-blue {
 	background-color: var(--color-blue-1);
 	color: var(--light0-hard);
+	border-color: var(--color-blue-1);
 }
 
 button.btn-blue:hover {
 	background-color: var(--color-blue);
 	color: var(--light0);
+	border-color: var(--color-blue);
 }
 
 button.btn-red {
 	background-color: var(--color-red-1);
 	color: var(--light0-hard);
+	border-color: var(--color-red-1);
 }
 
 button.btn-red:hover {
 	background-color: var(--color-red);
 	color: var(--light0);
+	border-color: var(--color-red);
 }
 
 button.btn-green {
 	background-color: var(--color-green-1);
 	color: var(--light0-hard);
+	border-color: var(--color-green-1);
 }
 
 button.btn-green:hover {
 	background-color: var(--color-green);
 	color: var(--light0);
+	border-color: var(--color-green);
 }
 
 button.btn-delete {
 	background-color: transparent;
-	border: solid var(--color-red-1);
+	border: var(--color-red-1);
 	color: var(--color-red-1);
+	box-sizing: border-box;
 }
 
 button.btn-delete:hover {
-	border: solid var(--color-red);
+	border: var(--color-red);
 	color: var(--color-red);
 }
 
+button.btn-warning {
+	background-color: transparent;
+	border-color: var(--color-orange-1);
+	color: var(--color-orange-1);
+	box-sizing: border-box;
+}
+
+button.btn-warning:hover {
+	border-color: var(--color-orange);
+	color: var(--color-orange);
+}
 button.btn-bg {
 	background-color: var(--color-bg);
+	border-color: var(--color-bg);
 }
 
 button.btn-bg:hover {
 	background-color: var(--color-bg-0);
+	border-color: var(--color-bg-0);
 }
 
 button.btn-transparent {
 	background-color: transparent;
+	border-color: transparent;
 }
 
 button.btn-transparent:hover {
@@ -256,6 +277,13 @@ p.warning {
 }
 .input {
 	background-color: var(--color-bg-1);
+	border: none;
+	border-radius: var(--border-radius);
+	padding: 0.5rem;
+	color: var(--color-fg-2);
+}
+input:disabled.input {
+	background-color: var(--color-bg-2);
 	border: none;
 	border-radius: var(--border-radius);
 	padding: 0.5rem;

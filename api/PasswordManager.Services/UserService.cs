@@ -27,5 +27,14 @@ namespace PasswordManager.Services
             var user = await _userManager.FindByNameAsync(username);
             return user;
         }
+        public async Task<AppUser> UpdateUser(AppUser user)
+        {
+            await _userManager.UpdateAsync(user);
+            return await _userManager.FindByNameAsync(user.UserName);
+        }
+        public async Task DeleteUser(AppUser user)
+        {
+            await _userManager.DeleteAsync(user);
+        }
     }
 }

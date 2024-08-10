@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
@@ -14,7 +15,7 @@ namespace PasswordManager.Web.Controllers
         private readonly ILogger<AccountsController> _logger;
         private readonly IAccountService _accountService;
 
-        public AccountsController(ILogger<AccountsController> logger, IAccountService accountService)
+        public AccountsController(ILogger<AccountsController> logger, IAccountService accountService, IUserService userService)
         {
             _logger = logger;
             _accountService = accountService;
