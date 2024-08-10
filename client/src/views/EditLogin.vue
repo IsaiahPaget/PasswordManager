@@ -24,7 +24,7 @@ async function GetLogin() {
         IsLoading.value = true
         const result = await GetLoginById(id)
         IsLoading.value = false
-        if (result == null) {
+        if (result == undefined) {
             return
         }
         login.value = result
@@ -38,7 +38,7 @@ async function HandleSubmit(loginInputs: UpdateLoginRequest) {
     IsLoading.value = true
     const updatedLogin = await UpdateLogin(loginInputs)
     IsLoading.value = false
-    if (updatedLogin == null) {
+    if (updatedLogin == undefined) {
         ShowBanner("Failed to update login", bannerError)
         return
     }
@@ -52,7 +52,7 @@ async function HandleSubmit(loginInputs: UpdateLoginRequest) {
     <MainLayout>
         <template #main>
             <section>
-                <LoginForm v-if="!IsLoading" :login="login" @on-submit="HandleSubmit" class="fade-in"/>
+                <LoginForm v-if="!IsLoading" :login="login" @on-submit="HandleSubmit" class="fade-in" />
                 <Loading v-else />
             </section>
         </template>

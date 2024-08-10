@@ -13,8 +13,8 @@ export async function GetAllLogins(
 ): Promise<LoginsRequestDto | undefined> {
 	const sessionToken = localStorage.getItem(JWTSessionToken);
 
-	if (sessionToken == null) {
-		return
+	if (sessionToken == undefined) {
+		return;
 	}
 	try {
 		const data = await fetch(
@@ -28,44 +28,49 @@ export async function GetAllLogins(
 			}
 		);
 		if (!data.ok) {
-			return
+			return;
 		}
 		const results: LoginsRequestDto = await data.json();
 
 		const decryptedLogins: loginDto[] = [];
 		for (let i = 0; i < results.logins.length; i++) {
 			const login = results.logins[i];
-			const decrypted = await DecryptLogin({
-				name: login.name,
-				url: login.url,
-				username: login.username,
-				password: login.password,
-				notes: login.notes,
-			});
-			decryptedLogins.push({
-				id: login.id,
-				name: login.name,
-				url: login.url,
-				username: decrypted.username,
-				password: decrypted.password,
-				notes: decrypted.notes,
-				createdOn: login.createdOn,
-				updatedOn: login.updatedOn,
-			});
+			try {
+				const decrypted = await DecryptLogin({
+					name: login.name,
+					url: login.url,
+					username: login.username,
+					password: login.password,
+					notes: login.notes,
+				});
+				decryptedLogins.push({
+					id: login.id,
+					name: login.name,
+					url: login.url,
+					username: decrypted.username,
+					password: decrypted.password,
+					notes: decrypted.notes,
+					createdOn: login.createdOn,
+					updatedOn: login.updatedOn,
+				});
+			} catch (error) {
+				console.error(error, `failed to decrypt login ${login.id}`)
+			}
 		}
 		results.logins = decryptedLogins;
+
 		return results;
 	} catch (error) {
 		// TODO: Log error
-		return
+		return;
 	}
 }
 
 export async function GetLoginById(id: number): Promise<loginDto | undefined> {
 	const sessionToken = localStorage.getItem(JWTSessionToken);
 
-	if (sessionToken == null) {
-		return
+	if (sessionToken == undefined) {
+		return;
 	}
 	try {
 		const data = await fetch(
@@ -75,7 +80,7 @@ export async function GetLoginById(id: number): Promise<loginDto | undefined> {
 			}
 		);
 		if (!data.ok) {
-			return
+			return;
 		}
 		let results: loginDto = await data.json();
 
@@ -99,7 +104,7 @@ export async function GetLoginById(id: number): Promise<loginDto | undefined> {
 		return results;
 	} catch (error) {
 		// TODO: Log error
-		return
+		return;
 	}
 }
 
@@ -108,7 +113,7 @@ export async function UpdateLogin(
 ): Promise<UpdateLoginResponse | undefined> {
 	const sessionToken = localStorage.getItem(JWTSessionToken);
 
-	if (sessionToken == null) {
+	if (sessionToken == undefined) {
 		return;
 	}
 
@@ -150,7 +155,7 @@ export async function CreateLogin(
 ): Promise<loginDto | undefined> {
 	const sessionToken = localStorage.getItem(JWTSessionToken);
 
-	if (sessionToken == null) {
+	if (sessionToken == undefined) {
 		return;
 	}
 	const encryptedLogin = await EncryptLogin(login);
@@ -161,6 +166,7 @@ export async function CreateLogin(
 		password: encryptedLogin.password,
 		notes: encryptedLogin.notes,
 	};
+	console.log(mappedLogin);
 	try {
 		const result = await fetch(`${import.meta.env.VITE_API_URL}/${ROUTE}`, {
 			headers: {
@@ -187,7 +193,7 @@ export async function CreateLogin(
 export async function DeleteLogin(id: number): Promise<number | undefined> {
 	const sessionToken = localStorage.getItem(JWTSessionToken);
 
-	if (sessionToken == null) {
+	if (sessionToken == undefined) {
 		return;
 	}
 

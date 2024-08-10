@@ -19,7 +19,7 @@ export class RequiredInputValid {
 		if (this.isValid == false) {
 			return this; // because if one is false then the whole input is invalid
 		}
-		if (this.inputValue == null) {
+		if (this.inputValue == undefined) {
 			this.isValid = false;
 			this.message = RequiredFieldMessage(this.nameOfInput);
 			return this;
@@ -47,6 +47,7 @@ export type NewLoginRequestValidation = {
 	url: IsValid;
 	username: IsValid;
 	password: IsValid;
+	notes: IsValid
 };
 
 export type AccountLoginValidation = {

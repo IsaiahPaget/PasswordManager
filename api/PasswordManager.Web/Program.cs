@@ -49,6 +49,7 @@ builder.Services.AddAuthentication(options => {
 builder.Services.AddTransient<ILoginService, LoginService>();
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddTransient<ICSVService, CSVService>();
 builder.Services.AddTransient<IUserService, UserService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,8 +1,9 @@
 import { MasterPassword, UserEmail } from "@/LocalStorage";
 import type { NewLoginRequestDto } from "@/models/logins/NewLoginRequestDto";
+import Papa from "papaparse";
 
 const algorithm = "AES-CBC";
-let key: CryptoKey | null = null;
+let key: CryptoKey | undefined = undefined;
 const ivLength = 16;
 const saltLength = 16;
 const length = 256;
@@ -41,11 +42,11 @@ async function PBKDF2(
 }
 function GetEmailAndPassword() {
 	const password = localStorage.getItem(MasterPassword);
-	if (password == null || password === "") {
+	if (password == undefined || password === "") {
 		return "";
 	}
 	const email = localStorage.getItem(UserEmail);
-	if (email == null || email === "") {
+	if (email == undefined || email === "") {
 		return "";
 	}
 	return `${email}${password}`;
@@ -161,4 +162,52 @@ export async function EncryptLogin(login: NewLoginRequestDto) {
 	encryptLogin.notes = await Encrypt(login.notes);
 
 	return encryptLogin;
+}
+
+function StringToFile(csvContent: string, filename: string): File {
+	const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+	return new File([blob], filename);
+}
+export async function EncryptCSV(file: File): Promise<File | undefined> {
+	try {
+		const csvData = await new Promise<any[][]>((resolve, reject) => {
+			Papa.parse(file, {
+                complete: (results) => resolve(results.data as any[][]),
+                error: (error) => reject(error),
+            });
+		})
+		// don't want to encrypt the first entry because thats the header and then don't want to encrypt the last row because Papaparse adds an empty row at the bottom
+		for (let i = 1; i < csvData.length - 1; i++) {
+			csvData[i][2] = await Encrypt(csvData[i][2]);
+			csvData[i][3] = await Encrypt(csvData[i][3]);
+			csvData[i][4] = await Encrypt(csvData[i][4]);
+		}
+		const csvContent = Papa.unparse(csvData);
+		const encrypted = StringToFile(csvContent, "file.csv");
+		return Promise.resolve(encrypted);
+	} catch (error) {
+		return Promise.reject(error);
+	}
+}
+
+export async function DecryptCSV(file: File): Promise<File | undefined> {
+	try {
+		const csvData = await new Promise<any[][]>((resolve, reject) => {
+			Papa.parse(file, {
+                complete: (results) => resolve(results.data as any[][]),
+                error: (error) => reject(error),
+            });
+		})
+		// don't want to decrypt the first entry because thats the header and then don't want to encrypt the last row because Papaparse adds an empty row at the bottom
+		for (let i = 1; i < csvData.length - 1; i++) {
+			csvData[i][2] = await Decrypt(csvData[i][2]);
+			csvData[i][3] = await Decrypt(csvData[i][3]);
+			csvData[i][4] = await Decrypt(csvData[i][4]);
+		}
+		const csvContent = Papa.unparse(csvData);
+		const encrypted = StringToFile(csvContent, "file.csv");
+		return Promise.resolve(encrypted);
+	} catch (error) {
+		return Promise.reject(error);
+	}
 }

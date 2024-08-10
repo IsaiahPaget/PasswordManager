@@ -11,7 +11,7 @@ import type { Pagination } from '@/models/Pagination';
 import PaginationComponent from '@/components/Pagination.vue';
 import Loading from '@/components/Loading.vue';
 
-if (localStorage.getItem("JWTSessionToken") == null) {
+if (localStorage.getItem("JWTSessionToken") == undefined) {
   router.push("/account/login")
 }
 const LoginsLoading = ref(true)
@@ -28,7 +28,7 @@ async function getLogins() {
     LoginsLoading.value = true
     const logins = await GetAllLogins(pagination.value)
     LoginsLoading.value = false
-    if (logins == null) {
+    if (logins == undefined) {
       Logins.value = []
       return
     }

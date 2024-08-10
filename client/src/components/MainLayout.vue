@@ -2,7 +2,7 @@
 import TopBar from './TopBar.vue';
 import { UserUsername } from '@/LocalStorage';
 import router from '@/router';
-import { faX } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, faCog, faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { ref } from 'vue';
 const username = ref(localStorage.getItem(UserUsername))
@@ -28,9 +28,15 @@ function OnCloseDrawer() {
           <FontAwesomeIcon :icon="faX" />
         </button>
       </div>
-      <button @click="Logout" class="btn-transparent">
-        Log out
-      </button>
+      <div class="sidebar-buttons">
+        <button @click="Logout" class="btn-transparent logout">
+          Logout
+          <FontAwesomeIcon :icon="faArrowRightFromBracket" />
+        </button>
+        <button @click="router.push('/settings')" class="btn-transparent">
+          <FontAwesomeIcon :icon="faCog" />
+        </button>
+      </div>
     </div>
     <div class="main">
       <TopBar :show-back-button="showMenuBackButton" @open-drawer="OnOpenDrawer" />
@@ -40,6 +46,15 @@ function OnCloseDrawer() {
 </template>
 
 <style scoped>
+.logout {
+  display: flex;
+  align-items: center;
+  gap: var(--space-base)
+}
+.sidebar-buttons {
+  display: flex;
+  justify-content: space-between;
+}
 .topbar-main {
   padding: var(--space-base);
   display: flex;
@@ -70,6 +85,7 @@ function OnCloseDrawer() {
   flex: 75%;
   overflow: scroll;
 }
+
 .main::-webkit-scrollbar {
   display: none;
 }

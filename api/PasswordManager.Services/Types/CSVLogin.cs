@@ -1,12 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
-namespace PasswordManager.Web.Dto.LoginDto
+namespace PasswordManager.Services.Types
 {
-    public class UpdateLoginDto
+    public class CSVLogin
     {
-        [Required]
-        public long id { get; set; }
-
         [Required]
         [MinLength(3, ErrorMessage = "Name cannot be less than 3 characters")]
         [MaxLength(256, ErrorMessage = "Name cannot be over 256 characters")]
@@ -29,5 +31,9 @@ namespace PasswordManager.Web.Dto.LoginDto
 
         [MaxLength(748, ErrorMessage = "Notes cannot be over 748 characters")]
         public string notes { get; set; } = string.Empty;
+
+        public DateTime createdOn { get; set; }
+
+        public DateTime updatedOn { get; set; }
     }
 }

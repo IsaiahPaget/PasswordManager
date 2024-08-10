@@ -176,6 +176,7 @@ button {
 	padding-top: 0.5rem;
 	padding-bottom: 0.5rem;
 	color: var(--color-fg-0);
+	background-color: var(--color-bg-0);
 	border-radius: var(--border-radius);
 	border: none;
 	transition: 200ms;

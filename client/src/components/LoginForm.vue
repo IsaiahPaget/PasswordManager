@@ -6,7 +6,7 @@ import { RequiredInputValid, type NewLoginRequestValidation } from '@/models/Mod
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faCircleChevronDown, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 import GenerateSecurePassword from './GenerateSecurePassword.vue';
-import { MaxNameLength, MaxPasswordLength, MaxURLLength, MaxUsernameLength, MinimumNameLength, MinimumPasswordLength, MinimumURLLength, MinimumUsernameLength } from '@/Config';
+import { MaxNameLength, MaxNotesLength, MaxPasswordLength, MaxURLLength, MaxUsernameLength, MinimumNameLength, MinimumPasswordLength, MinimumURLLength, MinimumUsernameLength } from '@/Config';
 const emitsOnSubmit = "onSubmit"
 const emit = defineEmits([emitsOnSubmit])
 const props = defineProps<{ login: NewLoginRequestDto }>();
@@ -41,6 +41,10 @@ const validation = ref<NewLoginRequestValidation>({
         isValid: true,
         message: ""
     },
+    notes: {
+        isValid: true,
+        message: ""
+    }
 })
 function OnPasswordGenerated(password: string) {
     loginInputs.value.password = password
@@ -50,24 +54,27 @@ function OnSubmit() {
     validation.value = {
         name: new RequiredInputValid(loginInputs.value.name, "Name")
             .Because(name => name.length >= MinimumNameLength, `must be atleast ${MinimumNameLength} characters`)
-            .Because(name => name.length < MaxNameLength, `must be less than ${MaxNameLength} characters`)
+            .Because(name => name.length <= MaxNameLength, `must be less than ${MaxNameLength} characters`)
             .Check(),
         url: new RequiredInputValid(loginInputs.value.url, "URL")
             .Because(name => name.length >= MinimumURLLength, `must be atleast ${MinimumURLLength} characters`)
-            .Because(name => name.length < MaxURLLength, `must be less than ${MaxURLLength} characters`)
+            .Because(name => name.length <= MaxURLLength, `must be less than ${MaxURLLength} characters`)
             .Check(),
         username: new RequiredInputValid(loginInputs.value.username, "Username")
             .Because(username => username.length >= MinimumUsernameLength, `must be atleast ${MinimumUsernameLength} characters`)
-            .Because(username => username.length < MaxUsernameLength, `must be less than ${MaxUsernameLength} characters`)
+            .Because(username => username.length <= MaxUsernameLength, `must be less than ${MaxUsernameLength} characters`)
             .Check(),
         password: new RequiredInputValid(loginInputs.value.password, "Password")
             .Because(password => password.length >= MinimumPasswordLength, `must be atleast ${MinimumPasswordLength} characters`)
-            .Because(password => password.length < MaxPasswordLength, `must be less than ${MaxPasswordLength} characters`)
+            .Because(password => password.length <= MaxPasswordLength, `must be less than ${MaxPasswordLength} characters`)
             .Because(password => /\d/.test(password), "must contain a number")
             .Because(password => /[a-z]/.test(password), "must contain lower case letters")
             .Because(password => /[A-Z]/.test(password), "must contain upper case letters")
             .Because(password => /[!@#$%^&*()_+\-=\[\]{}':"\\|,.<>\/?~]/.test(password), "must contain special characters")
-            .Check()
+            .Check(),
+        notes: new RequiredInputValid(loginInputs.value.notes, "Notes")
+            .Because(notes => notes.length <= MaxNotesLength, `must be less than ${MaxNotesLength} characters`)
+            .Check(),
     }
     // looping over all the key value pairs in the validation object and not "submitting" the form is one is valid
     for (const [key, value] of Object.entries(validation.value)) {

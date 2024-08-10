@@ -12,6 +12,7 @@ namespace PasswordManager.Services
     public interface ILoginService
     {
         public Task<LoginsRequest> GetAllLogins(int startIndex, int maxRecords, string searchTerm, string userId);
+        public Task<List<Login>> GetAllLogins(string userId);
         public Task<Login> GetLogin(long id, string userId);
         public Task DeleteLogin(Login login);
         public Task CreateLogin(Login login);

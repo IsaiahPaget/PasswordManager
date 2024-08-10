@@ -29,14 +29,14 @@ namespace PasswordManager.Web.Controllers
 
             var appUser = new AppUser
             {
-                UserName = authenticationDto.Username,
-                Email = authenticationDto.Email,
+                UserName = authenticationDto.userName,
+                Email = authenticationDto.email,
             };
 
             string token;
             try
             {
-                token = await _accountService.AuthenticateUser(appUser, authenticationDto.Password);
+                token = await _accountService.AuthenticateUser(appUser, authenticationDto.password);
             }
             catch (Exception ex)
             {
@@ -45,8 +45,8 @@ namespace PasswordManager.Web.Controllers
 
             var loggedInUser = new NewUserDto
             {
-                Username = authenticationDto.Username,
-                Email = authenticationDto.Email,
+                Username = authenticationDto.userName,
+                Email = authenticationDto.email,
                 Token = token,
             };
 

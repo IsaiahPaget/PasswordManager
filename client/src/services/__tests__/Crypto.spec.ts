@@ -1,7 +1,5 @@
-import { MasterPassword, UserEmail } from "@/LocalStorage";
 import { expect, test } from "vitest";
-import { Decrypt, DecryptLogin, Encrypt, EncryptLogin } from "../Crypto";
-import type { NewLoginRequestDto } from "@/models/logins/NewLoginRequestDto";
+import { Decrypt, Encrypt } from "../Crypto";
 
 test("should encrypt and decrypt some text", async () => {
 	const originalPassword = "supersecret3!!@#$2";

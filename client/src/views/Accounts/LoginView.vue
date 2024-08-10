@@ -34,16 +34,16 @@ function IsFormValid() {
   validation.value = {
     username: new RequiredInputValid(Username.value, "Username")
       .Because(username => username.length >= MinimumUsernameLength, `must be atleast ${MinimumUsernameLength} characters`)
-      .Because(username => username.length < MaxUsernameLength, `must be less than ${MaxUsernameLength} characters`)
+      .Because(username => username.length <= MaxUsernameLength, `must be less than ${MaxUsernameLength} characters`)
       .Check(),
     email: new RequiredInputValid(Email.value, "Email")
       .Because(email => email.length >= MinimumEmailLength, `must be atleast ${MinimumEmailLength} characters`)
-      .Because(email => email.length < MaxEmailLength, `must be less than ${MaxEmailLength} characters`)
+      .Because(email => email.length <= MaxEmailLength, `must be less than ${MaxEmailLength} characters`)
       .Because(email => /^\S+@\S+\.\S+$/.test(email), "must be a valid email")
       .Check(),
     password: new RequiredInputValid(Password.value, "Password")
       .Because(password => password.length >= MinimumPasswordLength, `must be atleast ${MinimumPasswordLength} characters`)
-      .Because(password => password.length < MaxPasswordLength, `must be less than ${MaxPasswordLength} characters`)
+      .Because(password => password.length <= MaxPasswordLength, `must be less than ${MaxPasswordLength} characters`)
       .Because(password => /\d/.test(password), "must contain a number")
       .Because(password => /[a-z]/.test(password), "must contain lower case letters")
       .Because(password => /[A-Z]/.test(password), "must contain upper case letters")
@@ -70,7 +70,7 @@ async function OnLogin() {
   IsLoading.value = true
   const login = await LoginUser(user)
   IsLoading.value = false
-  if (login == null) {
+  if (login == undefined) {
     // temporary
     ShowBanner("failed to login", bannerError)
     return
@@ -116,6 +116,7 @@ async function OnLogin() {
       </TwoColumns>
 
       <button class="btn-blue" @click.prevent="OnLogin">Login</button>
+      <button class="btn-transparent" @click.prevent="router.push('/account/register')">Register</button>
     </form>
     <Loading v-else />
   </section>

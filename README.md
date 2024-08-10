@@ -6,7 +6,7 @@ A self hostable password manager made using .NET Core and Vue3
 - Light and dark mode
 - Mobile first design
 - Auto generate secure passwords
-- Import/Export passwords from CSV *in progress
+- Import/Export passwords from CSV
 ### How to deploy
 *in progress
 ### Preview

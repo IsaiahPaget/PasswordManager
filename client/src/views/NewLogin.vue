@@ -23,7 +23,7 @@ async function HandleSubmit(loginInputs: NewLoginRequestDto) {
     IsLoading.value = true
     const createdLogin = await CreateLogin(loginInputs)
     IsLoading.value = false
-    if (createdLogin == null) {
+    if (createdLogin == undefined) {
         ShowBanner("Failed to create login", bannerError)
         return
     }

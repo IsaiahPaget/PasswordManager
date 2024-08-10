@@ -19,6 +19,14 @@ namespace PasswordManager.Services
             _db = db;
         }
 
+        public async Task<List<Login>> GetAllLogins(string userId)
+        {
+            var results = await _db.Logins
+                .Where(login => login.userId == userId)
+                .ToListAsync();
+
+            return results;
+        }
         public async Task<LoginsRequest> GetAllLogins(int startIndex, int maxRecords, string searchTerm, string userId)
         {
             var results = _db.Logins

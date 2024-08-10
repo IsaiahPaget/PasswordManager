@@ -39,7 +39,7 @@ async function GetLogin() {
     IsLoading.value = true
     const id = parseInt(newId)
     const result = await GetLoginById(id)
-    if (result == null) {
+    if (result == undefined) {
         ShowBanner("Failed to get login", bannerError)
         router.push("/")
         return
@@ -49,9 +49,9 @@ async function GetLogin() {
 }
 async function HandleDeleteLogin() {
     const result = await DeleteLogin(login.value.id)
-    if (result == null) {
+    if (result == undefined) {
         ShowBanner("Failed to delete login", bannerError)
-        return null
+        return undefined
     }
     login.value.id = 0 // this is for hiding the old data
     ShowBanner("Successfully delete login", bannerInfo)
@@ -113,7 +113,9 @@ function CopyPasswordToClipboard() {
                         <button class="btn-delete" @click="IsShowDeleteConfirmationPopup = true">Delete</button>
                     </div>
                 </div>
-                <ConfirmationPopup v-if="IsShowDeleteConfirmationPopup" @on-close="IsShowDeleteConfirmationPopup = false" @on-confirm="HandleDeleteLogin" message="Are you sure you want to delete?"/>
+                <ConfirmationPopup v-if="IsShowDeleteConfirmationPopup"
+                    @on-close="IsShowDeleteConfirmationPopup = false" @on-confirm="HandleDeleteLogin"
+                    message="Are you sure you want to delete?" />
             </section>
         </template>
     </MainLayout>
