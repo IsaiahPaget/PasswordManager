@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PasswordManager.Services
+namespace PasswordManager.Services.CSV
 {
     public interface ICSVService
     {
-        public Task<Byte[]> Export(string userId);
+        public Task<byte[]> Export(string userId);
         public Task Import(IFormFile file, string userId);
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity.Data;
 using PasswordManager.Data.Models;
 using PasswordManager.Services.Types;
 
-namespace PasswordManager.Services
+namespace PasswordManager.Services.LoginService
 {
     public interface ILoginService
     {

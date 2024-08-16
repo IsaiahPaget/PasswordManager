@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using PasswordManager.Services;
+using PasswordManager.Services.LoginService;
+using PasswordManager.Services.User;
 using PasswordManager.Web.Dto.Account;
 
 namespace PasswordManager.Web.Controllers

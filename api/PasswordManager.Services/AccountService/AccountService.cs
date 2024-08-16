@@ -7,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using PasswordManager.Services.Token;
 
-namespace PasswordManager.Services
+namespace PasswordManager.Services.Account
 {
     public class AccountService : IAccountService
     {
@@ -61,21 +62,6 @@ namespace PasswordManager.Services
 
             var token = _tokenService.CreateToken(appUser);
             return token;
-        }
-
-        public async Task<long> DeleteUser(long userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<AppUser> GetUser(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<AppUser> UpdateUser(long userId, AppUser appUser)
-        {
-            throw new NotImplementedException();
         }
     }
 }

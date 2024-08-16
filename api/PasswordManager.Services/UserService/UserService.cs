@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PasswordManager.Services
+namespace PasswordManager.Services.User
 {
     public class UserService : IUserService
     {

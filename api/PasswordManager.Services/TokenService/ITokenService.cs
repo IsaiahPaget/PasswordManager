@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PasswordManager.Services
+namespace PasswordManager.Services.Token
 {
     public interface ITokenService
     {

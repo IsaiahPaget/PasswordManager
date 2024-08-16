@@ -3,9 +3,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Any;
 using PasswordManager.Data.Models;
-using PasswordManager.Services;
+using PasswordManager.Services.Account;
+using PasswordManager.Services.Mail;
+using PasswordManager.Services.Models;
+using PasswordManager.Services.User;
 using PasswordManager.Web.Dto.Account;
+using System.Diagnostics;
 
 namespace PasswordManager.Web.Controllers
 {
@@ -14,11 +19,13 @@ namespace PasswordManager.Web.Controllers
     {
         private readonly ILogger<AccountsController> _logger;
         private readonly IAccountService _accountService;
+        private readonly IMailService _mailService;
 
-        public AccountsController(ILogger<AccountsController> logger, IAccountService accountService, IUserService userService)
+        public AccountsController(ILogger<AccountsController> logger, IAccountService accountService, IUserService userService, IMailService mailService)
         {
             _logger = logger;
             _accountService = accountService;
+            _mailService = mailService;
         }
         [HttpPost("api/login")]
         public async Task<IActionResult> Login(AuthenticationRequestDto authenticationDto)
@@ -50,6 +57,20 @@ namespace PasswordManager.Web.Controllers
                 Email = authenticationDto.email,
                 Token = token,
             };
+            var mail = new MailData 
+            { 
+                recipientEmail = "isaiahpaget@gmail.com",
+                subject = "You have mail",
+                body = "Hey there"
+            };
+            try
+            {
+                _ = _mailService.SendMailAsync(mail);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
 
             return Ok(loggedInUser);
         }

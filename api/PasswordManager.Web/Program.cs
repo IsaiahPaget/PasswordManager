@@ -5,7 +5,13 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PasswordManager.Data;
 using PasswordManager.Data.Models;
-using PasswordManager.Services;
+using PasswordManager.Services.Account;
+using PasswordManager.Services.CSV;
+using PasswordManager.Services.Models;
+using PasswordManager.Services.LoginService;
+using PasswordManager.Services.Mail;
+using PasswordManager.Services.Token;
+using PasswordManager.Services.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +57,7 @@ builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<ICSVService, CSVService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IMailService, MailService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -82,6 +89,7 @@ builder.Services.AddSwaggerGen(option =>
         }
     });
 });
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 var app = builder.Build();
 

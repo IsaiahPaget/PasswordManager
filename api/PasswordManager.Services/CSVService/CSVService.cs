@@ -10,8 +10,9 @@ using PasswordManager.Services.Types;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using PasswordManager.Data.Models;
+using PasswordManager.Services.LoginService;
 
-namespace PasswordManager.Services
+namespace PasswordManager.Services.CSV
 {
     public class CSVService : ICSVService
     {
@@ -23,7 +24,7 @@ namespace PasswordManager.Services
             _loginService = loginService;
         }
 
-        public async Task<Byte[]> Export(string userId)
+        public async Task<byte[]> Export(string userId)
         {
             var logins = await _loginService.GetAllLogins(userId);
             using (var stringWriter = new StringWriter())
@@ -35,7 +36,7 @@ namespace PasswordManager.Services
                     return Encoding.UTF8.GetBytes(csv);
                 }
             }
-            
+
         }
 
         public async Task Import(IFormFile file, string userId)

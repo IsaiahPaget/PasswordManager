@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PasswordManager.Services
+namespace PasswordManager.Services.LoginService
 {
     public class LoginService : ILoginService
     {
