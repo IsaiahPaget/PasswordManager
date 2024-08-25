@@ -1,23 +1,21 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
+﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER $APP_UID
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["PasswordManager.Web/PasswordManager.Web.csproj", "PasswordManager.Web/"]
-RUN dotnet restore "./PasswordManager.Web/PasswordManager.Web.csproj"
+COPY ["PasswordManager.Data/PasswordManager.Data.csproj", "PasswordManager.Data/"]
+COPY ["PasswordManager.Services/PasswordManager.Services.csproj", "PasswordManager.Services/"]
+RUN dotnet restore "PasswordManager.Web/PasswordManager.Web.csproj"
 COPY . .
 WORKDIR "/src/PasswordManager.Web"
-RUN dotnet build "./PasswordManager.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "PasswordManager.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./PasswordManager.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "PasswordManager.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

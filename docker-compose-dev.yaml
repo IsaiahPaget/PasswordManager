@@ -9,9 +9,10 @@ services:
     restart: unless-stopped
     ports:
       - "5000:8080"  # Map port 80 of the container to port 5000 on the host
-      - "5001:8081"  # Map port 80 of the container to port 5001 on the host
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production  # Set environment if needed
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__passwordmanager.dev=Server=mssql;Database=passwordmanager.dev;Trusted_Connection=False;User Id=sa;Password=MyP@ssword;MultipleActiveResultSets=true
+      - Logging__LogLevel__Default=Information
     depends_on:
       - mssql
   
@@ -38,7 +39,16 @@ services:
     volumes:
       - mssql_data:/var/opt/mssql
 
+  # Mailhog (for development only)
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # HTTP UI
+
 # Define volumes
 volumes:
   mssql_data:
+
 

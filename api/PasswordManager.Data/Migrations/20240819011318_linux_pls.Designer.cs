@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PasswordManager.Data;
 
@@ -11,9 +12,11 @@ using PasswordManager.Data;
 namespace PasswordManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240819011318_linux_pls")]
+    partial class linux_pls
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace PasswordManager.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bc86893c-82b7-4628-860c-54ded04c7312",
+                            Id = "49bed12f-7958-42c5-bbca-1b3c388e576d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "45434131-1377-4629-9ff0-1bd83e491705",
+                            Id = "6a836d82-b12d-4c03-b676-35e2626060ca",
                             Name = "User",
                             NormalizedName = "USER"
                         });
