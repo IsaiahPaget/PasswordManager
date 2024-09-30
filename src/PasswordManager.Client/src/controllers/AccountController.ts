@@ -14,7 +14,6 @@ export async function RegisterUser(user: RegisterUserDto) {
 			body: JSON.stringify(user),
 		});
 
-		console.log(result);
 		if (result.status != 200) {
 			return;
 		}
@@ -31,9 +30,9 @@ export async function RegisterUser(user: RegisterUserDto) {
 
 		return register;
 	} catch (error) {
-        // TODO: log error
-        return
-    }
+		// TODO: log error
+		return
+	}
 }
 
 export async function LoginUser(
@@ -65,7 +64,7 @@ export async function LoginUser(
 
 		return login;
 	} catch (error) {
-        // TODO: log error
+		// TODO: log error
 		return;
 	}
 }

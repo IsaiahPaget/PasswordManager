@@ -15,7 +15,6 @@ const UserInputs = ref<EditUser>({
 
 watch(() => props.userInfo, () => {
     UserInputs.value = props.userInfo
-    console.log(UserInputs.value)
 })
 
 const validation = ref({
