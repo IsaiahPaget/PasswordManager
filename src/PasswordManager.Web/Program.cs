@@ -22,7 +22,9 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.EnableDetailedErrors();
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Database"));
+    /*options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));*/
+    var env_variable = Environment.GetEnvironmentVariable("DATABASE_CONNECTION");
+    options.UseSqlServer(env_variable);
 });
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
