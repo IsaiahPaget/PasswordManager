@@ -8,6 +8,4 @@ if ! [ -f "./src/PasswordManager.Client/.env" ]; then
 	"# over replace the url with the ip of the server it's running on" >> ./src/PasswordManager.Client/.env
 fi
 
-docker-compose -f ./src/docker-compose.yml up -d
-
-echo "You are all set!"
+echo "Now go update the passwords in src/.env and src/PasswordManager.Client/.env. Also change the signing key in src/PasswordManager.Web/appsettings.json"

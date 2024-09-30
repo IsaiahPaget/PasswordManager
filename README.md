@@ -14,6 +14,12 @@ git clone https://github.com/IsaiahPaget/PasswordManager.git
 cd PasswordManager
 sh startup.sh
 ```
+update the password values and signing key in the .env files and appsettings.json
+
+```bash
+docker-compose -f ./src/docker-compose.yml up -d
+```
+
 ### Preview
 ![image info](./PasswordManagerShowcase.jpg)
 With a Gruvbox theme <3
