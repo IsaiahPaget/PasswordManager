@@ -1,0 +1,251 @@
+# version: '3.4'
+#
+# services:
+#   passwordmanager.migrate:
+#     image: ${DOCKER_REGISTRY-}passwordmanagerweb
+#     container_name: passwordmanager.migrate
+#     build:
+#       context: .
+#       dockerfile: PasswordManager.Web/Dockerfile
+#     depends_on:
+#       passwordmanager.db:
+#         condition: service_healthy
+#     networks:
+#       - passwordmanager_network
+#     entrypoint: ["/bin/sh", "-c", "dotnet ef --startup-project ../PasswordManager.Web/ database update"]
+#     restart: "no"
+#
+#   passwordmanager.web:
+#     image: ${DOCKER_REGISTRY-}passwordmanagerweb
+#     container_name: passwordmanager.web
+#     build:
+#       context: .
+#       dockerfile: PasswordManager.Web/Dockerfile
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Production
+#       - ConnectionStrings__DefaultConnection__Password=${MSSQL_PASSWORD}
+#     depends_on:
+#       - passwordmanager.migrate
+#     ports:
+#       - "8080:8080"
+#       - "8081:8081"
+#     networks:
+#       - passwordmanager_network
+#
+#   passwordmanager.db:
+#     image: mcr.microsoft.com/mssql/server:2022-latest
+#     container_name: passwordmanager.db
+#     ports:
+#       - "1433:1433"
+#     environment:
+#       - SA_PASSWORD=${MSSQL_PASSWORD}
+#       - ACCEPT_EULA=Y
+#     volumes:
+#       - mssql_data:/var/opt/mssql
+#     networks:
+#       - passwordmanager_network
+#     healthcheck:
+#       test: ["CMD-SHELL", "echo 'SELECT 1' | /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD"]
+#       interval: 10s
+#       retries: 10
+#       timeout: 5s
+#
+#   passwordmanager.client:
+#     container_name: passwordmanager.client
+#     build:
+#       context: ./PasswordManager.Client
+#       dockerfile: Dockerfile
+#     ports:
+#       - "80:80"  # Expose HTTP port for client
+#       - "81:81"
+#     depends_on:
+#       - passwordmanager.web
+#     networks:
+#       - passwordmanager_network
+#
+# volumes:
+#   mssql_data:
+#
+# networks:
+#   passwordmanager_network:
+#     driver: bridge
+
+# version: '3.4'
+#
+# services:
+#   passwordmanager.migrate:
+#     image: ${DOCKER_REGISTRY-}passwordmanagerweb
+#     container_name: passwordmanager.migrate
+#     build:
+#       context: .
+#       dockerfile: PasswordManager.Web/Dockerfile
+#     depends_on:
+#       passwordmanager.db:
+#         condition: service_healthy
+#     networks:
+#       - passwordmanager_network
+#     entrypoint: ["/bin/sh", "-c", "dotnet ef --startup-project ../PasswordManager.Web/ database update"]
+#     restart: "no"  # Ensure the service doesn't restart after the migration completes
+#
+#   passwordmanager.web:
+#     image: ${DOCKER_REGISTRY-}passwordmanagerweb
+#     container_name: passwordmanager.web
+#     build:
+#       context: .
+#       dockerfile: PasswordManager.Web/Dockerfile
+#       args:
+#         BUILD_CONFIGURATION: Release  # Use Release configuration
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Production  # Set to Production for runtime behavior
+#       - DOTNET_RUNNING_IN_CONTAINER=true  # Set to optimize behavior in container
+#       - DOTNET_GENERATE_ASPNET_CERTIFICATE=false  # Disable certificate generation
+#       - ConnectionString__Database__Password=${MSSQL_PASSWORD}
+#     ports:
+#       - "8080:8080"
+#       - "8081:8081"
+#     depends_on:
+#       passwordmanager.db:
+#         condition: service_healthy
+#     networks:
+#       - passwordmanager_network
+#
+#   passwordmanager.db:
+#     image: mcr.microsoft.com/mssql/server:2022-latest
+#     container_name: passwordmanager.db
+#     ports:
+#       - "1433:1433"  # Expose necessary port for SQL Server
+#     environment:
+#       - SA_PASSWORD=${MSSQL_PASSWORD}  # Set your secure SA password here
+#       - ACCEPT_EULA=Y
+#     volumes:
+#       - mssql_data:/var/opt/mssql  # Use volume to persist DB data
+#     networks:
+#       - passwordmanager_network
+#     healthcheck:
+#       test: ["CMD-SHELL", "echo 'SELECT 1' | /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${MSSQL_PASSWORD}"]
+#       interval: 10s
+#       retries: 5
+#       timeout: 5s
+#
+#   passwordmanager.client:
+#     container_name: passwordmanager.client
+#     build:
+#       context: ./PasswordManager.Client
+#       dockerfile: Dockerfile
+#     ports:
+#       - "80:80"  # Expose HTTP port for client
+#       - "81:81"
+#     depends_on:
+#       - passwordmanager.web
+#     networks:
+#       - passwordmanager_network
+#
+# # Define volumes
+# volumes:
+#   mssql_data:
+#
+# # Define network
+# networks:
+#   passwordmanager_network:
+#     driver: bridge
+
+# version: '3.4'
+#
+# services:
+#   passwordmanager.web:
+#     image: ${DOCKER_REGISTRY-}passwordmanagerweb
+#     container_name: passwordmanager.web
+#     build:
+#       context: .
+#       dockerfile: PasswordManager.Web/Dockerfile
+#     ports:
+#         - "8080:8080"
+#         - "8081:8081"
+#     depends_on:
+#         - passwordmanager.db
+#
+#   passwordmanager.db:
+#     image: mcr.microsoft.com/mssql/server:2022-latest
+#     container_name: passwordmanager.db
+#     ports:
+#       - "5533:1433"
+#     environment:
+#       - SA_PASSWORD=MyP@ssword
+#       - ACCEPT_EULA=Y
+#     volumes:
+#       - mssql_data:/var/opt/mssql
+#       - ./init:/docker-entrypoint-initdb.d
+#   passwordmanager.client:
+#     container_name: passwordmanager.client
+#     build:
+#         context: ./PasswordManager.Client
+#         dockerfile: Dockerfile
+#     ports:
+#       - "80:80"
+#       - "81:81"
+#     depends_on:
+#         - passwordmanager.web
+#
+# # Define volumes
+# volumes:
+#   mssql_data:
+#
+version: '3.4'
+
+services:
+  passwordmanager.web:
+    image: ${DOCKER_REGISTRY-}passwordmanagerweb
+    container_name: passwordmanager.web
+    build:
+      context: .
+      dockerfile: PasswordManager.Web/Dockerfile
+      args:
+        BUILD_CONFIGURATION: Release  # Use Release configuration
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production  # Set to Production for runtime behavior
+      - DOTNET_RUNNING_IN_CONTAINER=true  # Set to optimize behavior in container
+      - DOTNET_GENERATE_ASPNET_CERTIFICATE=false  # Disable certificate generation
+      - ConnectionStrings__Database__Password=MyP@ssword
+    ports:
+        - "8080:8080"
+        - "8081:8081"
+    depends_on:
+        - passwordmanager.db
+    networks:
+      - passwordmanager_network
+
+  passwordmanager.db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: passwordmanager.db
+    ports:
+      - "1433:1433"
+    environment:
+      - SA_PASSWORD=MyP@ssword
+      - ACCEPT_EULA=Y
+    volumes:
+      - mssql_data:/var/opt/mssql
+      - ./init:/docker-entrypoint-initdb.d
+    networks:
+      - passwordmanager_network
+
+  passwordmanager.client:
+    container_name: passwordmanager.client
+    build:
+        context: ./PasswordManager.Client
+        dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "81:81"
+    depends_on:
+        - passwordmanager.web
+    networks:
+      - passwordmanager_network
+
+# Define volumes
+volumes:
+  mssql_data:
+
+# Define network
+networks:
+  passwordmanager_network:
+    driver: bridge
